@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.apache.olingo.odata2.api.edm.EdmMultiplicity;
 import org.apache.olingo.odata2.api.edm.EdmSimpleTypeKind;
 import org.apache.olingo.odata2.api.edm.FullQualifiedName;
+import org.apache.olingo.odata2.api.edm.provider.Association;
+import org.apache.olingo.odata2.api.edm.provider.EntitySet;
 import org.apache.olingo.odata2.api.edm.provider.EntityType;
 import org.apache.olingo.odata2.api.edm.provider.Facets;
 import org.apache.olingo.odata2.api.edm.provider.Key;
@@ -55,4 +58,13 @@ private FullQualifiedName fqn = null;
 					  .setKey(key);
 			  
 		}
+	
+	
+	
+	abstract public Association getAssociation (  FullQualifiedName relatedEntity  );
+	
+	 public EntitySet getEntitySet(){
+		 return new EntitySet().setEntityType(getFullQualifiedName());
+	 };
+	
 }

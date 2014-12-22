@@ -26,32 +26,32 @@ public class EntityTypeFactory {
 		return new EntityTypeFactory(namespace);
 	}
 
-	public EntityType getEntityType (int entity_name){
+	public BaseEDM getEDM (int entity_name){
 		
 		switch (entity_name) {
 		case 1:
-			return new CaSystemEDM(this.namespace).getEntityType();
+			return new CaSystemEDM(this.namespace) ;
  
 		case 2:
-			return new HrHierEDM(this.namespace).getEntityType();
+			return new HrHierEDM(this.namespace);
 		case 3:
-			return new HrHierMapEDM(this.namespace).getEntityType();
+			return new HrHierMapEDM(this.namespace);
 		case 4:
-			return new HrObjectRelEDM(this.namespace).getEntityType();
+			return new HrObjectRelEDM(this.namespace);
 		case 5:
-			return new HrObjectsConstraintsEDM(this.namespace).getEntityType();
+			return new HrObjectsConstraintsEDM(this.namespace);
 		case 6:
-			return new HrObjectsEDM(this.namespace).getEntityType();
+			return new HrObjectsEDM(this.namespace);
 		case 7:
-			return new HrObjectsStatusEDM(this.namespace).getEntityType();
+			return new HrObjectsStatusEDM(this.namespace);
 		case 8:
-			return new HRP1000EDM(this.namespace).getEntityType();
+			return new HRP1000EDM(this.namespace);
 		case 9:
-			return new HRP1001EDM(this.namespace).getEntityType();
+			return new HRP1001EDM(this.namespace);
 		case 10:
-			return new HrRelationsEDM(this.namespace).getEntityType();
+			return new HrRelationsEDM(this.namespace);
 		case 11:
-			return new TenantsEDM(this.namespace).getEntityType();
+			return new TenantsEDM(this.namespace);
  
 
 		default:

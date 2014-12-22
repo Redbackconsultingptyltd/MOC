@@ -5,8 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.olingo.odata2.api.annotation.edm.FunctionImport.Multiplicity;
+import org.apache.olingo.odata2.api.edm.EdmMultiplicity;
 import org.apache.olingo.odata2.api.edm.EdmSimpleTypeKind;
 import org.apache.olingo.odata2.api.edm.FullQualifiedName;
+import org.apache.olingo.odata2.api.edm.provider.Association;
+import org.apache.olingo.odata2.api.edm.provider.AssociationEnd;
+import org.apache.olingo.odata2.api.edm.provider.EntitySet;
 import org.apache.olingo.odata2.api.edm.provider.EntityType;
 import org.apache.olingo.odata2.api.edm.provider.Facets;
 import org.apache.olingo.odata2.api.edm.provider.Key;
@@ -16,14 +21,18 @@ import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 
 
 public class CaSystemEDM extends BaseEDM {
-	public static String entity_type_name ="CaSystem";
-	public static String sysId ="sysId";
-	public static String tenantId="tenantId";
-	public static String sysDesc="sysDesc";
+	public static String ENTITY_TYPE_NAME ="CaSystem";
+	public static String SYSID ="sysId";
+	public static String TENANTID="tenantId";
+	public static String SYSDESC="sysDesc";
+	public static String ASSOCIATION_CASYSTEM_TENANT;
+	public static String ROLE_1_2 = "CaSystem_to_Tenant";
+	public static String ROLE_2_1 = "Tenant_CaSystems";
+	
 	
 	
 	public CaSystemEDM(String nameSpace){
-		super(nameSpace, CaSystemEDM.entity_type_name);
+		super(nameSpace, CaSystemEDM.ENTITY_TYPE_NAME);
 		
 	}
 
@@ -31,9 +40,9 @@ public class CaSystemEDM extends BaseEDM {
 	@Override
 	public List<Property> getProperties() {
 		List<Property> properties = new ArrayList<Property>();
-		  properties.add(new SimpleProperty().setName(sysId).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(tenantId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(sysDesc).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		  properties.add(new SimpleProperty().setName(CaSystemEDM.SYSID).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(CaSystemEDM.TENANTID).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(CaSystemEDM.SYSDESC).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
 		  return properties;
 	}
 
@@ -41,9 +50,28 @@ public class CaSystemEDM extends BaseEDM {
 	@Override
 	public List<PropertyRef> getKeys() {
 		List<PropertyRef> keyProperties = new ArrayList<PropertyRef>();
-		 keyProperties.add(new PropertyRef().setName("sysId"));
-		  keyProperties.add(new PropertyRef().setName("tenantId"));
+		 keyProperties.add(new PropertyRef().setName(CaSystemEDM.SYSID));
+		  keyProperties.add(new PropertyRef().setName(CaSystemEDM.TENANTID));
 		return keyProperties;
+	}
+
+
+	@Override
+	public Association getAssociation(  FullQualifiedName relatedEntity ) {
+		if(relatedEntity.getName().equals(CaSystemEDM.ENTITY_TYPE_NAME)){
+			    return new Association().setName(CaSystemEDM.ASSOCIATION_CASYSTEM_TENANT)
+			        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole(CaSystemEDM.ROLE_1_2).setMultiplicity(EdmMultiplicity.MANY))
+			        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole(CaSystemEDM.ROLE_2_1).setMultiplicity(EdmMultiplicity.ONE));
+		}
+		return null;
+	 
+	}
+
+
+	@Override
+	public EntitySet getEntitySet() {
+		 
+		return new EntitySet().setEntityType(getFullQualifiedName());
 	}
 	
  
