@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+	<persistence-unit name="au.com.redbackconsulting.moc.persistence" transaction-type="RESOURCE_LOCAL">
+		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<non-jta-data-source>java:comp/env/ds/mocDS</non-jta-data-source>
+		<class>au.com.redbackconsulting.moc.persistence.model.HrHier</class>
+		<class>au.com.redbackconsulting.moc.persistence.model.HrHierMap</class>
+		<class>au.com.redbackconsulting.moc.persistence.model.HRP1001</class>
+		<class>au.com.redbackconsulting.moc.persistence.model.HRP1000</class>
+		<class>au.com.redbackconsulting.moc.persistence.model.HrObjects</class>
+		<class>au.com.redbackconsulting.moc.persistence.model.HrObjectsConstraints</class>
+		<class>au.com.redbackconsulting.moc.persistence.model.HrRelations</class>
+		<class>au.com.redbackconsulting.moc.persistence.model.HrObjectRel</class>
+		<class>au.com.redbackconsulting.moc.persistence.model.HrObjectsStatus</class>
+		<class>au.com.redbackconsulting.moc.persistence.model.CaSystems</class>
+		<class>au.com.redbackconsulting.moc.persistence.model.Tenants</class>
+	</persistence-unit>
+</persistence>
