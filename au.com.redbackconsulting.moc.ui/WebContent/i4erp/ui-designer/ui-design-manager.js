@@ -693,6 +693,7 @@ function toggleDraggableControl(sqNo,objId){
 		 var ele = document.getElementById(sqNo);
 		 $(ele).draggable();
 		//
+		 orgFrameWork.setMoveMessageStatus(false);
 		 orgFrameWork.setDraggableNodeMove({isMove:true,sqnNo:sqNo,objectId:objId});
 			orgFrameWork.setMovePasteStatus(true);
 			orgFrameWork.setSelectedMoveNodeSqNo(sqNo);
@@ -734,10 +735,13 @@ function drag(evt,sqNo,objId){
 //	props.status=true;
 //	orgFrameWork.setDraggalbeProperties(props);
 //	orgFrameWork.setIsDragStatus(true);
-//	var uiMessage = new UIMessage();
-//	
-//	uiMessage.dragAlertMessage({text:"Node:{"+objId+"} is ready for drag and drop !",label:"Cancel",action:"CANCEL-DRAG-DROP-ACTION"});
+	if(!orgFrameWork.getMoveMessageStatus()){
+		var uiMessage = new UIMessage();
+		uiMessage.dragAlertMessage({text:"Node:{"+objId+"} is ready for drag and drop !",label:"Cancel",action:"CANCEL-DRAG-DROP-ACTION"});
+		orgFrameWork.setMoveMessageStatus(true);
 
+	}
+	
 }
 /*  ===============================================================================================================================
 	= End....																													  =

@@ -29,6 +29,13 @@ var OrgFrameWork=function(oData){
 	this.moveApprove=false;
 	this.contextMenuPaste=false;
 	this.moveChildInfo={};
+	this.moveMessageStatus=false;
+	this.setMoveMessageStatus=function(status){
+		this.moveMessageStatus=status;
+	};
+	this.getMoveMessageStatus=function(){
+		return this.moveMessageStatus;
+	};
 	this.setExpendCollapseRules=function(rules){
 		this.expendCollspseRules= rules;
 	};
