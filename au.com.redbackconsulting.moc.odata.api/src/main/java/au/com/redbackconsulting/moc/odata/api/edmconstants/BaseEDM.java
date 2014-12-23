@@ -19,9 +19,10 @@ import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 abstract public class BaseEDM {
 	
 private FullQualifiedName fqn = null;
-	public BaseEDM(String namespace, String entityName){
+protected String entitySetName ;
+	public BaseEDM(String namespace, String entityName, String entitySetName){
 		fqn= new FullQualifiedName(namespace,	entityName);
-		
+		this.entitySetName=entitySetName;
 	}
 	
 
@@ -63,8 +64,8 @@ private FullQualifiedName fqn = null;
 	
 	abstract public Association getAssociation (  FullQualifiedName relatedEntity  );
 	
-	 public EntitySet getEntitySet(){
-		 return new EntitySet().setEntityType(getFullQualifiedName());
+	 public EntitySet getEntitySet(   ){
+		 return new EntitySet().setName(entitySetName).setEntityType(getFullQualifiedName());
 	 };
 	
 }

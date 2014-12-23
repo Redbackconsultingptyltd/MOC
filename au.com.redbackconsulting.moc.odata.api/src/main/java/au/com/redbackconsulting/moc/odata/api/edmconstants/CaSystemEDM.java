@@ -22,6 +22,7 @@ import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 
 public class CaSystemEDM extends BaseEDM {
 	public static String ENTITY_TYPE_NAME ="CaSystem";
+	public static String ENTITY_SET_NAME="CaSystems";
 	public static String SYSID ="sysId";
 	public static String TENANTID="tenantId";
 	public static String SYSDESC="sysDesc";
@@ -32,7 +33,9 @@ public class CaSystemEDM extends BaseEDM {
 	
 	
 	public CaSystemEDM(String nameSpace){
-		super(nameSpace, CaSystemEDM.ENTITY_TYPE_NAME);
+		super(nameSpace, ENTITY_TYPE_NAME, ENTITY_SET_NAME);
+	//	entitySetName=CaSystemEDM.ENTITY_SET_NAME;
+		
 		
 	}
 
@@ -68,11 +71,6 @@ public class CaSystemEDM extends BaseEDM {
 	}
 
 
-	@Override
-	public EntitySet getEntitySet() {
-		 
-		return new EntitySet().setEntityType(getFullQualifiedName());
-	}
 	
  
 	
