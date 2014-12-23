@@ -9,7 +9,7 @@ var callWSDL="0";
 var treeWidth = 120;
 var beforeDoubleClickZomm;
 var flagDoubleClick=false;
-var selectedParent;
+var selectedParent=null;
 var timer;
 var timer1;
 var selectedObject=null;
@@ -425,8 +425,7 @@ function populateSelected(liId)
 {
 	getSelectedOType(liId);
 	getAddtionalAndObjectInfoOfSelectedNodeFromServlet(liId);
-	//objectImagePros.objectid = "";
-	//objectImagePros.otype= "";
+	
 	return;
 }
 function SelectedFolderCSS(Obj)   // i am working here ..................................
@@ -437,9 +436,7 @@ function SelectedFolderCSS(Obj)   // i am working here .........................
 	getSelectedOType(Obj);
 	
 	if(orgFrameWork.getContextMenuStatus()){return false;}
-	//selectedParent=thisId;
-	//selectedNodeIdForCSS = thisId;
-	//getSelectedOType(thisId);
+	
 	var action = getChildStatus(Obj);
 	if(action=="service"){
 		
@@ -505,7 +502,7 @@ function SelectedCSS(e,Obj)
 			resetboxClass();
 
 			$(this).addClass("active");
-//			objectCenter(this.id);
+
 		}
 		});	
 	
@@ -541,18 +538,6 @@ function searchInChart(objId)
 
 function createBoxTreeforFolder()
 {
-//alert('createBoxTreeforFolder');
-    $('#dragarea').html('');	
-	$('#dragarea').html('<ul class="stree">'+$('#ftree').html()+'</ul>');	
-	$.each(fieldsobj.fields, function(i, v) {
-		var objThis='V'+v.Seqnr;
-		$('#dragarea').find("li[id="+objThis+"] a[id="+v.Seqnr+"]").html("");
-		$('#dragarea').find("li[id="+objThis+"] a[id="+v.Seqnr+"]").mouseover(function() {
-			showBox(this.id);
-			populateSelected(v.Seqnr);				
-		  }).mouseout(function(){
-		  });
-	});
 		if(selectedObject!=null)
 			{
 				$(".stree [id^='V'] a").each(function() {	
@@ -572,38 +557,31 @@ function createBoxTreeforFolder()
 function createBoxTree()
 {
     $('#dragarea').html("");	
-	if(treeOpenName=='V')
-	{
-		if(orgFrameWork.getSelectedNodeLevel(selectedParent)==1&&orgFrameWork.getBoxTreeStatus()==false){
-			$('#dragarea').html('<ul class="stree" id="stree" >'+$('#collapser').html()+'</ul>');
+
+            if(selectedParent == orgFrameWork.initialRoot){
+            	var actions = nodeExpCollapseActionContainer[selectedParent];
+            	if(actions.previous==false && actions.next=="collapse"){
+            		$('#dragarea').html('<ul class="stree">'+$('#htree').html()+'</ul>');	
+        		//	orgFrameWork.setBoxTreeStatus(true);
+            	}else{
+            		 $('#dragarea').html('<ul class="stree">'+$('#htree').html()+'</ul>');	
+          			$('.stree').css('margin-left','13%');
+          			$('.stree').css('margin-top','8%');
+          			//orgFrameWork.setBoxTreeStatus(true);
+            	}
+            }else{
+            	if(selectedParent==null){
+            		$('#dragarea').html('<ul class="stree">'+$('#htree').html()+'</ul>');	
+            	}else{
+            		$('#dragarea').html('<ul class="stree">'+$('#htree').html()+'</ul>');	
+         			$('.stree').css('margin-left','13%');
+         			$('.stree').css('margin-top','8%');
+            	}
+            	 
+            }
+	
 			orgFrameWork.setBoxTreeStatus(true);
-		}
-		else{
-		    if(orgFrameWork.getSelectedNodeLevel(selectedParent)==1){
-		    	orgFrameWork.setBoxTreeStatus(false);
-		    }
-			$('#dragarea').html('<ul class="stree"  >'+$('#collapser').html()+'</ul>');
-			$('.stree').css('margin-left','13%');
-			$('.stree').css('margin-top','6%');
-		}
-		
-	}
-	if(treeOpenName=='H')
-	{
-		if(orgFrameWork.getSelectedNodeLevel(selectedParent)==1&&orgFrameWork.getBoxTreeStatus()==false){
-			$('#dragarea').html('<ul class="stree">'+$('#htree').html()+'</ul>');	
-			orgFrameWork.setBoxTreeStatus(true);
-		}
-		else{
-		    if(orgFrameWork.getSelectedNodeLevel(selectedParent)==1){
-		    	orgFrameWork.setBoxTreeStatus(false);
-		    }
-		    $('#dragarea').html('<ul class="stree">'+$('#htree').html()+'</ul>');	
-			$('.stree').css('margin-left','13%');
-			$('.stree').css('margin-top','6%');
-		}
-		
-	}
+	
 	$.each(fieldsobj.fields, function(i, v) {
 		var objThis='V'+v.Seqnr;
 		$('#dragarea').find("li[id="+objThis+"] a[id="+v.Seqnr+"]").html("");
@@ -623,16 +601,6 @@ function createBoxTree()
 function getNodeAction(id){
 	return nodeExpCollapseActionContainer[id];
 	
-//	for(sqn in nodePlusMinusStatus){
-//		if(sqn==id){
-//			var actions = nodePlusMinusStatus[sqn];
-//			if(actions.expendStatus==false){
-//				return true;
-//			}else{
-//				return false;
-//			}
-//		}
-//	}
 }
 function updateNodeAction(act,id){
 	return ;

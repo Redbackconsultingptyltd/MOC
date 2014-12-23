@@ -313,15 +313,11 @@ function resetTree(foo,centerDiv)
 		$("#TreeContainer").css('display','none');
 		$("#hdrag").css('display','none');
 		$("#folderContainer").css('display','block');
-		 uiDragZeroF();
-		if(selectedObjectfolder!=null){
-			objectCenter(selectedObjectfolder);
-		}else{
-			objectCenter(2);		
-		}
+	
 		selectedTreeViewSizeFactor['H'] = parseInt($(".htree").width());
 		selectedTreeViewSizeFactor['V'] = parseInt($(".tree").width());
         createInitialViewForEarchTreeTypes('F');
+        createBoxTree();
 	});  
 
  $("#dragarea").click(function(ev){
@@ -336,7 +332,7 @@ function resetTree(foo,centerDiv)
     of: ev,
     collision: "fit"
   });
-})
+});
 	});
 	
 	/*stree node width height manage*/
