@@ -1,10 +1,236 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<meta charset="utf-8">
+<title>Organization Tree</title>
+ <link href="i4erp/css/jquery-ui.css" rel="stylesheet" type="text/css" media="screen" />
+ <link href="i4erp/css/node.css" rel="stylesheet" type="text/css" media="all" />
+ <link href="i4erp/css/printnode.css" rel="stylesheet" type="text/css" media="all" />
+  <link href="i4erp/css/other.css" rel="stylesheet" type="text/css" media="all" />
+  
+
+  
+  <link rel="stylesheet" type="text/css" href="config/css/org.css"/>
+  <link rel="stylesheet" type="text/css" href="config/css/datepickr.css"/>
+  <script type="text/javascript" src="config/js/org-constant.js"></script>
+ <script type="text/javascript" src="config/js/OrgFrameWork.js"></script>
+  <script type="text/javascript" src="config/js/datepickr.js"></script>
+  <script type="text/javascript" src="config/js/ui-message.js"></script>
+  
+  
+ <script type="text/javascript" src="i4erp/js/1.6.4_jquery.js" ></script>
+<script type="text/javascript" src="i4erp/js/lookctr.js"></script>
+  <script type="text/javascript" src="i4erp/js/jquery.cookie.js" ></script>
+  <script type="text/javascript" src="i4erp/js/jquery.easing.js"></script>
+ <script type="text/javascript" src="i4erp/js/jquery-ui.min.js"></script>
+ <script type="text/javascript" src="i4erp/js/scrollsync.js"></script>
+<!--  <script type="text/javascript" src="i4erp/js/dragscrollable.js"></script> -->
+ <script type="text/javascript" src="i4erp/js/htmlctr.js"></script>
+ 
+ 
+ <script type="text/javascript" src="i4erp/services/jitservices.js"></script>
+<!--   <script type="text/javascript" src="i4erp/modal/shCore.js"></script> -->
+<!-- <script type="text/javascript" src="i4erp/modal/modal.js"></script> -->
+<!-- <script type="text/javascript" src="i4erp/modal/shBrushJScript.js"></script> -->
+<!-- <script type="text/javascript" src="i4erp/modal/rdbPopUpModal-js.js"></script> -->
+<script type="text/javascript" src="i4erp/modal/prnt-look.js"></script>
+<script type="text/javascript" src="i4erp/const/constants.js"></script>
+<script type="text/javascript" src="i4erp/ui-designer/ui-design-manager.js"></script>
+
+
+ <!--[if IE]><script type="text/javascript" src="js/excanvas.js"></script><![endif]-->
+  <style type="text/css">
+  #canvasContainer{display:none;left:0;top;0;position:absolute;}
+  </style>
+<script type="text/javascript">
+jQuery.support.cors = true;
+
+</script>
 </head>
-<body>
-Hello
+
+<style type="text/css">
+#dragarea{width:100%; height:100%;  background:#fff; position:relative; overflow:hidden;}
+</style>
+<body onLoad="beginSaveProduct();" style="overflow:hidden;" oncontextmenu="return false">
+<div class="org-page-header" id="org-page-header">
+		<div class="org-page-header-logo" id="org-page-header-logo">
+		<div class="org-page-header-logo-img" id="org-page-header-logo-img"></div>
+
+</div>
+		<div class="org-page-header-middle" id="org-page-header-middle">
+			<div class="org-header-message" id="org-header-message"><b> Welcome to Organization Chart Management System</b></div></div>
+		<div class="org-page-header-left" id="org-page-header-left"></div></div>
+		<div class="org-page-menu-bar" id="org-page-menu-bar">
+		<div id="navbar">	</div>
+		<div class="orgVersionDiv" style="float:right;margin-top:3px; width:430px;height:30px;">
+		       <table style="margin-top:2px;float:right;margin-right:3%;" >
+		         <tr>
+		         <td style="width:60px;color:black;font-size:12px;">Key Date:</td>
+		         <td>
+		         <input  type="text" id="filter-dt-text"name="filterdate" value=""  style="width:80px;height:20px;margin-top:2px;font-weight: normal;">
+		         </td>
+		         <td style="width:20px;"><div style="border:1px grey solid;padding-top:2px; " onclick="doAction('filter-date')">
+		         <a href="javascript:void(0)"title="Filter Heirarchy"><img src="i4erp/images/filter.png" width="15" height="13" /></a>
+		         </div></td>
+		         
+		         <td style="width:80px;color:black;font-size:12px;">|  Version:</td>
+		         <td> <select class="orgVersion" id="orgVersion" onchange="versionSelect(this)">
+				   <option selected="selected">Active Version</option>
+				   <option>Planned Version</option>
+				</select>
+		         </td>
+		         
+		         </tr>
+		       </table>
+		</div>
+		
+		</div>
+
+
+<div class="wrapper" id="wrapper" >
+
+<div class="org-home" id="org-home" oncontextmenu=""><h1>Organization Home Page</h1></div>
+<div class="org-reports" id="org-reports"><h1>Organization Report Page</h1></div>
+<div class="midcontain" id="midcontain">
+<table cellpadding="0" cellspacing="0" border="0" style="background-color:wihte;">
+    <tr>
+    <td style="width:246px;">
+    <div class="leftblock" id="leftdata">
+    <div class="leftdata b1" id="controls" style="margin-top:0;">
+    <div class="title">
+    <h1>Org UI Control</h1>
+    
+      <div class="flexi"></div>
+    </div>
+	<div class="blockgap">
+     <div class="map">
+        
+        <div style="width:193px;height:100px; position:relative; overflow:hidden;border:solid 1px #b8b9ba;">  
+		<div id="dragarea"></div>
+        <div id="uidrag" style="width:100%;height: 100%;position:absolute;background:rgb(167, 222, 242);opacity: 0.6;border:1px solid rgb(51, 204, 204);display:block;"></div>
+		<div id="cloneuidrag" style="width:100%;height: 100%;position:absolute;background:rgb(167, 222, 242);opacity: 0.6;border:1px solid rgb(51, 204, 204);display:none;"></div>
+		<div id="Fuidrag" style="width:100%;height: 100%;position:absolute;background:rgb(167, 222, 242);opacity: 0.6;border:1px solid rgb(51, 204, 204);display:none;"></div>
+		</div>
+         
+         <div>
+           <a href="javascript:void(0)"title="Zoom Out"><img src="i4erp/images/min.jpg" width="37" height="25" alt="min" class="iconmargin" style="margin-top:13px;" id="minus"></a>
+           <a href="javascript:void(0)"title="Center Align"><img src="i4erp/images/rep.jpg" width="37" height="25" alt="re" class="iconmargin" id="reset"></a>
+           <a href="javascript:void(0)"title="Zoom In"><img src="i4erp/images/plus.jpg" width="37" height="25" alt="plus" class="iconmargin" id="plus"></a></div>
+		   <div class="flexi"></div>
+      </div>
+      
+      <div class="print">
+      <a href="JavaScript:void(0);"title="Get Org Print"><img src="i4erp/images/print.jpg" width="36" height="31" alt="print" onClick='createCanvas();'" /></a>
+      <a href="JavaScript:void(0);" id="verticle" title="Org Tree Verticle View"><img src="i4erp/images/ver.jpg" width="36" height="31" alt="ver" /></a>
+      <a href="JavaScript:void(0);" id="horizontal" title="Org Tree Horizontal View"><img src="i4erp/images/hori.jpg" width="36" height="31" alt="hori" /></a>
+      <a href="JavaScript:void(0);" id="foldershow" title="Org Tree Directory View"><img src="i4erp/images/folder.jpg" width="36" height="31" alt="folder" /></a>
+	  </div>
+	  <div class="flexi"></div>
+      </div>
+    </div>
+    
+    <div class="leftdata b2">
+    <div class="title">
+    <h1>Search</h1>
+    </div>
+	<div class="searchbx">
+   <div class="searchicon" id='btnSearch'></div>
+    <div class="searchinput"><a href="#" title="Search"><input name="searchText" type="text" id="searchText" placeholder="search org / people / position"></a></div>
+     </div>
+    </div>
+    <div class="leftdata b3" id="b3" style="overflow: scroll">
+    	<div class="title">
+    		<h1>Properties</h1>
+    			<div id='typeO' class="userinfo"  style="display:none;"> </div>
+    	</div>
+     <div class="flexi"></div>
+    </div>
+    
+    </div>
+	
+	</td>
+	<td valign="top" style="width:100%;" style="background:#fff;">
+	
+	
+	
+    <div class="rightree" id="rightree">
+	<div class="treeheading">
+      
+	
+    <div style="width:200px;float:left"><h1 >Organization hierarchy</h1></div>
+ </div>
+     
+	<div class="Nodetreecontainer" id="treecontainer" style="top:0;" onClick="doAction('hide-context-menu')">
+   
+	<div id="centerDiv" style="background:#fff; width:100px; height:100px; margin:15% 0 0 38%; position:fixed; z-index:0;visibility:hidden">SS</div>
+    <!--verticle tree container-->
+	<div id="TreeContainer" class="tree dragger" style="background:#fff;position:relative;display:none;">
+	
+		<div id="firstdrag" class="">
+		<ul id="collapser" >
+		</ul>
+		</div>
+	</div>
+	  <!--horizontal tree container-->
+	  <div id="hdrag" class="dragger" style="display:none;position:relative;">
+	  <div id="horizontalContainer" class="htree" style="position:relative;">
+		<ul id="htree">
+		</ul>
+		<div style="clear:both"></div>
+	  </div>
+	  <div style="clear:both"></div>
+	  </div>
+	  <!--folder tree container-->
+	  <div id="folderContainer" class="ftree dragger" style="padding:20px; display:none; position:static;">
+		<ul id="ftree">
+		</ul>
+	  </div>
+	  
+</div>
+	</td>
+    <!--mid end-->
+	<div class="flexi"> </div>
+	</tr>
+	
+    </table>
+	
+</div>
+<!--<canvas id="secondcanvas"></canvas>-->
+
+</div>
+    <div id="light" class="white_content">
+	<div style="border:solid 2px #000;">
+	<div id="content">
+    <div id="myImageElementInTheDom" class='bg'>
+	</div>
+	</div>
+	<div style="clear:both;"></div>
+	</div>
+    </div>
+    <div id="fade" class="black_overlay"></div>
+	<div id="canvasclone"></div>
+	<div id="canvasContainer">	
+	</div>
+	<div id='printCanvas'>	  
+	   <div class='printtree'></div>
+	  <div class='printhtree'></div>
+	  <div class='printftree'></div>
+	  
+	</div>
+	
+	
+
+<!-- 	<div style="z-index: 100;display:none;position: absolute;bottom:1%;left:1%; height:350px;width:400px;border:1px solid;" id="text"></div> -->
+	
+     <div class="orgNavigation" id="orgNavigation" >
+         <table cellpadding="0" cellspacing="0" border="0">
+         	<tr><td class="nav-td"></td><td class="nav-td"><div  class="navtop" onclick="doOrgNavigation('top')"></div></td><td class="nav-td"><td></tr>
+         	<tr><td class="nav-td"><div  class="navleft" onclick="doOrgNavigation('left')"></div></td><td class="nav-td"></td><td class="nav-td"><div  class="navright" onclick="doOrgNavigation('right')"></div></td></tr>
+         	<tr><td class="nav-td"></td><td class="nav-td"><div  class="navbottom" onclick="doOrgNavigation('bottom')"></div></td><td class="nav-td"><td></tr>
+         	
+         </table>
+                 
+	  </div> 
+<div id="text" style="bottom:0;left:0; height:100px;color:white;background:black;width:300px;z-index:100;position:absolute;display:none;"></div>
 </body>
 </html>
