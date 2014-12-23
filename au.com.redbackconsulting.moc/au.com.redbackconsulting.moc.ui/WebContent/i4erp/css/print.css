@@ -1,0 +1,251 @@
+/* CSS Document */
+@import url('reset.css');
+body{font-family:arial;margin:0px;padding:0px; background:#ffffff; width:100%;height:100%;}
+/*ui window look define here*/
+h1{color:#2a2929; font-size:12px; font-weight:bold; font-family:arial;padding:0 0 0 7px; line-height:31px;}
+.flexi{clear:both;}
+.wrapper{width:100%;}
+.topheader{width:99%;height:39px; background:url(../images/hbg.jpg) repeat-x; border:1px #898989 solid;-webkit-border-radius:6px;-moz-border-radius:6px;border-radius:6px; margin:4px auto;}
+.topheader .logo{background:url(../images/logo.jpg) 18px 2px no-repeat; width:479px; height:37px; float:left;}
+.searchbx{width:93%; height:28px; background:url(../images/searchbx.jpg) repeat-x; border:solid 1px #c2d4e6; margin:10px 0 0 8px;}
+.searchbx .searchicon{background:url(../images/searchicon.jpg) 0 3px no-repeat;width:23px; height:26px; float:left; margin:0 0 0 4px;}
+.searchbx .searchinput{width:85%; height:28px; float:left;}
+.searchbx .searchinput input{width:100%; height:22px; padding-top:2px;line-height:22px;border:none; background:url(../images/searchbx.jpg) repeat-x;}
+.midcontain{width:99%; margin:1px auto 0 auto;}
+.midcontain .leftblock{width:246px; float:left; height:100%;*/ background:#fff; margin:0 5px 0 0;}
+.midcontain .leftdata{width:100%; border:1px solid #898989; height:100%; margin:7px 0 0 0; font-size: 12px;}
+.midcontain .b1{height:180px;}
+.midcontain .b2{height:80px;}
+.midcontain .b3{}
+.midcontain .scroll{height:80px; overflow:scroll; width:100%;}
+.midcontain .leftdata .blockgap{margin:2%; width:98%; font-family:arial; color:#040404;}
+.midcontain .leftdata .blockgap .map{width:83%; float:left;height:136px;}
+.midcontain .leftdata .blockgap .print{width:15%;float:left;height:136px;}
+.midcontain .leftdata .searchblk{width:100%; font-family:arial; color:#040404; background:url(../images/search.jpg) no-repeat; height:49px;}
+.midcontain .title{background:#dedddd; height:31px; width:100%; border-bottom:solid 1px #b5b4b4;}
+.midcontain .treeheading{background:#dedddd; height:31px; width:100%;border:1px solid #898989; border-bottom:solid 1px #b5b4b4;}
+.midcontain .leftdata .userinfo{width:96%; margin-left:5px;}
+.midcontain .leftdata .userinfo table{margin:10px 0;}
+.midcontain .leftdata .userinfo td{color:#292929; padding:4px;}
+.midcontain .rightree{
+	width:99.3%; 
+	float:left;
+	height:100%; 
+	background:#fff;
+	position:relative; 
+	margin-left:6px;
+	 -moz-border-radius: 2px;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    -webkit-box-shadow: 0 1px 1px #ccc; 
+    -moz-box-shadow: 0 1px 1px #ccc; 
+    box-shadow: 0 1px 1px #ccc;        	
+}
+.midcontain .rightree .Nodetreecontainer{width:100%;height:100%;overflow:scroll;border:1px solid #898989; border-top:none; position:relative;background:#fff;}
+/*ui window look end here*/
+/*ui control orgnization chart here*/
+ul#printtree{}
+		ul#printtree li{float:left; margin:0 1px 0 0;}
+		ul#printtree span{background:#009900;height:3px;margin:0 auto;width: 3px; margin:0 auto; display:block;}
+		ul#child{margin:1px 0 0 0; width:100%; float:left;}
+		ul#child li{float:left; margin:0 1px 0 0;}
+
+.stree{width:100%; height:100%;}
+.stree ul {text-align:center; width:100%;height:100%}
+.stree li {float:left; text-align: center;}
+.stree li a{display:inline-block; background:#009933; text-align: center;padding:1px;}
+.stree li .active{display:inline-block; background:#fdf8aa;padding:1px;margin:1px;border:solid 1px #000;}
+/*.stree li a:hover, .tree li a:hover+ul li a {border: 1px solid #94a0b4; padding:1px; margin:1px;}*/
+/*ui control orgnization chart here*/
+
+/*made tree use this css */
+.printtree{ margin:0% 0 0 0%;}
+.printtree ul {padding-top: 20px; position: relative;}
+.printtree li {float: left; text-align: center;list-style-type: none;position: relative;padding: 21px 5px 0 5px;}
+
+/*We will use ::before and ::after to draw the connectors*/
+
+.printtree li::before, .printtree li::after{content: '';position: absolute; top: 0; right: 50%;border-top: 1px solid #ccc;width: 50%; height: 20px;}
+.printtree li::after{right: auto; left: 50%;border-left: 1px solid #ccc;}
+
+/*We need to remove left-right connectors from elements without 
+any siblings*/
+.printtree li:only-child::after, .printtree li:only-child::before {display: none;}
+/*Remove space from the top of single children*/
+.printtree li:only-child{ padding-top: 0;}
+
+/*Remove left connector from first child and 
+right connector from last child*/
+.printtree li:first-child::before, .printtree li:last-child::after{border: 0 none;}
+/*Adding back the vertical connector to the last nodes*/
+.printtree li:last-child::before{border-right: 1px solid #ccc;border-radius: 0 5px 0 0;-webkit-border-radius: 0 5px 0 0;-moz-border-radius: 0 5px 0 0;}
+.printtree li:first-child::after{border-radius: 5px 0 0 0;-webkit-border-radius: 5px 0 0 0;-moz-border-radius: 5px 0 0 0;}
+
+/*Time to add downward connectors from parents*/
+.printtree ul ul::before{border-left: 1px solid #CCCCCC;content: '';position: absolute; top:-4px; left: 50%;border-left: 1px solid #ccc;width: 0; height: 24px;}
+
+.printtree li a{border: 1px solid #ccc;width:100px;text-decoration: none;color: #666;font-family: arial, verdana, tahoma;font-size: 11px;display: inline-block;border-radius: 5px;-webkit-border-radius: 5px;-moz-border-radius: 5px;transition: all 0.5s;-webkit-transition: all 0.5s;-moz-transition: all 0.5s;}
+
+/*Time for some hover effects*/
+/*We will apply the hover effect the the lineage of the element also*/
+.printtree .active{background:#FFFBBE;border: 1px solid #94a0b4;width:100px;text-decoration: none;color: #666;font-family: arial, verdana, tahoma;font-size: 11px;display: inline-block;border-radius: 5px;-webkit-border-radius: 5px;-moz-border-radius: 5px;	transition: all 0.5s;-webkit-transition: all 0.5s;-moz-transition: all 0.5s;-moz-box-shadow: 0 0 5px #609AD3;-webkit-box-shadow: 0 0 5px #609AD3;box-shadow: 0 0 5px #609AD3;}
+.printtree .dcactive{background:#FFFBBE;border: 1px solid #94a0b4;width:100px;text-decoration: none;color: #666;font-family: arial, verdana, tahoma;font-size: 11px;display: inline-block;border-radius: 5px;-webkit-border-radius: 5px;-moz-border-radius: 5px;	transition: all 0.5s;-webkit-transition: all 0.5s;-moz-transition: all 0.5s;-moz-box-shadow: 0 0 5px #609AD3;-webkit-box-shadow: 0 0 5px #609AD3;box-shadow: 0 0 5px #609AD3;-moz-transition: all .4s ease-in;-moz-transform:scale(5);-webkit-transform:scale(5);-o-transform:scale(5);transform:scale(5);-ms-transform:scale(5);position:absolute; z-index:1000; position:absolute; left:0; top:0;}
+/*Connector styles on hover*/
+/*made tree css end here */
+
+/*node css here*/
+.block{width:100%;-webkit-border-radius: 4px;-moz-border-radius: 4px;border-radius: 4px;}
+.block .top_contain{width:100%; height:20px;-webkit-border-top-left-radius: 4px;-webkit-border-top-right-radius: 4px;-moz-border-radius-topleft: 4px;-moz-border-radius-topright: 4px;border-top-left-radius: 4px;border-top-right-radius: 4px;}
+.block .top_contain .insertid{width:70%; height:20px;/*border-right:#262626 solid 1px;*/ float:left; font-size:90%; line-height:20px; color:#fff;}
+.block .blue{background:#5081BD;background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#609ad3), to(#4f7ebb)); background: -webkit-linear-gradient(top, #609ad3, #4f7ebb); background: -moz-linear-gradient(top, #609ad3, #4f7ebb);background: -ms-linear-gradient(top, #609ad3, #4f7ebb); background: -o-linear-gradient(top, #609ad3, #4f7ebb); -webkit-border-top-left-radius: 4px;-moz-border-radius-topleft: 4px;border-top-left-radius: 4px;}
+.block .green{background:#659626;background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#73a72e), to(#639325)); background: -webkit-linear-gradient(top, #73a72e, #639325); /* Firefox 3.6+ */ background: -moz-linear-gradient(top, #73a72e, #639325);background: -ms-linear-gradient(top, #73a72e, #639325); background: -o-linear-gradient(top, #73a72e, #639325); -webkit-border-top-left-radius: 4px;-moz-border-radius-topleft: 4px;border-top-left-radius: 4px;}
+.block .top_contain .inserticon{width:20%; height:20px;-webkit-border-top-right-radius:4px;border-top-right-radius:4px; float:left; background:#CCC;}
+.block .top_contain .p{float:right;margin-top:-20px;background:url(../images/greenicon.png) 2px 1px no-repeat;-moz-background-size:14px 18px;background-size:14px 18px;}
+.block .top_contain .s{float:right;margin-top:-20px;background:url(../images/status_icon.png) 2px 1px no-repeat;-moz-background-size:18px 19px;background-size:18px 19px;}
+.block .top_contain .o{float:right;margin-top:-20px;background:url(../images/icon.png) 2px 1px no-repeat;-moz-background-size:18px 19px;background-size:18px 19px;}
+.block .top_contain .v{float:right;margin-top:-20px;background:url(../images/whiteicon.png) 2px 1px no-repeat;-moz-background-size:14px 18px;background-size:14px 18px;}
+
+.block .bottom{width:100%; height:63px;-webkit-border-bottom-right-radius: 4px;-webkit-border-bottom-left-radius: 4px;-moz-border-radius-bottomright: 4px;-moz-border-radius-bottomleft: 4px;border-bottom-right-radius: 4px;border-bottom-left-radius: 4px;}
+
+.block .bottom .userdata{float:left; width:79%; height:100%; line-height:12px; font-size:90%;}
+.block .bottom .expandcollsape{float:right; width:20%;height:100%; position:relative;}
+.block .bottom .expandcollsape .minus{width:12px; height:12px; background:url(../images/minus-icon.png) no-repeat; -moz-background-size:12px 12px;background-size:12px 12px; position:absolute; bottom:0; right:0;}
+
+.block .bottom .expandcollsape .plus{width:12px; height:12px; background:url(../images/plus-icon.png) no-repeat; -moz-background-size:12px 112px;background-size:12px 12px; position:absolute; bottom:0; right:0;}
+.map{float:left;width:15px;height:20px;background:url(../images/map_icon.png) 2px 1px no-repeat;-moz-background-size:14px 18px;background-size:14px 18px;}
+
+/*node css end here*/
+/*folder tree css start*/
+.printftree {font-family: arial;font-size: 68.75%;}
+.printftree ul{margin:0;padding:0;}
+.printftree li{list-style:none; text-indent:10px;line-height:20px;}
+.printftree li a{text-decoration:none; padding:0 0 0 16px;display:block;}
+.printftree ul.sub{margin:0 0 0 20px;}
+.printftree .folder{background:url(../images/collaspe.png) left center no-repeat, url(../images/folder.png) 10px 0  no-repeat;}
+.printftree .folder_open{background:url(../images/expand.png) left center no-repeat, url(../images/folder.png) 10px 0  no-repeat;}
+.printftree .person{background:url(../images/person.png) left center no-repeat;}
+ /*folder tree css end*/
+ 
+ 
+ /*horizontal css here*/
+.htree{-ms-transform: rotate(270deg);-webkit-transform: rotate(270deg);-moz-transform: rotate(270deg); margin-left:6%;position:absolute; height:100%;  }
+.htree ul {	
+	padding-top: 20px; position: relative;
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;	
+}
+
+.htree li {
+	float: left; text-align: center;
+	list-style-type: none;
+	position: relative;
+	padding: 25px 5px 0 5px;
+	
+	transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+}
+
+/*We will use ::before and ::after to draw the connectors*/
+
+.htree li::before, .htree li::after{
+	content: '';
+	position: absolute; top: 0; right: 50%;
+	border-top: 1px solid #ccc;
+	width: 50%; height: 22px;
+}
+.htree li::after{
+	right: auto; left: 50%;
+	border-left: 1px solid #ccc;
+}
+
+/*We need to remove left-right connectors from elements without 
+any siblings*/
+.htree li:only-child::after, .htree li:only-child::before {
+	display: none;
+}
+
+/*Remove space from the top of single children*/
+.htree li:only-child{ padding-top: 0;}
+
+/*Remove left connector from first child and 
+right connector from last child*/
+.htree li:first-child::before, .htree li:last-child::after{
+	border: 0 none;
+}
+/*Adding back the vertical connector to the last nodes*/
+.htree li:last-child::before{
+	border-right: 1px solid #ccc;
+	border-radius: 0 5px 0 0;
+	-webkit-border-radius: 0 5px 0 0;
+	-moz-border-radius: 0 5px 0 0;
+}
+.htree li:first-child::after{
+	border-radius: 5px 0 0 0;
+	-webkit-border-radius: 5px 0 0 0;
+	-moz-border-radius: 5px 0 0 0;
+}
+
+/*Time to add downward connectors from parents*/
+.htree ul ul::before{
+	content: '';
+	position: absolute; top: 0; left: 50%;
+	border-left: 1px solid #ccc;
+	width: 0; height: 20px;
+	/*margin: 40px 0 0;*/
+}
+
+.htree li a{border: 1px solid #ccc;width:100px;text-decoration: none;color: #666;font-family: arial, verdana, tahoma;font-size: 11px;display: inline-block;border-radius: 5px;
+-webkit-border-radius: 5px;-moz-border-radius: 5px;transition: all 0.5s;-webkit-transition: all 0.5s;-ms-transform: rotate(90deg);-moz-transition: all 0.5s;-webkit-transform: rotate(90deg);-moz-transform: rotate(90deg); margin:8px 0 8px;}
+
+.htree .active{background:#FFFBBE;border: 1px solid #94a0b4;width:100px;text-decoration: none;color: #666;font-family: arial, verdana, tahoma;font-size: 11px;display: inline-block;border-radius: 5px;-webkit-border-radius: 5px;-moz-border-radius: 5px;	transition: all 0.5s;-webkit-transition: all 0.5s;-moz-transition: all 0.5s;-moz-box-shadow: 0 0 5px #609AD3;-webkit-box-shadow: 0 0 5px #609AD3;box-shadow: 0 0 5px #609AD3;}
+
+/*Time for some hover effects*/
+/*We will apply the hover effect the the lineage of the element also*/
+
+/*Connector styles on hover*/
+.htree li a:hover+ul li::after, 
+.htree li a:hover+ul li::before, 
+.htree li a:hover+ul::before, 
+.htree li a:hover+ul ul::before{
+	border-color:  #94a0b4;
+}
+ /*horizontal css end here*/
+/*AutoComplete CSS*/
+ .ui-autocomplete {
+    position: absolute;
+    cursor: default;
+    height: 200px;
+	font-size:2;
+    overflow-y: scroll;
+    overflow-x: hidden;}
+	
+.black_overlay{
+			display: none;
+			position: absolute;
+			top: 0%;
+			left: 0%;
+			width: 100%;
+			height: 100%;
+			background-color: black;
+			z-index:1001;
+			-moz-opacity: 0.8;
+			opacity:.80;
+			filter: alpha(opacity=80);
+}
+.white_content{
+			display: none;
+			position: absolute;
+			top: 25%;
+			left: 25%;
+			width: 100%;
+			height: 600px;
+			z-index:1002;
+			overflow: hidden;
+}
+.user_cl{width:80px; height:280px; float:right; font-family:arial; font-size:12px; font-weight:bold; text-indent:10px; top:-10px;}
+.user_cl a:link{display:block; background:url(../images/close-lb.jpg) no-repeat; width:80px; height:24px; line-height:24px; color:#5e5e5e; text-decoration:none;} 
+.user_cl a:visited{display:block; background:url(../images/close-lb.jpg) no-repeat; width:80px; height:24px; line-height:24px; color:#ccc;text-decoration:none;} 
+.user_cl a:hover{display:block; background:url(../images/close-lb.jpg) no-repeat; width:80px; height:24px; line-height:24px;color:#000;text-decoration:none;} 	
+	

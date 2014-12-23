@@ -1,0 +1,1093 @@
+var url="";
+var containerWidth = 0 ;
+var containerHeight = 0;
+var scale;
+var maxScale;
+var minScale;
+var scaleZoom;
+var callWSDL="0";
+var treeWidth = 110;
+var beforeDoubleClickZomm;
+var flagDoubleClick=false;
+var selectedParent;
+var timer;
+var timer1;
+var selectedObject=null;
+var treeOpenName=null;
+var nodeClickId=null;
+var nodeClickCounter=0;
+var counter=1;
+var clickIdArray=new Array();
+var canvasCounter=1;
+var selectedObjectReset=null;
+var selectedObjectVerticle=null;
+var selectedObjectHorizontal=null;
+var selectedObjectfolder=null;
+var popupHeight=0;
+var popupWidth=0;
+
+var packet = ' <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:sap-com:document:sap:soap:functions:mc-style">'+
+   			'  <soapenv:Header/>'+
+   			'  <soapenv:Body>'+
+      			' <urn:_-rdb_-mocTcOcGethierdata>'+
+        		' <Begindate>2012-03-24</Begindate>'+
+         		'<Enddate>2012-03-24</Enddate>'+
+         		' <HierDepth>0</HierDepth>'+
+         		' <HierObjId>50000051</HierObjId>'+
+         		' <HierObjType>O</HierObjType>'+
+         		' <Hierarchymap>O-S-P</Hierarchymap>'+
+      			' </urn:_-rdb_-mocTcOcGethierdata>'+
+   			' </soapenv:Body>'+
+			' </soapenv:Envelope>' ;
+ 
+var url1 ="http://rbapp02vm.redbackconsulting.local:8000/sap/bc/srt/scs/rdb/moc_tc_oc_gethierdata?sap-client=100";
+var url ="http://rbapp02vm.redbackconsulting.local:8000/sap/bc/srt/scs/rdb/moc_tc_oc_gethierdata?sap-client=100";
+var jArray = new Array();
+var parentArrlist=new Array();
+var parentArr=new Array();
+var parentChild=new Array();
+var finalarray=new Array();
+var tempArray=new Array();
+var tempVacantArray=new Array();
+var fieldsobj = {fields:[]}; //json object for search
+var jsonsobj = {fields:[]}; //json object for search
+var jsonAutoSuggest = new Array();
+var jsonAutoSuggestObject;
+var nodewidthArr = new Array();
+var arr=new Array();
+var nodeWidthArr = new Array();
+
+jQuery.support.cors = true;
+/*load xml*/
+function loadi4erpConfig()
+{
+	$.ajax({
+			type: "POST",
+			url: 'xml/i4erpConfig.xml',
+			data: "xml",
+			dataType: "xml",
+			success: function(xml){
+				$(xml).find("i4erpconfig").each(function(){	
+                 alert('hi'+$(this).find('callwsdl').text());				
+						scale=$(this).find('scale').text();
+						maxScale=$(this).find('maxscale').text();
+						minScale=$(this).find('minscale').text();
+						scaleZoom=$(this).find('scalezoom').text();
+						callWSDL=$(this).find('callwsdl').text();
+						alert('hi callWSDL:--?'+callWSDL);
+						if($.cookie('treeOpenName_arr')!=null)
+						{
+							treeOpenName=$.cookie('treeOpenName_arr');
+						}
+						else
+						{	
+							treeOpenName=$(this).find('treeOpenName').text();
+						}
+				});
+				},
+			error: function(e,textStatus, errorThrown){
+				alert('eeeeeeeeeee:  Server error'); 
+				
+				}
+			});
+			
+			
+			return;
+			
+}						
+	
+/*call wsdl*/	
+function beginSaveProduct()
+{
+    loadi4erpConfig();	
+	attachDrag();
+	
+	$('#foldertreecontainer').html("");
+		//call wsdl url		
+		if(callWSDL==1)
+		{
+			$.ajax({                		  
+			type:'POST',                                 
+			url: url,                		 
+			data: packet,
+			contentType : "text/xml",
+			dataType: "xml" ,                  		
+			success: parse,
+			error: function(XMLHttpRequest, textStatus,errorThrown){                			
+			alert("Error: Something went wrong"+textStatus+errorThrown);                			
+			}                				
+			});
+		}
+		if(callWSDL==0)
+		{
+			$.ajax({
+			type: "POST",
+			url: 'xml/i4erp.xml',
+			data: "xml",
+			dataType: "xml",
+			success: parse,
+			error: function(e,textStatus, errorThrown){
+			alert('Server error:Error: Something went wrong');     
+			}
+			});
+		}
+		return false;
+} 
+/*parse xml response*/	
+function parse(document)
+{	
+            	parentChild=new Array();	
+             $(document).find("ResultObjec").each(function(){	  
+            	$(this).find("item").each(function(){
+										   
+            		var objId=$(this).find('Objid').text();
+            		var objShort=$(this).find('Short').text();
+					var objPerson=$(this).find('Stext').text();
+            		$(document).find("ResultStruc").each(function(){
+            			$(this).find("item").each(function(){
+            				if($(this).find('Objid').text()==objId)
+            				{
+            						fieldsobj["fields"].push({Seqnr:$(this).find('Seqnr').text(),Pup:$(this).find('Pup').text(),Objid:objId,Short:objShort,Vrsign:$(this).find('Vrsign').text(),Vrelat:$(this).find('Vrelat').text(),Otype:$(this).find('Otype').text(),personName:objPerson,Vbegda:$(this).find('Vbegda').text(),Vendda:$(this).find('Vendda').text()}); /*populated json object*/
+            						parentChild.push(
+            						$(this).find('Seqnr').text()+'@'+
+            						$(this).find('Pup').text()+'@'+	
+            						objId+'@'+
+            						objShort+'@'+$(this).find('Vrsign').text()+'@'+$(this).find('Vrelat').text()+'@'+$(this).find('Otype').text()+'@'+objPerson+'@'+$(this).find('Vbegda').text()+'@'+$(this).find('Vendda').text()
+            				);  
+									jsonAutoSuggest.push({"id":$(this).find('Seqnr').text(),"value":objId+" {"+$(this).find('Otype').text()+"} "+objPerson});
+            				}
+            				
+            			});
+						
+            		  });
+            	});
+				
+				$(document).find("ResultObjtypedata").each(function(){
+					$(this).find("item").each(function(){
+					if($(this).find('Objid').text()!='')
+					{
+						tempVacantArray.push($(this).find('Objid').text());
+					}
+					});});
+              });
+              
+             initTree();
+			 createBoxTree();
+			 initAutoComplete();
+		     attachDrag();
+}
+/*initTree function*/
+function initTree()
+{     	
+            	for(var i=0;i<parentChild.length;i++)
+            	{
+            		var str=parentChild[i].split("@")[1];
+            		parentArr.push(str);
+            	}
+            	parentArr=unique(parentArr);
+            	
+            	for(var i=0;i<parentArr.length;i++)
+            	{
+            		var  arr=new Array();
+        			for(var j=0;j<parentChild.length;j++)
+        			{
+        					if(parentArr[i]==parentChild[j].split("@")[1])
+        					{
+        						arr.push(parentChild[j].split("@")[0]);
+        					}
+        			}
+        			parentArrlist.push(arr);
+            	}
+            	
+            	for(var i=0;i<parentArr.length;i++)
+            	{
+            		for(var s=0;s<parentArrlist[i].length;s++)
+            		{
+            			finalarray.push(parentArr[i]+","+parentArrlist[i][s]);
+            		}
+            	}
+            	
+            	for(var d=0;d<finalarray.length;d++)
+            	{
+            		 
+            		if(finalarray[d].split(",")[0]=="1")
+            		{
+            			if($('#TreeContainer').find('ul[id=collapser]').length==1)
+            			{
+            				$('#TreeContainer').find('ul[id=collapser]').append('<li class="child" id=V'+finalarray[d].split(",")[1]+'>'+getnodeData(finalarray[d].split(",")[1])+ '</li>');
+            			}
+						if($('#folderContainer').find('ul[id=ftree]').length==1)
+            			{
+							for(var i=0;i<parentChild.length;i++)
+							{
+								if(parseInt(finalarray[d].split(",")[1])==parseInt(parentChild[i].split('@')[0]))	
+								{
+									$('#folderContainer').find('ul[id=ftree]').append('<li id=V'+finalarray[d].split(",")[1]+'><a onclick="SelectedFolderCSS('+finalarray[d].split(",")[1]+')" id='+finalarray[d].split(",")[1]+' class="folder">'+parentChild[i].split('@')[7]+'</a></li>');
+								}
+							}
+            			}
+						
+						if($('#horizontalContainer').find('ul[id=htree]').length==1)
+            			{
+							for(var i=0;i<parentChild.length;i++)
+							{
+								if(parseInt(finalarray[d].split(",")[1])==parseInt(parentChild[i].split('@')[0]))	
+								{
+									$('#horizontalContainer').find('ul[id=htree]').append('<li id=V'+finalarray[d].split(",")[1]+'>'+getnodeData(finalarray[d].split(",")[1])+'</li>');
+								}
+							}
+            			}
+            		}
+            						
+					$('#TreeContainer').find('li[id=V'+finalarray[d].split(",")[0]+']').each(function(i, ele) {
+    							if ($(this).find('ul').length == 0) {
+    								$('#TreeContainer').find('li[id=V'+finalarray[d].split(",")[0]+']').append('<ul class="parent"><li class="child" id=V'+finalarray[d].split(",")[1]+'>'+getnodeData(finalarray[d].split(",")[1])+ '</li></ul>');
+    							} else {
+    								$('#TreeContainer').find('li[id=V'+finalarray[d].split(",")[0]+'] ul').append('<li class="child" id=V'+finalarray[d].split(",")[1]+'>'+getnodeData(finalarray[d].split(",")[1])+'</li>');
+    							}
+
+    				});
+					
+					var hasChild="true";
+                	if(include(parentArr,finalarray[d].split(",")[1])==false)
+                	{
+                		hasChild="false";
+                	}
+            		
+            		$('#folderContainer').find('li[id=V'+finalarray[d].split(",")[0]+']').each(function(i, ele) {
+						var aData="";
+						for(var i=0;i<parentChild.length;i++)
+							{
+								if(parseInt(finalarray[d].split(",")[1])==parseInt(parentChild[i].split('@')[0]))	
+								{
+									aData=parentChild[i].split('@')[7];
+								}
+							}
+
+    							if ($(this).find('ul').length == 0) {
+    								if(hasChild=="true")
+    							    $('#folderContainer').find('li[id=V'+finalarray[d].split(",")[0]+']').append('<ul class="sub"><li id=V'+finalarray[d].split(",")[1]+'><a onclick="SelectedFolderCSS('+finalarray[d].split(",")[1]+')" id='+finalarray[d].split(",")[1]+' class="folder">'+aData+'</a></li></ul>');
+    								else
+    								$('#folderContainer').find('li[id=V'+finalarray[d].split(",")[0]+']').append('<ul class="sub"><li id=V'+finalarray[d].split(",")[1]+'><a onclick="SelectedFolderCSS('+finalarray[d].split(",")[1]+')" id='+finalarray[d].split(",")[1]+' class="person">'+aData+'</a></li></ul>');
+    								
+    							} else {
+    								if(hasChild=="true")
+    								$('#folderContainer').find('li[id=V'+finalarray[d].split(",")[0]+'] ul').append('<li id=V'+finalarray[d].split(",")[1]+'><a onclick="SelectedFolderCSS('+finalarray[d].split(",")[1]+')" id='+finalarray[d].split(",")[1]+' class="folder">'+aData+'</a></li>');
+    								else
+    								$('#folderContainer').find('li[id=V'+finalarray[d].split(",")[0]+'] ul').append('<li id=V'+finalarray[d].split(",")[1]+'><a onclick="SelectedFolderCSS('+finalarray[d].split(",")[1]+')" id='+finalarray[d].split(",")[1]+' class="person">'+aData+'</a></li>');	
+    							}
+
+    				});
+					
+					/*horizontal container*/
+					
+					$('#horizontalContainer').find('li[id=V'+finalarray[d].split(",")[0]+']').each(function(i, ele) {
+						var aData="";
+						for(var i=0;i<parentChild.length;i++)
+							{
+								if(parseInt(finalarray[d].split(",")[1])==parseInt(parentChild[i].split('@')[0]))	
+								{
+									aData=parentChild[i].split('@')[7];
+								}
+							}
+							
+						
+    							if ($(this).find('ul').length == 0) {
+    								if(hasChild=="true")
+    							    $('#horizontalContainer').find('li[id=V'+finalarray[d].split(",")[0]+']').append('<ul><li id=V'+finalarray[d].split(",")[1]+'>'+getnodeData(finalarray[d].split(",")[1])+'</li></ul>');
+    								else
+    								$('#horizontalContainer').find('li[id=V'+finalarray[d].split(",")[0]+']').append('<ul><li id=V'+finalarray[d].split(",")[1]+'>'+getnodeData(finalarray[d].split(",")[1])+'</li></ul>');
+    								
+    							} else {
+    								if(hasChild=="true")
+    								$('#horizontalContainer').find('li[id=V'+finalarray[d].split(",")[0]+'] ul').append('<li id=V'+finalarray[d].split(",")[1]+'>'+getnodeData(finalarray[d].split(",")[1])+'</li>');
+    								else
+    								$('#horizontalContainer').find('li[id=V'+finalarray[d].split(",")[0]+'] ul').append('<li id=V'+finalarray[d].split(",")[1]+'>'+getnodeData(finalarray[d].split(",")[1])+'</li>');	
+    							}
+    				});
+            	}	
+				$("#verticle").trigger('click', ['objectCenter']);
+				expCols();
+				scrollWithdrag();
+}	
+/*other dependent function for create tree*/
+function include(arr, obj) {
+                for(var i=0; i<arr.length; i++) {
+					if (arr[i] == obj) return true;
+                }
+                return false;
+            }
+			function includeVacant(arrVacant, obj) {
+				var flag=false;
+                for(var i=0; i<arrVacant.length; i++) {
+					if ( $.trim(arrVacant[i]) ==  $.trim(obj))
+					{
+						flag=true;
+					}
+					return flag;
+                }
+                return flag;
+            }
+            
+            function getnodeData(childId)
+            {
+            	var hasChild="true";
+				if(jQuery.inArray(childId, parentArr)!=-1)            	
+            	{
+            		hasChild="false";
+            	}
+            	
+            	
+            	for(var i=0;i<parentChild.length;i++)
+            	{
+            		if(parseInt(childId)==parseInt(parentChild[i].split('@')[0]))	
+            		{
+            			var classDiv="top_contain blue";
+						var classIcon="inserticon p"
+						if(parentChild[i].split('@')[6]=='O')
+						{
+							classDiv="top_contain green";
+							classIcon="inserticon o";
+						} 
+						if(parentChild[i].split('@')[6] =='P')
+						{
+
+						} 
+						if(parentChild[i].split('@')[6]=='S')
+						{
+							classDiv="top_contain green";
+							classIcon="inserticon o";
+						}
+						if(jQuery.inArray(parentChild[i].split('@')[2], tempVacantArray)!=-1)
+						{
+							classDiv="top_contain blue";
+							classIcon="inserticon v";							
+						}
+						var html="";
+					var click="click";
+					var dblClick="dblclick";	
+					if(hasChild=="false")
+					{
+					   html="<a id="+childId+" onclick='connectedToEvent(event,this,\""+click+"\")' href='javascript:void(0)'><div class='block'><div class=\""+classDiv+"\"><div class='insertid'>"+parentChild[i].split('@')[2]+"{"+parentChild[i].split('@')[6]+"}</div><div class=\""+classIcon+"\"></div></div><div class='bottom'><div class='userdata'>"+parentChild[i].split('@')[7]+"</div><div class='expandcollsape'><div id='plusMinus' onclick='setSelectedId("+childId+")' class='plus'></div></div></div></div></a>";											
+					}					
+					else
+					{					 
+					  html="<a id="+childId+" onclick='connectedToEvent(event,this,\""+click+"\")'  href='javascript:void(0)'><div class='block'><div class=\""+classDiv+"\"><div class='insertid'>"+parentChild[i].split('@')[2]+"{"+parentChild[i].split('@')[6]+"}</div><div class=\""+classIcon+"\"></div></div><div class='bottom'><div class='userdata'>"+parentChild[i].split('@')[7]+"</div><div class='expandcollsape'><div id='plusMinus' onclick='setSelectedId("+childId+")' class=''></div></div></div></div></a>";											
+					
+					}
+            			return html;
+            		}
+            	}
+}
+
+var d ;
+var t;
+var at;
+
+function connectedToEvent(event,Obj,eType)
+{
+   
+	if(nodeClickId==null || nodeClickCounter==0)
+	{
+		d=new Date();
+		at = d.getTime();
+		nodeClickId=Obj;
+		nodeClickCounter++;
+		
+	}
+	else
+	{
+		if(nodeClickId==Obj)
+		{
+		d=new Date();
+		t = d.getTime();
+		var diff = t-at;
+		if(diff<800){
+			nodeClickCounter++;
+			}
+			else{
+			nodeClickCounter = 0;
+			}
+		}
+		else
+		{
+			nodeClickId=Obj;
+			nodeClickCounter=1;
+			
+		}
+	}
+	if(nodeClickCounter==1)
+	{
+		SelectedCSS(event,Obj);
+	}
+	if(nodeClickCounter==2)	
+	{	
+		onaDoubleClickZomm(event,Obj);
+		nodeClickCounter=0;
+	}
+	
+	return;
+}
+		
+function unique(arrayName)
+{
+            	var newArray=new Array();
+            	label:for(var i=0; i<arrayName.length;i++ )
+            	{  
+            	for(var j=0; j<newArray.length;j++ )
+            	{
+            	if(newArray[j]==arrayName[i]) 
+            	continue label;
+            	}
+            	newArray[newArray.length] = arrayName[i];
+            	}
+            	return newArray;
+}
+
+//populate AdditionInfo data
+function populateSelected(liId)
+{
+	for(var i=0;i<parentChild.length;i++)
+	{
+		if(liId==parentChild[i].split('@')[0])
+		{
+			var html="<div class='p_wrap'><div class='texture'><div class='user-data'><div class='userprofile'><div class='user_fp'><div class='fb-img'><img src='images/userpic.jpg' width='148' height='149' alt='userpic'></div></div><div class='user_fd'><table width='100%' border='0' cellspacing='0' cellpadding='0'><tr><td>BEGINDATE:</td><td>01.01.2010</td></tr><tr><td>ENDDATE:</td><td>11.05.2011</td></tr><tr><td>FIRSTNAME:</td><td>SGUPTA</td></tr><tr><td>0001 RDBLANGU:</td><td>EN</td></tr><tr><td>ID:</td><td>50000052</td></tr><tr><td>NICK NAME:</td><td>Western Reg</td></tr><tr><td>DETAIL:</td><td>Western Region</td></tr><tr><td>ObjectType:</td><td>O</td></tr></table></div><div class='user_cl'><a href='javascript:void(0)'onclick = 'closelightbox()'>Close</a></div></div></div></div></div>";
+			var additionInfo="";	
+			//call WSDL Additional Info
+			if(callWSDL=="1")
+			{
+			  var packet = ' <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:sap-com:document:sap:soap:functions:mc-style"> \n'+
+   			 ' <soapenv:Header/>\n'+
+			 
+   			 ' <soapenv:Body> \n'+
+      		 ' <urn:_-rdb_-mocTcOciGetaddinfodata> \n'+
+         			' \t <Objectid>'+parentChild[i].split('@')[2]+'</Objectid> \n'+
+         			' \t <Otype>O</Otype> \n'+
+         			' \t <Relatedobjid>'+parentChild[i].split('@')[2]+'</Relatedobjid> \n'+
+         			' \t <Relatedotype>'+parentChild[i].split('@')[6]+'</Relatedotype> \n'+
+         			' \t <Scenario>user</Scenario> \n'+
+         			' \t <Validity> \n'+
+            		' \t\t <Validfrom>'+parentChild[i].split('@')[8]+'</Validfrom> \n'+
+            		' \t\t <Validto>'+parentChild[i].split('@')[9]+'</Validto> \n'+
+         			' \t </Validity> \n'+
+      		' </urn:_-rdb_-mocTcOciGetaddinfodata> \n'+
+   			' </soapenv:Body> \n'+
+			' </soapenv:Envelope> ';
+ 
+			var url ="http://rbapp02vm.redbackconsulting.local:8000/sap/bc/srt/scs/rdb/moc_tc_oci_getaddinfodata?sap-client=100";
+			$.ajax({
+				type:'POST',
+				url: url,
+				data: packet,
+				contentType : "text/xml",
+				dataType: "text" ,
+				username:'sgupta',
+				password:'redback0',
+				beforeSend: function(xhr) {
+							 xhr.setRequestHeader("SOAPAction", "login");
+					},
+				success: function(data){
+					    additionInfo='<table width="100%" border="0" cellspacing="0" cellpadding="0">';
+  
+					$(data).find("item").each(function(){
+						additionInfo+='<tr><td>'+ $(this).find('Attributename').text()+'</td><td><input name="fulladdress" type="text" readonly="readonly" value='+ $(this).find('Attributevalue').text()+'></td></tr>';
+					});
+					additionInfo+='<table>';
+					document.getElementById('typeO').innerHTML="";
+					document.getElementById('typeO').innerHTML=additionInfo;
+					document.getElementById('typeO').style.display='block';
+				},
+
+				error: function(XMLHttpRequest, textStatus,errorThrown){
+				
+					alert("Error: Something went wrong"+textStatus+errorThrown);
+				
+				}
+					
+			 } );
+			
+			}
+		}	
+	
+		}
+      return;
+	}
+function SelectedFolderCSS(Obj)
+{
+	selectedParent=Obj;
+	populateSelected(Obj);
+	$(".stree [id^='V'] a").each(function() {	
+		if(this.id==Obj)
+		{
+			resetboxClass();
+			$(this).addClass("active");
+			selectedObjectfolder=Obj;
+		}
+		});	
+}
+function SelectedCSS(e,Obj)
+{
+	resetClass();
+	if(treeOpenName=="V"){	
+		$(".tree li[id='V"+Obj.id+"'] a[id='"+Obj.id+"']").each(function() {	
+		$(this).removeClass("active");
+		selectedObjectVerticle=Obj.id;
+	});
+	}
+	if(treeOpenName=='H'){	
+	$(".htree li[id='V"+Obj.id+"'] a[id='"+Obj.id+"']").each(function() {	
+		$(this).removeClass("active");
+		selectedObjectHorizontal=Obj.id;
+	});
+	}
+	$(Obj).addClass('active');
+	populateSelected(Obj.id);
+	$(".stree [id^='V'] a").each(function() {	
+		if(this.id==Obj.id)
+		{
+			resetboxClass();
+
+			$(this).addClass("active");
+			objectCenter(this.id);
+		}
+		});	
+	
+}
+
+//fot serach functionality
+function resetClass()
+{
+	if(treeOpenName=='V'){														  
+	$(".tree li[id^='V'] a").each(function() {	
+		$(this).removeClass("active");
+	});
+	}
+	if(treeOpenName=='H'){														  
+	$(".htree li[id^='V'] a").each(function() {	
+		$(this).removeClass("active");
+	});
+	}
+}
+
+function searchInChart(objId)
+{
+	resetClass();
+	populateSelected(objId);	
+	var objThis='V'+objId;
+	$("li[id="+objThis+"] a").removeClass("");
+	$("li[id="+objThis+"] a[id="+objId+"]").addClass("active");
+	objectCenter(objId);
+	createBoxTree();
+	return;
+}
+
+function createBoxTreeforFolder()
+{
+    $('#dragarea').html('');	
+	$('#dragarea').html('<ul class="stree">'+$('#ftree').html()+'</ul>');	
+	$.each(fieldsobj.fields, function(i, v) {
+		var objThis='V'+v.Seqnr;
+		$('#dragarea').find("li[id="+objThis+"] a[id="+v.Seqnr+"]").html("");
+		$('#dragarea').find("li[id="+objThis+"] a[id="+v.Seqnr+"]").mouseover(function() {
+			showBox(this.id);
+			populateSelected(v.Seqnr);				
+		  }).mouseout(function(){
+		  });
+	});
+		if(selectedObject!=null)
+			{
+				$(".stree [id^='V'] a").each(function() {	
+					if(this.id==selectedObject)
+					{
+						resetboxClass();
+						$(this).addClass("active");
+				  
+					}
+					});	
+			}
+	calculateOpenLi();
+    sliceNode();
+	clearInterval(timer1);
+	return;
+}
+function createBoxTree()
+{
+    $('#dragarea').html("");	
+	if(treeOpenName=='V')
+	{
+		$('#dragarea').html('<ul class="stree">'+$('#collapser').html()+'</ul>');	
+	}
+	if(treeOpenName=='H')
+	{
+		
+		$('#dragarea').html('<ul class="stree">'+$('#htree').html()+'</ul>');	
+	}
+	$.each(fieldsobj.fields, function(i, v) {
+		var objThis='V'+v.Seqnr;
+		$('#dragarea').find("li[id="+objThis+"] a[id="+v.Seqnr+"]").html("");
+		$('#dragarea').find("li[id="+objThis+"] a[id="+v.Seqnr+"]").mouseover(function() {
+			showBox(this.id);
+			populateSelected(v.Seqnr);				
+		  }).mouseout(function(){
+		  });
+	});
+	calculateOpenLi();
+	sliceNode();
+	clearInterval(timer);
+	return;
+}
+
+function setSelectedId(thisId)
+{
+	selectedParent=thisId;
+}
+
+function applyTreeWidthPlus()
+{
+	canvasCounter++;
+
+	var countArr = 1;
+	counter=0;
+	widthMinus=0;
+	nodeWidthArr=unique(nodeWidthArr);
+	arr=new Array();	
+	for(var s=0;s<nodeWidthArr.length;s++)
+	{
+		arr.push(nodeWidthArr[s].split('@')[0]);
+	}
+	for(var j=0;j<parentChild.length;j++)
+    {
+		if(selectedParent==parentChild[j].split("@")[1])
+        {
+			counter++;
+			clickIdArray.push(parentChild[j].split("@")[0]);
+		}
+	}
+	recursiveCheckChild(selectedParent);
+	if(countArr>0)
+	{
+		var tree=treeWidth*counter;
+		if(treeOpenName=='H'){$('.htree').width(parseInt($(".htree").width())+parseInt(tree)+parseInt(widthMinus));}
+		if(treeOpenName=='V'){$('.tree').width(parseInt($(".tree").width())+parseInt(tree)+parseInt(widthMinus));}
+		nodeWidthArr.push(selectedParent+'@'+tree);	
+		countArr++;
+	}
+	timer = setInterval('createBoxTree()', 1000 );
+    objectCenter(selectedParent);
+	return ;
+}
+
+
+var widthMinus=0;
+function recursiveCheckChild(selected)
+{
+	for(var i=0;i<parentChild.length;i++)
+	{
+		if(selected==parentChild[i].split('@')[1])
+		{
+	var obj;
+	if(treeOpenName=='H'){obj='.htree';}
+	if(treeOpenName=='V'){obj='.tree';}
+
+	$(obj).find('li [id=V'+parentChild[i].split('@')[0]+']').find("div").each(function(){
+	if ($(this).hasClass('minus')) {
+	if(jQuery.inArray(parentChild[i].split('@')[0], arr)!=-1)
+	{
+	for(var s=0;s<nodeWidthArr.length;s++)
+	{
+	if(nodeWidthArr[s].split('@')[0]==parentChild[i].split('@')[0])
+	{
+	widthMinus+=parseInt(nodeWidthArr[s].split('@')[1]);
+	arr.splice(arr.indexOf(nodeWidthArr[s].split('@')[0]),1);
+	recursiveCheckChild(parentChild[i].split('@')[0]);
+							}
+						}
+					}
+				
+				}
+				});
+						
+			}
+		}
+		
+	}
+ function applyTreeWidthMinus()
+	{
+	canvasCounter--;
+
+	widthMinus=0;
+	nodeWidthArr=unique(nodeWidthArr);
+	arr=new Array();
+	for(var s=0;s<nodeWidthArr.length;s++)
+	{
+	arr.push(nodeWidthArr[s].split('@')[0]);
+	}
+	if(jQuery.inArray(selectedParent, arr)==-1)
+	{
+	for(var i=0;i<nodeWidthArr.length;i++)
+	{
+	if(nodeWidthArr[i].split('@')[0]==selectedParent)
+	{
+	widthMinus+=parseInt(nodeWidthArr[i].split('@')[1]);
+	arr.splice(arr.indexOf(nodeWidthArr[i].split('@')[0]),1)
+	recursiveCheckChild(selectedParent);
+	}
+	}
+	}
+	if(treeOpenName=='H'){$('.htree').width(parseInt($(".htree").width())-parseInt(widthMinus));}
+	if(treeOpenName=='V'){$('.tree').width(parseInt($(".tree").width())-parseInt(widthMinus));}
+
+	timer = setInterval('createBoxTree()', 1000 );
+	objectCenter(selectedParent);
+	return ;
+}
+//on box selected
+
+function resetboxClass()
+{
+	$(".stree [id^='V'] a").each(function() {	
+		$(this).removeClass("active");
+		$(this).addClass("reset");
+	});
+return;
+}
+function resetDeativeClass()
+{
+	if(treeOpenName=='V')
+	{
+		$(".tree [id^='V'] a").each(function() {	
+		$(this).removeClass("dcactive");
+		$(this).addClass("");
+		applyZommEffect(this,scale,"zoom");
+		});
+	}
+	if(treeOpenName=='H')
+	{
+		$(".htree [id^='V'] a").each(function() {	
+		$(this).removeClass("dcactive");
+		$(this).addClass("");
+		applyZommEffect(this,scale,"zoom");
+		});
+	}
+return;
+}
+
+//on mouse over
+function showBox(selectId) {
+	
+	resetClass();
+	var objThis=document.getElementById('V'+selectId);
+	if(treeOpenName=='V'){
+	$(".tree li[id="+objThis+"] a").removeClass("");
+	$(".tree li[id="+objThis+"] a[id="+selectId+"]").addClass("active"); 
+	}
+	if(treeOpenName=='H')
+	{
+		$(".htree li[id="+objThis+"] a").removeClass("");
+		$(".htree li[id="+objThis+"] a[id="+selectId+"]").addClass("active"); 
+	}
+	if(treeOpenName=='F')
+	{
+		
+	}
+	
+}
+function onaDoubleClickZomm(e,Obj)
+{
+	beforeDoubleClickZomm=scale;
+	if(flagDoubleClick == true)
+	{
+		if(treeOpenName=='V'){applyZommEffect('.tree',beforeDoubleClickZomm,"zoom");}
+		
+		if(treeOpenName=='H'){applyZommEffect('.htree',beforeDoubleClickZomm,"zoom");}
+		
+		flagDoubleClick=false;
+	}
+	else
+	{
+			
+		if(treeOpenName=='V'){applyZommEffect('.tree',maxScale,"zoom");}
+		
+		if(treeOpenName=='H'){applyZommEffect('.htree',maxScale,"zoom");}
+		
+		flagDoubleClick=true;
+	}
+	objectCenter(Obj.id);
+}
+
+function applyZommEffect(divId,scaleZomm,className)
+{
+	if(treeOpenName=='V'){
+		$(divId).css({
+		"-moz-transform": "scale("+scaleZomm+")",
+		"-webkit-transform": "scale("+scaleZomm+")",
+		"-o-transform": "scale("+scaleZomm+")",
+		"transform":"scale("+scaleZomm+")",
+		"-ms-transform": "scale("+scaleZomm+")",
+		});
+	  }
+	  
+	if(treeOpenName=='H'){
+	  $(divId).css({
+		"-moz-transform": "scale("+scaleZomm+") rotate(270deg)",
+		"-webkit-transform": "scale("+scaleZomm+") rotate(270deg)",
+		"-o-transform": "scale("+scaleZomm+") rotate(270deg)",
+		"transform":"scale("+scaleZomm+") rotate(270deg)",
+		"-ms-transform": "scale("+scaleZomm+") rotate(270deg)",
+		});
+	  }
+	}
+
+function objectCenter(ListItem)
+{
+	if(treeOpenName=='V')
+	{
+		$(".tree [id='V"+ListItem+"']").find("a[id="+ListItem+"]").each(function()
+			{
+				if(this.id==ListItem)
+				{
+					var foo = $(this);
+				    var centerDiv=$('#centerDiv').offset();		   
+	 				$('.tree').css('left',"0px");
+				    $('.tree').css('top',"0px");
+					$(".tree").css({
+						position: "absolute",
+						top: Math.round(centerDiv.top)-Math.round(foo.offset().top) + "px",
+						left: Math.round(centerDiv.left)-Math.round(foo.offset().left)+ "px"
+					}).show();
+				}	
+		   });
+	}
+	if(treeOpenName=='H')
+	{
+		$(".htree [id='V"+ListItem+"']").find("a[id="+ListItem+"]").each(function()
+			{
+				if(this.id==ListItem)
+				{
+					var foo = $(this);
+				    var centerDiv=$('#centerDiv').offset();		   
+	 				$('.htree').css('left',"0px");
+				    $('.htree').css('top',"0px");
+					$(".htree").css({
+						position: "absolute",
+						top: Math.round(centerDiv.top)-Math.round(foo.offset().top) + "px",
+						left: Math.round(centerDiv.left)-Math.round(foo.offset().left)+ "px"
+					}).show();
+				}	
+		   });
+	}
+			
+}
+
+/*init AutoComplete*/
+var finalarraySearch=new Array();
+function initAutoComplete()
+{
+				$("input#searchText").autocomplete({
+				width: 300,
+				max: 10,
+				delay: 100,
+				minLength: 1,
+				autoFocus: true,
+				cacheLength: 1,
+				scroll: true,
+				highlight: true,
+				source: jsonAutoSuggest,
+				select: function(event, ui)
+				{ 
+				
+						//alert('ui '+ui.item.value+' id  '+ui.item.id+' event '+event); 
+						finalarrayCSS=new Array();
+			for(var i=0;i<parentChild.length;i++)
+            	{
+				//alert(parentChild[i].split("@")[1]);
+            		var str=parentChild[i].split("@")[1];
+            		parentArr.push(str);
+            	}
+            	parentArr=unique(parentArr);
+            	
+            	for(var i=0;i<parentArr.length;i++)
+            	{
+				//alert('parent child array'+arr);
+            		var  arr=new Array();
+        			for(var j=0;j<parentChild.length;j++)
+        			{
+        					if(parentArr[i]==parentChild[j].split("@")[1])
+        					{
+        						arr.push(parentChild[j].split("@")[0]);
+        					}
+        			}
+        			parentArrlist.push(arr);
+            	}
+            	
+            	for(var i=0;i<parentArr.length;i++)
+            	{
+				   // alert('parent array list'+parentArrlist[i].length);
+					//alert('parent arr   '+parentArr[i]);
+            		for(var s=0;s<parentArrlist[i].length;s++)
+            		{
+					    //alert(parentArr[i]+","+parentArrlist[i][s]);
+            			finalarrayCSS.push(parentArr[i]+","+parentArrlist[i][s]);
+            		}
+            	}
+						resetClass();
+						openNodeAfterSearch(ui.item.id);
+						searchInChart(ui.item.id);
+						return;
+				}
+				});
+}
+
+function openNodeAfterSearch(liId)
+{
+	var objThis=liId;	
+	var treeContainer;
+	
+	if(treeOpenName=='V'){treeContainer="#TreeContainer";}
+	if(treeOpenName=='H'){treeContainer="#horizontalContainer";}
+	
+		$(treeContainer).find("a[id="+objThis+"]").find("div").each(function(){
+			if(this.id=='plusMinus')
+			{
+				if($(this).hasClass('plus'))
+				{$(this).click();}
+				return;				
+			}
+			else
+			{
+				var parentId=getParentId(liId);
+				openNodeAfterSearch(parentId);			
+			}
+		});
+						
+return;
+}
+function getParentId(ObjId)
+{
+				for(var d=0;d<finalarrayCSS.length;d++)
+            	{
+            		if(finalarrayCSS[d].split(",")[1]==ObjId)
+            		{
+						return finalarrayCSS[d].split(",")[0];
+					}
+				}
+				
+return 0;
+}
+
+function applyAutoCompleteCSS(Obj)
+{
+       resetClass();
+	   var myLength = Obj.length;
+
+	   if(myLength>0)
+	   {
+			for(var i=0;i<jsonAutoSuggest.length;i++){
+			
+			var obj = jsonAutoSuggest[i];
+
+				if (obj.value.toLowerCase().indexOf(Obj.toLowerCase())>=0)
+				{
+					var tree;
+	                if(treeOpenName=='V'){tree=".tree";}
+	                if(treeOpenName=='H'){tree=".htree";}
+					
+
+						var objThis='V'+obj.id;
+						$(tree+" li[id="+objThis+"] a").removeClass("");
+						$(tree+" li[id="+objThis+"] a[id="+obj.id+"]").addClass("active");
+				}
+				
+				
+			}	
+        
+    }
+
+				
+	
+}
+
+function attachDrag(){
+	$('#uidrag').mousemove(function(){
+    var coord = $(this).position();
+	$('#collapser').animate({top: -(coord.top*5), left: -(coord.left*20)},0);
+ });
+ 
+	$('#cloneuidrag').mousemove(function(){
+    var coord = $(this).position();
+	$('#hdrag').animate({top: -(coord.top*30), left: -(coord.left*5)},0);
+ });
+ }
+
+/*drag with scrool*/
+ function scrollWithdrag(){
+ if(treeOpenName=='V'){
+	 	$(function() {
+	 $('#treecontainer, #firstdrag').dragscrollable({dragSelector: '.dragger', acceptPropagatedEvent: true});
+  });
+}
+     if(treeOpenName=='H'){
+	 	$(function() {
+	 $('#hdrag').dragscrollable({dragSelector: '.dragger', acceptPropagatedEvent: true});
+  });
+  }
+  }
+  
+	
+function uiDragZeroV(){
+    $('#uidrag').css('top',0);
+	$('#uidrag').css('left',0);
+	$('#uidrag').show();
+	$('#cloneuidrag').hide();
+	$('#Fuidrag').hide();
+	}
+function uiDragZeroH(){
+    $('#cloneuidrag').css('top',0);
+	$('#cloneuidrag').css('left',0);
+	$('#uidrag').hide();
+	$('#cloneuidrag').show();
+	$('#Fuidrag').hide();
+	}
+function uiDragZeroF(){
+    $('#Fuidrag').css('top',0);
+	$('#Fuidrag').css('left',0);
+	$('#uidrag').hide();
+	$('#cloneuidrag').hide();
+	$('#Fuidrag').show();
+	}
+	var openLiCount=0;
+function calculateOpenLi()
+{
+	openLiCount=0;
+	var count;
+	 if(treeOpenName=="H")
+	 {
+		count=0;
+		$('.htree').find('ul').each(function(){		
+			if($(this).css('display') == 'block'){
+			count+=$(this).children("li").length;
+			}
+		
+		});
+	 }
+	  if(treeOpenName=="V")
+	  {
+		count=0;
+		$('.tree').find('ul').each(function(){		
+			if($(this).css('display') == 'block'){
+			count+=$(this).children("li").length;
+			}
+		
+		});
+	  }
+	  if(treeOpenName=="F")
+	  {
+		count=0;
+		$('.ftree').find('ul').each(function(){		
+			if($(this).css('display') == 'block'){
+			count+=$(this).children("li").length;
+			}
+		});
+	  }
+	  openLiCount=count;
+}
