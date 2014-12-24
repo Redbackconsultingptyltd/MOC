@@ -566,7 +566,7 @@ function createBoxTree()
             	}else{
             		 $('#dragarea').html('<ul class="stree">'+$('#htree').html()+'</ul>');	
           			$('.stree').css('margin-left','13%');
-          			$('.stree').css('margin-top','8%');
+          			$('.stree').css('margin-top','11%');
           			//orgFrameWork.setBoxTreeStatus(true);
             	}
             }else{
@@ -575,7 +575,7 @@ function createBoxTree()
             	}else{
             		$('#dragarea').html('<ul class="stree">'+$('#htree').html()+'</ul>');	
          			$('.stree').css('margin-left','13%');
-         			$('.stree').css('margin-top','8%');
+         			$('.stree').css('margin-top','11%');
             	}
             	 
             }

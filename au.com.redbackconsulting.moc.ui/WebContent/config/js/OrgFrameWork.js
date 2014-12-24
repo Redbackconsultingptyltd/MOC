@@ -752,7 +752,7 @@ json.data.boxinfo = boxinfo;
 			//var uiMessage = new UIMessage();
 			uiMessage.dragAlertMessage({text:"New node with name '"+formdata.name+"' created successfully",label:"Ok",action:"HIDE-DRAG-DROP-MESSAGE"});
 			setTimeout(uiMessage.removeDragMessage,4000);
-			this.applyExpendCollaseRules(_supPerent, _parent);
+		//	this.applyExpendCollaseRules(_supPerent, _parent);
 		}else{
 			selectedParent=orgFrameWork.getRootSqNo();
 			selectedNodeIdForCSS = orgFrameWork.getRootSqNo();
