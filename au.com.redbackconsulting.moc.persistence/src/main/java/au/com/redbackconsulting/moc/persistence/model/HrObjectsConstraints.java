@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 
 /**
@@ -25,7 +26,10 @@ public class HrObjectsConstraints implements IDBEntity {
 	private String timeConstraint;
 	private static final long serialVersionUID = 1L;
 	@ManyToOne
-	@JoinColumn(name="objectType")
+	@JoinColumns({
+	@JoinColumn(name="objectType", referencedColumnName="objectType", insertable=false, updatable=false),
+	@JoinColumn(name="tenantId", referencedColumnName="tenantId", insertable=false, updatable=false)
+	})
 	private HrObjects hrObjects;
 
 	public HrObjectsConstraints() {

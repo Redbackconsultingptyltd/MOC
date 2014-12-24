@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -49,7 +50,10 @@ public class HRP1000 implements IDBEntity {
 	
 	
 	@ManyToOne
-	@JoinColumn(name="status")
+	@JoinColumns({
+	@JoinColumn(name="status", referencedColumnName="status", insertable=false, updatable=false),
+	@JoinColumn(name="tenantId", referencedColumnName="tenantId", insertable=false, updatable=false)
+	})
 	private HrObjectsStatus hrObjectsStatus;
 	
 	public HRP1000() {

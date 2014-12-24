@@ -5,6 +5,8 @@ import java.sql.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 
 /**
@@ -41,6 +43,10 @@ public class HRP1001 implements IDBEntity {
 	
 	
 	@ManyToOne
+	@JoinColumns({
+	@JoinColumn(name="status", referencedColumnName="status", insertable=false, updatable=false),
+	@JoinColumn(name="tenantId", referencedColumnName="tenantId", insertable=false, updatable=false)
+	})
 	private HrObjectsStatus hrObjectsStatus;
 
 	public HRP1001() {

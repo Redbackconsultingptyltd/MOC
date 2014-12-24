@@ -31,12 +31,12 @@ public class HrObjects implements IDBEntity {
 	private static final long serialVersionUID = 1L;
 		@ManyToOne
 		@JoinColumns({
-	@JoinColumn(name="systId", referencedColumnName="systId"),
-	@JoinColumn(name="tenantId", referencedColumnName="tenantId")}
+	@JoinColumn(name="systId", referencedColumnName="systId", insertable=false, updatable=false),
+	@JoinColumn(name="tenantId", referencedColumnName="tenantId", insertable=false, updatable=false)}
 	)
-		
 	private CaSystems caSystems;
-	@OneToMany(mappedBy = "hrObjects")
+	
+		@OneToMany(mappedBy = "hrObjects")
 	private Collection<HrObjectsConstraints> hrObjectsConstraints;
 	@ManyToMany(mappedBy = "hrObjects")
 	private Collection<HrObjectRel> hrObjectRel;
