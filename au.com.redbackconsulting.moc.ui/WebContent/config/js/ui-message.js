@@ -124,14 +124,14 @@ var UIMessage=function(){
 		document.getElementById("dragMessage").innerHTML= this.dragMessageContent(message);
 	};
 	this.dragMessageContent=function(message){
-		return '<table width="314" height="181" border="0.1" cellpadding="0.0" cellspacing="0.0">'+
-		'<tr><td width="10" bgcolor="#444444">&nbsp;</td><td width="304" bgcolor="#4A4A4A">&nbsp;</td></tr>'+
-		'<tr><td bgcolor="#C6C6C6">&nbsp;</td><td bgcolor="#C6C6C6" style="font-size:12px;">'+message.text+'</td></tr>'+
-		'<tr><td bgcolor="#C6C6C6">&nbsp;</td><td align="right" valign="middle" bgcolor="#C6C6C6">&nbsp;</td></tr>'+
-		'<tr><td bgcolor="#C6C6C6">&nbsp;</td><td align="right" valign="middle" bgcolor="#C6C6C6">'+
-		'<div  class="commanAlertButton" onclick=doAlertAction("'+message.action+'")>'+message.label+'</div></td></tr>'+
-		'<tr>	<td bgcolor="#909090">&nbsp;</td><td bgcolor="#909090">&nbsp;</td>		</tr>'+
-		'</table>';
+		return '<div id="apDiv1" bor><table  width="267" height="177" align="left" cellpadding="0.0" cellspacing="0.0">'+
+		'<tr><td width="10" height="29" bgcolor="#444444">&nbsp;</td><td width="131" bgcolor="#444444">&nbsp;</td><td width="126" bgcolor="#444444">&nbsp;</td></tr>'+
+		'<tr><td bgcolor="#C6C6C6">&nbsp;</td><td colspan="2" bgcolor="#C6C6C6"><span style="font-size:15px;">'+message.text+'</span></td></tr>'+
+		'<tr><td height="19" bgcolor="#C6C6C6">&nbsp;</td><td bgcolor="#C6C6C6">&nbsp;</td><td align="right" valign="middle" bgcolor="#C6C6C6">&nbsp;</td></tr>'+
+		'<tr><td height="68" bgcolor="#C6C6C6">&nbsp;</td><td bgcolor="#C6C6C6">&nbsp;</td><td align="right" valign="middle" bgcolor="#C6C6C6">'+
+		'<div style=" border-radius: 25px; font-size: 18px; height:25px; vertical-align: middle; margin-bottom:15px; margin-left:30px border: 1px solid;" align="right"  class="commanAlertButton" onclick=doAlertAction("'+message.action+'") >'+message.label+'</div></td></tr>'+
+		'<tr><td height="36" bgcolor="#909090">&nbsp;</td><td bgcolor="#909090">&nbsp;</td><td bgcolor="#909090">&nbsp;</td></tr>'+
+		'</table></div>'   
 	};
 	this.alertMessageContent=function(message){
 		return '<table width="314" height="181" border="0.1" cellpadding="0.0" cellspacing="0.0">'+
