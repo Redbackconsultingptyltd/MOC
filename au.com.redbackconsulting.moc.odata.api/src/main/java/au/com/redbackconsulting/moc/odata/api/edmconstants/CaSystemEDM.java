@@ -21,8 +21,8 @@ import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 
 
 public class CaSystemEDM extends BaseEDM {
-	public static String ENTITY_TYPE_NAME ="CaSystem";
-	public static String ENTITY_SET_NAME="CaSystems";
+	public static String ENTITY_TYPE_NAME_CASYSTEM ="CaSystem";
+	public static String ENTITY_SET_NAME_CASYSTEM="CaSystems";
 	public static String SYSID ="sysId";
 	public static String TENANTID="tenantId";
 	public static String SYSDESC="sysDesc";
@@ -33,7 +33,7 @@ public class CaSystemEDM extends BaseEDM {
 	
 	
 	public CaSystemEDM(String nameSpace){
-		super(nameSpace, ENTITY_TYPE_NAME, ENTITY_SET_NAME);
+		super(nameSpace, ENTITY_TYPE_NAME_CASYSTEM, ENTITY_SET_NAME_CASYSTEM);
 	//	entitySetName=CaSystemEDM.ENTITY_SET_NAME;
 		
 		
@@ -61,7 +61,7 @@ public class CaSystemEDM extends BaseEDM {
 
 	@Override
 	public Association getAssociation(  FullQualifiedName relatedEntity ) {
-		if(relatedEntity.getName().equals(CaSystemEDM.ENTITY_TYPE_NAME)){
+		if(relatedEntity.getName().equals(CaSystemEDM.ENTITY_TYPE_NAME_CASYSTEM)){
 			    return new Association().setName(CaSystemEDM.ASSOCIATION_CASYSTEM_TENANT)
 			        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole(CaSystemEDM.ROLE_1_2).setMultiplicity(EdmMultiplicity.MANY))
 			        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole(CaSystemEDM.ROLE_2_1).setMultiplicity(EdmMultiplicity.ONE));

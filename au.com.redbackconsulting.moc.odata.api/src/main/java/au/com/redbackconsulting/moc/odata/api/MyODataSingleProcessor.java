@@ -1,8 +1,8 @@
 package au.com.redbackconsulting.moc.odata.api;
 
+import static au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM.ENTITY_SET_NAME_CASYSTEM;
+
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.olingo.odata2.api.edm.EdmEntitySet;
@@ -21,14 +21,35 @@ import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.info.GetEntitySetUriInfo;
 import org.apache.olingo.odata2.api.uri.info.GetEntityUriInfo;
 
+import au.com.redbackconsulting.moc.odata.api.bl.BLModelFactory;
+import au.com.redbackconsulting.moc.odata.api.bl.IBLModel;
+import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
+
 
 public class MyODataSingleProcessor extends ODataSingleProcessor {
 
 	private DataStore dataStore = new DataStore();
-
+	private BLModelFactory bmf= BLModelFactory.getInstance();
 	@Override
 	public ODataResponse readEntity(GetEntityUriInfo uriInfo, String contentType)
 			throws ODataException {
+		
+		if (uriInfo.getNavigationSegments().size() == 0) {
+			EdmEntitySet entitySet = uriInfo.getStartEntitySet();
+		if (ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
+				int id = getKeyValue(uriInfo.getKeyPredicates().get(0));
+				
+				IBLModel blModel =bmf.getInstance(MyEdmProvider.ENTITY_KEY_CASYSTEM);
+				
+				Map<String, Object> data = dataStore.getCar(id);
+				URI serviceRoot = getContext().getPathInfo()
+						.getServiceRoot();
+				ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
+						.serviceRoot(serviceRoot);
+				return EntityProvider.writeEntry(contentType, entitySet,
+						data, propertiesBuilder.build());
+		}
+		}
 		return null;
 
 //		if (uriInfo.getNavigationSegments().size() == 0) {
@@ -115,15 +136,18 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 		if (uriInfo.getNavigationSegments().size() == 0) {
 			entitySet = uriInfo.getStartEntitySet();
 
-//			if (ENTITY_SET_NAME_CARS.equals(entitySet.getName())) {
-//				return EntityProvider.writeFeed(
-//						contentType,
-//						entitySet,
-//						dataStore.getCars(),
-//						EntityProviderWriteProperties.serviceRoot(
-//								getContext().getPathInfo().getServiceRoot())
-//								.build());
-//			} else if (ENTITY_SET_NAME_MANUFACTURERS
+			if (CaSystemEDM.ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
+				IBLModel blModel = bmf.getInstance(IMyEdmProvider.ENTITY_KEY_CASYSTEM);
+				return EntityProvider.writeFeed(
+						contentType,
+						entitySet,
+						blModel.getDataSet(),
+						EntityProviderWriteProperties.serviceRoot(
+								getContext().getPathInfo().getServiceRoot())
+								.build());
+			} 
+			
+//			else if (ENTITY_SET_NAME_MANUFACTURERS
 //					.equals(entitySet.getName())) {
 //				return EntityProvider.writeFeed(
 //						contentType,

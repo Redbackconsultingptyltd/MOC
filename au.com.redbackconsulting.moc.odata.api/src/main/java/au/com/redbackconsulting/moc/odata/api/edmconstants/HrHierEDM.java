@@ -17,12 +17,12 @@ import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 public class HrHierEDM  extends BaseEDM{
 
 	public HrHierEDM(String namespace) {
-		super(namespace, HrHierEDM.entity_name, ENTITY_SET_NAME);
+		super(namespace, HrHierEDM.ENTITY_NAME_HRHIER, ENTITY_SET_NAME_HRHIER);
 		 
 	}
 	
-public static String entity_name="HrHier";
-public static String ENTITY_SET_NAME="HrHiers";
+public static String ENTITY_NAME_HRHIER="HrHier";
+public static String ENTITY_SET_NAME_HRHIER="HrHiers";
 	public static String hierId ="hierId";
 	public static String tenantId="tenantId";
 	public static String hierDesc="hierDesc";
@@ -48,7 +48,7 @@ public static String ENTITY_SET_NAME="HrHiers";
 	}
 	@Override
 	public Association getAssociation(FullQualifiedName relatedEntity) {
-		if(relatedEntity.getName().equals(CaSystemEDM.ENTITY_TYPE_NAME)){
+		if(relatedEntity.getName().equals(CaSystemEDM.ENTITY_TYPE_NAME_CASYSTEM)){
 		    return new Association().setName(CaSystemEDM.ASSOCIATION_CASYSTEM_TENANT)
 		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole(CaSystemEDM.ROLE_1_2).setMultiplicity(EdmMultiplicity.MANY))
 		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole(CaSystemEDM.ROLE_2_1).setMultiplicity(EdmMultiplicity.ONE));

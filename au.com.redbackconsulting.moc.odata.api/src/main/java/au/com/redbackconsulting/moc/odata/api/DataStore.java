@@ -58,14 +58,10 @@ public class DataStore {
 	  private Map<String, Object> createCar(int carId, String model, int manufacturerId, double price, String currency, String modelYear, Calendar updated, String imagePath) {
 	Map<String, Object> data = new HashMap<String, Object>();
 
-	data.put("Id", carId);
-	data.put("Model", model);
-	data.put("ManufacturerId", manufacturerId);
-	data.put("Price", price);
-	data.put("Currency", currency);
-	data.put("ModelYear", modelYear);
-	data.put("Updated", updated);
-	data.put("ImagePath", imagePath);
+	data.put("sysId", carId);
+	data.put("tenantId", model);
+	data.put("sysDesc", manufacturerId);
+	 
 
 	return data;
 	  }

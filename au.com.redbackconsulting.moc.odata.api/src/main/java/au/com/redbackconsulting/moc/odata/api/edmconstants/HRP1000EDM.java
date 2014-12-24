@@ -17,11 +17,11 @@ import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 public class HRP1000EDM extends BaseEDM {
 
 	public HRP1000EDM(String namespace ) {
-		super(namespace, ENTITY_TYPE_NAME, ENTITY_SET_NAME);
+		super(namespace, ENTITY_TYPE_NAME_HRP1000, ENTITY_SET_NAME_HRP1000);
 		 
 	}
-	public static String ENTITY_TYPE_NAME="HRP1000";
-	public static String ENTITY_SET_NAME="HRP1000s";
+	public static String ENTITY_TYPE_NAME_HRP1000="HRP1000";
+	public static String ENTITY_SET_NAME_HRP1000="HRP1000s";
 
 	public static String  tenantId="tenantId";
 	public static String objectType="objectType";
@@ -55,7 +55,7 @@ public class HRP1000EDM extends BaseEDM {
 	}
 	@Override
 	public Association getAssociation(FullQualifiedName relatedEntity) {
-		if(relatedEntity.getName().equals(CaSystemEDM.ENTITY_TYPE_NAME)){
+		if(relatedEntity.getName().equals(CaSystemEDM.ENTITY_TYPE_NAME_CASYSTEM)){
 		    return new Association().setName(CaSystemEDM.ASSOCIATION_CASYSTEM_TENANT)
 		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole(CaSystemEDM.ROLE_1_2).setMultiplicity(EdmMultiplicity.MANY))
 		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole(CaSystemEDM.ROLE_2_1).setMultiplicity(EdmMultiplicity.ONE));

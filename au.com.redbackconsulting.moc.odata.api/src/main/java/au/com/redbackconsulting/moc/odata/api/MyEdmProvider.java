@@ -33,14 +33,16 @@ import au.com.redbackconsulting.moc.odata.api.edmconstants.BaseEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.EntityTypeFactory;
  
-public class MyEdmProvider extends EdmProvider {
+public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 	
 
 	
  
 	  private static final String NAMESPACE = "au.com.redbackconsulting.odata2.ODataMoc";
       private static final String ENTITY_CONTAINER = "ODataMOCEntityContainer";
-
+     
+        
+      
  
 	@Override
 	public List<Schema> getSchemas() throws ODataException {
@@ -50,37 +52,37 @@ public class MyEdmProvider extends EdmProvider {
 		schema.setNamespace(NAMESPACE);
 		List<EntityType> entityTypes = new ArrayList<EntityType>();
 		EntityTypeFactory entityFactory = EntityTypeFactory.getInstance(NAMESPACE);
-		BaseEDM caSystemEDM = entityFactory.getEDM(entityFactory.entity_type_caSystem);
+		BaseEDM caSystemEDM = entityFactory.getEDM(ENTITY_KEY_CASYSTEM);
 		entityTypes.add(caSystemEDM.getEntityType());
 
-		BaseEDM hrHierEDM = entityFactory.getEDM(entityFactory.entity_type_HrHier);
+		BaseEDM hrHierEDM = entityFactory.getEDM(ENTITY_KEY_HRHIER);
 		entityTypes.add(hrHierEDM.getEntityType());
 		
-		BaseEDM hrHierMapEDM = entityFactory.getEDM(entityFactory.entity_type_HrHierMap);
+		BaseEDM hrHierMapEDM = entityFactory.getEDM(ENTITY_KEY_HRHIERMAP);
 		entityTypes.add(hrHierMapEDM.getEntityType());
 		
-		BaseEDM hrObjectConstraintsEDM = entityFactory.getEDM(entityFactory.entity_type_HrObjectConstraints);
+		BaseEDM hrObjectConstraintsEDM = entityFactory.getEDM(ENTITY_KEY_HROBJECTSCONSTRAINTS);
 		entityTypes.add(hrObjectConstraintsEDM.getEntityType());
 		
-		BaseEDM hrObjectsRelEDM = entityFactory.getEDM(entityFactory.entity_type_HrObjectRel); 
+		BaseEDM hrObjectsRelEDM = entityFactory.getEDM(ENTITY_KEY_HROBJECTSREL); 
 		entityTypes.add(hrObjectsRelEDM.getEntityType());
 		
-		BaseEDM hrObjectsEDM = entityFactory.getEDM(entityFactory.entity_type_HrObjects);
+		BaseEDM hrObjectsEDM = entityFactory.getEDM(ENTITY_KEY_HROBJECTS);
 		entityTypes.add(hrObjectsEDM.getEntityType());
 		
-		BaseEDM hrObjectsStutusEDM = entityFactory.getEDM(entityFactory.entity_type_HrObjectStatus);
+		BaseEDM hrObjectsStutusEDM = entityFactory.getEDM(ENTITY_KEY_HROBJECTSSTATUS);
 		entityTypes.add(hrObjectsStutusEDM.getEntityType());
 		
-		BaseEDM hrP1000EDM = entityFactory.getEDM(entityFactory.entity_type_Hrp1000);
+		BaseEDM hrP1000EDM = entityFactory.getEDM(ENTITY_KEY_HRP1000);
 		entityTypes.add(hrP1000EDM.getEntityType());
 		
-		BaseEDM hrP1001EDM= entityFactory.getEDM(entityFactory.entity_type_Hrp1001); 
+		BaseEDM hrP1001EDM= entityFactory.getEDM(ENTITY_KEY_HRP1001); 
 		entityTypes.add(hrP1001EDM.getEntityType());
 		
-		BaseEDM hrRelationsEDM= entityFactory.getEDM(entityFactory.entity_type_HrRelations);
+		BaseEDM hrRelationsEDM= entityFactory.getEDM(ENTITY_KEY_HRRELATIONS);
 		entityTypes.add(hrRelationsEDM.getEntityType());
 		
-		BaseEDM tenantEDM = entityFactory.getEDM(entityFactory.entity_type_Tenants);
+		BaseEDM tenantEDM = entityFactory.getEDM(ENTITY_KEY_TENANTS);
 		entityTypes.add(tenantEDM.getEntityType());
 		schema.setEntityTypes(entityTypes);
 

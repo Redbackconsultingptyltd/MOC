@@ -17,11 +17,11 @@ import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 public class HrObjectRelEDM  extends BaseEDM{
  
 	public HrObjectRelEDM(String namespace ) {
-		super(namespace, HrObjectRelEDM.ENTITY_TYPE_NAME,ENTITY_SET_NAME );
+		super(namespace, ENTITY_TYPE_NAME_HROBJECTREL,ENTITY_SET_NAME_HROBJECTREL );
 		// TODO Auto-generated constructor stub
 	}
-	public static String ENTITY_TYPE_NAME="HrObjectRel";
-	public static String ENTITY_SET_NAME="HrObhectRels";
+	public static String ENTITY_TYPE_NAME_HROBJECTREL="HrObjectRel";
+	public static String ENTITY_SET_NAME_HROBJECTREL="HrObhectRelSet";
 	public static String tenantId="tenantId";
 	public static String objectType="objectType";
 	public static String relatType = "relatType";
@@ -46,7 +46,7 @@ public class HrObjectRelEDM  extends BaseEDM{
 	}
 	@Override
 	public Association getAssociation(FullQualifiedName relatedEntity) {
-		if(relatedEntity.getName().equals(CaSystemEDM.ENTITY_TYPE_NAME)){
+		if(relatedEntity.getName().equals(CaSystemEDM.ENTITY_TYPE_NAME_CASYSTEM)){
 		    return new Association().setName(CaSystemEDM.ASSOCIATION_CASYSTEM_TENANT)
 		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole(CaSystemEDM.ROLE_1_2).setMultiplicity(EdmMultiplicity.MANY))
 		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole(CaSystemEDM.ROLE_2_1).setMultiplicity(EdmMultiplicity.ONE));
