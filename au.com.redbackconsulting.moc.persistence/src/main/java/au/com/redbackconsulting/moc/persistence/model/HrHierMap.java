@@ -26,6 +26,8 @@ public class HrHierMap implements IDBEntity {
 	private Boolean skip;
 	private static final long serialVersionUID = 1L;
 	@ManyToOne
+	
+	
 	@JoinColumn(name = "hierId")
 	private HrHier hrHier; 
 	
