@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 
 /**
@@ -25,12 +26,15 @@ public class HrHierMap implements IDBEntity {
 	private String sObjType;
 	private Boolean skip;
 	private static final long serialVersionUID = 1L;
+ 
 	@ManyToOne
-	
-	
-	@JoinColumn(name = "hierId")
+	@JoinColumns({
+	@JoinColumn(name = "hierId", referencedColumnName="hierId", insertable=false, updatable=false),
+	@JoinColumn(name="tenantId", referencedColumnName="tenantId", insertable=false, updatable=false)
+	})
 	private HrHier hrHier; 
 	
+
 
 	public HrHierMap() {
 		super();
