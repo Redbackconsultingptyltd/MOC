@@ -11,5 +11,5 @@ public interface IBLModel {
 	public boolean deleteData(Map<String, Object> keyMap);
 	public Map<String, Object> updateData(Map<String, Object> valueMap, Map<String, Object> keyMap);
 	public Map<String, Object> createData(  Map<String, Object> valueMap);
-		
+
 }

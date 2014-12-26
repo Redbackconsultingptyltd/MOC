@@ -29,9 +29,11 @@
    <persistence-context-ref-name>persistence/em</persistence-context-ref-name>
    <persistence-unit-name>au.com.redbackconsulting.moc.persistence</persistence-unit-name>
   </persistence-context-ref>
+  
+   
   <filter>
     <filter-name>EntityManagerInterseptor</filter-name>
-    <filter-class>au.com.redbackconsulting.moc.odata.api.service.EntityManagerInterceptor</filter-class>
+    <filter-class>au.com.redbackconsulting.moc.odata.api.service.EntityManagerInterceptor1</filter-class>
   </filter>
   
   <filter-mapping>

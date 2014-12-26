@@ -1,8 +1,5 @@
 package au.com.redbackconsulting.moc.odata.api.bl;
 
-import au.com.redbackconsulting.moc.odata.api.IMyEdmProvider;
-import au.com.redbackconsulting.moc.odata.api.MyEdmProvider;
-
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRHIER;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRHIERMAP;
@@ -14,13 +11,9 @@ import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRP100
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRP1001;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRRELATIONS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_TENANTS;
+ 
 
-
-import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
-
-import  static  au.com.redbackconsulting.moc.odata.api.edmconstants.HrHierMapEDM.ENTITY_SET_NAME_HRHIERMAP;
-
-public class BLModelFactory {
+public class BLModelFactory implements IBLModelFactory {
 
 	
 	public BLModelFactory() {
@@ -35,36 +28,36 @@ public class BLModelFactory {
   final	int caSystem =1;// CaSystemEDM.ENTITY_SET_NAME_CASYSTEM;
 		switch (entityType) {
 		case  ENTITY_KEY_CASYSTEM :
-			return new CaSystemsBL();
+			return new CaSystemsBL(this);
 			 
 
 		case ENTITY_KEY_HRHIER :
-			return new HrHierBL();
+			return new HrHierBL(this);
 			 
 case ENTITY_KEY_HRHIERMAP :
 			
-		return new HrHierMapBL();	
+		return new HrHierMapBL(this);	
 case ENTITY_KEY_HROBJECTS :
-	return new HrObjectsBL();
+	return new HrObjectsBL(this);
 case ENTITY_KEY_HROBJECTSCONSTRAINTS :
-	return new HrObjectsConstraintsBL();
+	return new HrObjectsConstraintsBL(this);
 case ENTITY_KEY_HROBJECTSREL :
-	return new HrObjectsRelBL();
+	return new HrObjectsRelBL(this);
 case ENTITY_KEY_HROBJECTSSTATUS :
 	
-	return new HrObjectsStatusBL();
+	return new HrObjectsStatusBL(this);
 	
 case ENTITY_KEY_HRP1000 :
 	
-	return new HRP1000BL();
+	return new HRP1000BL(this);
 case ENTITY_KEY_HRP1001 :
-	return new HRP1001BL();
+	return new HRP1001BL(this);
 case ENTITY_KEY_HRRELATIONS :
 	
-	return new HrRelationsBL();
+	return new HrRelationsBL(this);
 case ENTITY_KEY_TENANTS :
 	
-	return new TenantsBL();
+	return new TenantsBL(this);
 			
 	 
 		}

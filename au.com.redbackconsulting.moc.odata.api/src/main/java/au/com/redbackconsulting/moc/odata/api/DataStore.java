@@ -14,7 +14,6 @@ import java.util.TimeZone;
 import au.com.redbackconsulting.moc.persistence.CaSystemsDAO;
 import au.com.redbackconsulting.moc.persistence.model.CaSystems;
 public class DataStore {
-	
 	//Data accessors
 	  public Map<String, Object> getCar(int id) {
 	Map<String, Object> data = null;
@@ -58,10 +57,14 @@ public class DataStore {
 	  private Map<String, Object> createCar(int carId, String model, int manufacturerId, double price, String currency, String modelYear, Calendar updated, String imagePath) {
 	Map<String, Object> data = new HashMap<String, Object>();
 
-	data.put("sysId", carId);
-	data.put("tenantId", model);
-	data.put("sysDesc", manufacturerId);
-	 
+	data.put("Id", carId);
+	data.put("Model", model);
+	data.put("ManufacturerId", manufacturerId);
+	data.put("Price", price);
+	data.put("Currency", currency);
+	data.put("ModelYear", modelYear);
+	data.put("Updated", updated);
+	data.put("ImagePath", imagePath);
 
 	return data;
 	  }
@@ -110,7 +113,7 @@ public class DataStore {
 
 
 	  public List<Map<String, Object>> getCars() {
-	List<Map<String, Object>> cars = new ArrayList <Map<String, Object>>();
+	List<Map<String, Object>> cars = new ArrayList<Map<String, Object>>();
 	cars.add(getCar(1));
 	cars.add(getCar(2));
 	cars.add(getCar(3));
@@ -150,44 +153,5 @@ public class DataStore {
 	}
 	return null;
 	  }
-
-
-	public Map<String, Object> getSan(int id) {
-		Map<String, Object> data = new HashMap<String, Object>();
-//		data.put("Id", id);
-//		data.put("Name", name);
-//		data.put("Address", address);
-//		data.put("Updated", updated);
-		return data;
-	}
-
-
-	public List<Map<String, Object>> getCaSystems( ) {
-		
-		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
-		CaSystemsDAO daoCaSystem = new CaSystemsDAO();
-		List<CaSystems> collection =daoCaSystem.getAll();
-		for (Iterator iterator = collection.iterator(); iterator.hasNext();) {
-			CaSystems caSystems = (CaSystems) iterator.next();
-			
-		}
-		
-		return data;
-		
-	}
-	
-	public Map<String, Object> getCaSystem (int id) {
-		
-		Map<String, Object> data = new HashMap<String, Object>();
-		CaSystemsDAO daoCaSystem = new CaSystemsDAO();
-		List<CaSystems> collection =daoCaSystem.getAll();
-		for (Iterator iterator = collection.iterator(); iterator.hasNext();) {
-			CaSystems caSystems = (CaSystems) iterator.next();
-			
-		}
-		
-		return data;
-		
-	}
 
 }

@@ -3,7 +3,12 @@ package au.com.redbackconsulting.moc.odata.api.bl;
 import java.util.List;
 import java.util.Map;
 
-public class TenantsBL implements IBLModel {
+public class TenantsBL extends BaseBL {
+
+	public TenantsBL(IBLModelFactory bmf) {
+		super(bmf);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public List<Map<String, Object>> getDataSet() {

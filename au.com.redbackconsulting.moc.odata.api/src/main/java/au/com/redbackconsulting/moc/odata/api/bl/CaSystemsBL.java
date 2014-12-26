@@ -11,9 +11,15 @@ import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
 import au.com.redbackconsulting.moc.persistence.CaSystemsDAO;
 import au.com.redbackconsulting.moc.persistence.model.CaSystems;
 
-public class CaSystemsBL   implements IBLModel{
+public class CaSystemsBL extends BaseBL   {
 
  
+	public CaSystemsBL(IBLModelFactory bmf) {
+		super(bmf);
+		// TODO Auto-generated constructor stub
+	}
+
+
 	public List<Map<String, Object>> getDataSet() {
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		try {

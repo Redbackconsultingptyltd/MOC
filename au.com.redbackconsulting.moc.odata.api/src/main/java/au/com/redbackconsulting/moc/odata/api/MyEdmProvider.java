@@ -112,7 +112,7 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 		List<EntityContainer> entityContainers = new ArrayList<EntityContainer>();
 		EntityContainer entityContainer = new EntityContainer();
 		entityContainer.setName(ENTITY_CONTAINER).setDefaultEntityContainer(true);
-
+//		entityContainer.
 		List<EntitySet> entitySets = new ArrayList<EntitySet>();
 		
 		entitySets.add(caSystemEDM.getEntitySet( ));
@@ -140,161 +140,67 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 		return schemas;
 	}
 
-	
-//	@Override
-//	  public EntityType getEntityType(FullQualifiedName edmFQName) throws ODataException {
-//	if (NAMESPACE.equals(edmFQName.getNamespace())) {
 
-//	  if (ENTITY_TYPE_1_1.getName().equals(edmFQName.getName())) {
-//
-//	    //Properties
-//	    List<Property> properties = new ArrayList<Property>();
-//	    properties.add(new SimpleProperty().setName("Id").setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
-//	    properties.add(new SimpleProperty().setName("Model").setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false).setMaxLength(100).setDefaultValue("Hugo"))
-//	        .setCustomizableFeedMappings(new CustomizableFeedMappings().setFcTargetPath(EdmTargetPath.SYNDICATION_TITLE)));
-//	    properties.add(new SimpleProperty().setName("ManufacturerId").setType(EdmSimpleTypeKind.Int32));
-//	    properties.add(new SimpleProperty().setName("Price").setType(EdmSimpleTypeKind.Decimal));
-//	    properties.add(new SimpleProperty().setName("Currency").setType(EdmSimpleTypeKind.String).setFacets(new Facets().setMaxLength(3)));
-//	    properties.add(new SimpleProperty().setName("ModelYear").setType(EdmSimpleTypeKind.String).setFacets(new Facets().setMaxLength(4)));
-//	    properties.add(new SimpleProperty().setName("Updated").setType(EdmSimpleTypeKind.DateTime)
-//	        .setFacets(new Facets().setNullable(false).setConcurrencyMode(EdmConcurrencyMode.Fixed))
-//	        .setCustomizableFeedMappings(new CustomizableFeedMappings().setFcTargetPath(EdmTargetPath.SYNDICATION_UPDATED)));
-//	    properties.add(new SimpleProperty().setName("ImagePath").setType(EdmSimpleTypeKind.String));
-//
-//	    //Navigation Properties
-//	    List<NavigationProperty> navigationProperties = new ArrayList<NavigationProperty>();
-//	    navigationProperties.add(new NavigationProperty().setName("Manufacturer")
-//	        .setRelationship(ASSOCIATION_CAR_MANUFACTURER).setFromRole(ROLE_1_1).setToRole(ROLE_1_2));
-//
-//	    //Key
-//	    List<PropertyRef> keyProperties = new ArrayList<PropertyRef>();
-//	    keyProperties.add(new PropertyRef().setName("Id"));
-//	    Key key = new Key().setKeys(keyProperties);
-//
-//	    return new EntityType().setName(ENTITY_TYPE_1_1.getName())
-//	        .setProperties(properties)
-//	        .setKey(key)
-//	        .setNavigationProperties(navigationProperties);
-//
-//	  } else 
-//		  
-//		  if (ENTITY_TYPE_1_2.getName().equals(edmFQName.getName())) {
-//
-//	    //Properties
-//	    List<Property> properties = new ArrayList<Property>();
-//	    properties.add(new SimpleProperty().setName("Id").setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
-//	    properties.add(new SimpleProperty().setName("Name").setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false).setMaxLength(100))
-//	        .setCustomizableFeedMappings(new CustomizableFeedMappings().setFcTargetPath(EdmTargetPath.SYNDICATION_TITLE)));
-//	    properties.add(new ComplexProperty().setName("Address").setType(new FullQualifiedName(NAMESPACE, "Address")));
-//	    properties.add(new SimpleProperty().setName("Updated").setType(EdmSimpleTypeKind.DateTime)
-//	        .setFacets(new Facets().setNullable(false).setConcurrencyMode(EdmConcurrencyMode.Fixed))
-//	        .setCustomizableFeedMappings(new CustomizableFeedMappings().setFcTargetPath(EdmTargetPath.SYNDICATION_UPDATED)));
-//
-//	    //Navigation Properties
-//	    List<NavigationProperty> navigationProperties = new ArrayList<NavigationProperty>();
-//	    navigationProperties.add(new NavigationProperty().setName("Cars")
-//	        .setRelationship(ASSOCIATION_CAR_MANUFACTURER).setFromRole(ROLE_1_2).setToRole(ROLE_1_1));
-//
-//	    //Key
-//	    List<PropertyRef> keyProperties = new ArrayList<PropertyRef>();
-//	    keyProperties.add(new PropertyRef().setName("Id"));
-//	    Key key = new Key().setKeys(keyProperties);
-//
-//	    return new EntityType().setName(ENTITY_TYPE_1_2.getName())
-//	        .setProperties(properties)
-//	        .setHasStream(true)
-//	        .setKey(key)
-//	        .setNavigationProperties(navigationProperties);
-//	  } else 
-//		  
-//		  
-//		  if (CaSystemEDM.ENTITY_TYPE_NAME.equals(edmFQName.getName())){
-//		  //Properties
-//		  List<Property> properties = new ArrayList<Property>();
-//		  properties.add(new SimpleProperty().setName("sysId").setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
-//		  properties.add(new SimpleProperty().setName("tenantId").setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
-//		  properties.add(new SimpleProperty().setName("sysDesc").setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
-//		  //Navigation  Properties
-//		  
-//		  //key
-//		  List<PropertyRef> keyProperties = new ArrayList<PropertyRef>();
-//		  keyProperties.add(new PropertyRef().setName("sysId"));
-//		  keyProperties.add(new PropertyRef().setName("tenantId"));
-//			
-//		  Key key = new Key().setKeys(keyProperties);
-//		  
-//		  return new EntityType().setName(ENTITY_TYPE_CASYSTEM.getName())
-//				  .setProperties(properties)
-//				  .setHasStream(true)
-//				  .setKey(key);
-//		  
-//		  
-//	  }
-//	}
-//
-//	return null;
-//	}
-	
-//	public ComplexType getComplexType(FullQualifiedName edmFQName) throws ODataException {
-//		if (NAMESPACE.equals(edmFQName.getNamespace())) {
-//		  if (COMPLEX_TYPE.getName().equals(edmFQName.getName())) {
-//		    List<Property> properties = new ArrayList<Property>();
-//		    properties.add(new SimpleProperty().setName("Street").setType(EdmSimpleTypeKind.String));
-//		    properties.add(new SimpleProperty().setName("City").setType(EdmSimpleTypeKind.String));
-//		    properties.add(new SimpleProperty().setName("ZipCode").setType(EdmSimpleTypeKind.String));
-//		    properties.add(new SimpleProperty().setName("Country").setType(EdmSimpleTypeKind.String));
-//		    return new ComplexType().setName(COMPLEX_TYPE.getName()).setProperties(properties);
-//		  }
-//		}
-//
-//		return null;
-//
-//		}
-//	
-//	public Association getAssociation(FullQualifiedName edmFQName) throws ODataException {
-//		if (NAMESPACE.equals(edmFQName.getNamespace())) {
-//		  if (ASSOCIATION_CAR_MANUFACTURER.getName().equals(edmFQName.getName())) {
-//		    return new Association().setName(ASSOCIATION_CAR_MANUFACTURER.getName())
-//		        .setEnd1(new AssociationEnd().setType(ENTITY_TYPE_1_1).setRole(ROLE_1_1).setMultiplicity(EdmMultiplicity.MANY))
-//		        .setEnd2(new AssociationEnd().setType(ENTITY_TYPE_1_2).setRole(ROLE_1_2).setMultiplicity(EdmMultiplicity.ONE));
-//		  }
-//		}
-//		return null;
-//		}
-	
-//	public EntityContainerInfo getEntityContainerInfo(String name) throws ODataException {
-//		if (name == null || "ODataCarsEntityContainer".equals(name)) {
-//		  return new EntityContainerInfo().setName("ODataCarsEntityContainer").setDefaultEntityContainer(true);
-//		}
-//
-//		return null;
-//		}
-	
-//	public EntitySet getEntitySet(String entityContainer, String name) throws ODataException {
-//		if (ENTITY_CONTAINER.equals(entityContainer)) {
-////		  if (ENTITY_SET_NAME_CARS.equals(name)) {
-//		    return new EntitySet().setName(name).setEntityType(ENTITY_TYPE_1_1);
-//		  } else if (ENTITY_SET_NAME_MANUFACTURERS.equals(name)) {
-//		    return new EntitySet().setName(name).setEntityType(ENTITY_TYPE_1_2);
-//		  } else 
-//			  
-//			  if (ENTITY_SET_NAME_CASYSTEMS.equals(name)){
-//			  return new EntitySet().setName(name).setEntityType(ENTITY_TYPE_CASYSTEM);
-//		  }
-//		}
-//		return null;
-//		}
-	
-//	public AssociationSet getAssociationSet(String entityContainer, FullQualifiedName association, String sourceEntitySetName, String sourceEntitySetRole) throws ODataException {
-//		if (ENTITY_CONTAINER.equals(entityContainer)) {
-//		  if (ASSOCIATION_CAR_MANUFACTURER.equals(association)) {
-//		    return new AssociationSet().setName(ASSOCIATION_SET)
-//		        .setAssociation(ASSOCIATION_CAR_MANUFACTURER)
-//		        .setEnd1(new AssociationSetEnd().setRole(ROLE_1_2).setEntitySet(ENTITY_SET_NAME_MANUFACTURERS))
-//		        .setEnd2(new AssociationSetEnd().setRole(ROLE_1_1).setEntitySet(ENTITY_SET_NAME_CARS));
-//		  }
-//		}
-//		return null;
-//		}
-//	
+
+
+	@Override
+	public EntityType getEntityType(FullQualifiedName edmFQName)
+			throws ODataException {
+		// TODO Auto-generated method stub
+		return super.getEntityType(edmFQName);
+	}
+
+
+
+
+	@Override
+	public EntitySet getEntitySet(String entityContainer, String name)
+			throws ODataException {
+		// TODO Auto-generated method stub
+		return super.getEntitySet(entityContainer, name);
+	}
+
+
+
+
+	@Override
+	public EntityContainerInfo getEntityContainerInfo(String name)
+			throws ODataException {
+		// TODO Auto-generated method stub
+		return super.getEntityContainerInfo(name);
+	}
+
+
+
+
+	@Override
+	public ComplexType getComplexType(FullQualifiedName edmFQName)
+			throws ODataException {
+		// TODO Auto-generated method stub
+		return super.getComplexType(edmFQName);
+	}
+
+
+
+
+	@Override
+	public Association getAssociation(FullQualifiedName edmFQName)
+			throws ODataException {
+		// TODO Auto-generated method stub
+		return super.getAssociation(edmFQName);
+	}
+
+
+
+
+	@Override
+	public AssociationSet getAssociationSet(String entityContainer,
+			FullQualifiedName association, String sourceEntitySetName,
+			String sourceEntitySetRole) throws ODataException {
+		// TODO Auto-generated method stub
+		return super.getAssociationSet(entityContainer, association,
+				sourceEntitySetName, sourceEntitySetRole);
+	}
+
+
 }
