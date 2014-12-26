@@ -17,12 +17,10 @@ import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 public class HrHierMapEDM  extends BaseEDM{
 
 	
-	public HrHierMapEDM(String namespace ) {
-		super(namespace, ENTITY_TYPE_NAME_HRHIERMAP, ENTITY_SET_NAME_HRHIERMAP );
+	public HrHierMapEDM(String namespace, String entity_type_name, String entity_set_name  ) {
+		super(namespace, entity_type_name, entity_set_name);
 		 
 	}
-	public static String ENTITY_TYPE_NAME_HRHIERMAP="HrHierMap";
-	public static String ENTITY_SET_NAME_HRHIERMAP="HrHierMaps";
 	public static String hierId ="hierId";
 	public static String tenantId="tenantId";
 	public static String seqNo="seqno";

@@ -14,11 +14,23 @@ abstract public class BaseEDM {
 	
 private FullQualifiedName fqn = null;
 protected String entitySetName ;
-	public BaseEDM(String namespace, String entityName, String entitySetName){
-		fqn= new FullQualifiedName(namespace,	entityName);
+private String entityTypeName;
+	public BaseEDM(String namespace,  String entityTypeName,String entitySetName){
+		fqn= new FullQualifiedName(namespace,	entityTypeName);
 		this.entitySetName=entitySetName;
+		this.entityTypeName=entityTypeName;
 	}
 	
+	
+	public String getEntityTypeName(){
+		
+		return this.entityTypeName;
+	}
+
+public String getEntitySetName(){
+		
+		return this.entitySetName;
+	}
 
 	public FullQualifiedName getFullQualifiedName( ){
 		return fqn;

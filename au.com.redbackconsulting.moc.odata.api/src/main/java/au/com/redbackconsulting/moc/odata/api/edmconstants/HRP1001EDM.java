@@ -20,8 +20,7 @@ public class HRP1001EDM extends BaseEDM{
 		super(namespace, ENTITY_TYPE_NAME_HRP1001, ENTITY_SET_NAME_HRP1001);
 		 
 	}
-	public static String ENTITY_TYPE_NAME_HRP1001="HRP1001";
-	public static String ENTITY_SET_NAME_HRP1001="HRP1001s";
+
 	
 	public static String tenantId ="tenantId";
 	public static String robjectType="robjectType";

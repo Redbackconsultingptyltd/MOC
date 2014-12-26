@@ -21,8 +21,7 @@ public class HrObjectsStatusEDM extends BaseEDM {
 		super(namespace, ENTITY_TYPE_NAME_HROBJECTSSTATUS, ENTITY_SET_NAME_HROBJECTSSTATUS);
 		 
 	}
-	public static String ENTITY_TYPE_NAME_HROBJECTSSTATUS="HrObjectsStatus";
-	public static String ENTITY_SET_NAME_HROBJECTSSTATUS="HrObjectsStatusSet";
+
 	
 	public static String tenantId ="tenantId";
 	public static String status="status";

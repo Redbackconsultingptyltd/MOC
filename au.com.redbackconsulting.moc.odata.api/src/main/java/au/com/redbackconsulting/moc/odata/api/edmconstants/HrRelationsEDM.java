@@ -19,8 +19,7 @@ public class HrRelationsEDM extends BaseEDM {
 	public HrRelationsEDM(String namespace ) {
 		super(namespace, ENTITY_TYPE_NAME_HRRELATIONS, ENTITY_SET_NAME_HRRELATIONS);
 	}
-	public static String ENTITY_TYPE_NAME_HRRELATIONS="HrRelations";
-	public static String ENTITY_SET_NAME_HRRELATIONS="HrRelationsSet";
+
 	public static String tenantId="tenantId";
 	public static String relatType ="relatType";
 	public static String relatTypeT="relatTypeT";

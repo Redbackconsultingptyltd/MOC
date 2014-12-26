@@ -1,25 +1,19 @@
 package au.com.redbackconsulting.moc.odata.api.edmconstants;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_CASYSTEM;
 
-import org.apache.olingo.odata2.api.annotation.edm.FunctionImport.Multiplicity;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.olingo.odata2.api.edm.EdmMultiplicity;
 import org.apache.olingo.odata2.api.edm.EdmSimpleTypeKind;
 import org.apache.olingo.odata2.api.edm.FullQualifiedName;
 import org.apache.olingo.odata2.api.edm.provider.Association;
 import org.apache.olingo.odata2.api.edm.provider.AssociationEnd;
-import org.apache.olingo.odata2.api.edm.provider.EntitySet;
-import org.apache.olingo.odata2.api.edm.provider.EntityType;
 import org.apache.olingo.odata2.api.edm.provider.Facets;
-import org.apache.olingo.odata2.api.edm.provider.Key;
 import org.apache.olingo.odata2.api.edm.provider.Property;
 import org.apache.olingo.odata2.api.edm.provider.PropertyRef;
 import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_CASYSTEM;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_CASYSTEM;
 
 
 
@@ -34,8 +28,8 @@ public class CaSystemEDM extends BaseEDM {
 	
 	
 	
-	public CaSystemEDM(String nameSpace){
-		super(nameSpace, ENTITY_TYPE_NAME_CASYSTEM, ENTITY_SET_NAME_CASYSTEM);
+	public CaSystemEDM(String nameSpace, String entity_type_name, String entity_set_name){
+		super(nameSpace, entity_type_name, entity_set_name);
 	//	entitySetName=CaSystemEDM.ENTITY_SET_NAME;
 		
 		

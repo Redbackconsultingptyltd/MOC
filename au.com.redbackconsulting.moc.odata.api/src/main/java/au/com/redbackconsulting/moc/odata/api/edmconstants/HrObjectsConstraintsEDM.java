@@ -15,13 +15,11 @@ import org.apache.olingo.odata2.api.edm.provider.PropertyRef;
 import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 
 public class HrObjectsConstraintsEDM extends BaseEDM {
-	public HrObjectsConstraintsEDM(String namespace ) {
-		super(namespace,  ENTITY_TYPE_NAME_HROBJECTSCONSTRAINTS, ENTITY_SET_NAME_HROBJECTSCONSTRAINTS);
+	public HrObjectsConstraintsEDM(String namespace , String entity_type_name, String entity_set_name) {
+		super(namespace,    entity_type_name,   entity_set_name);
 		// TODO Auto-generated constructor stub
 	}
-	public static String ENTITY_TYPE_NAME_HROBJECTSCONSTRAINTS="HrObjectsConstraints";
-	public static String ENTITY_SET_NAME_HROBJECTSCONSTRAINTS="HrObjectsConstraintsSet";
-	public static String tenantId="tenantId";
+		public static String tenantId="tenantId";
 	public static String objectType="objectType";
 	public static String tableId="tableId";
 	public static String timeConstraint="timeConstraint";

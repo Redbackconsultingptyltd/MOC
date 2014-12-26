@@ -20,8 +20,7 @@ public class TenantsEDM extends BaseEDM {
 		entitySetName="Tenantss";
 
 	}
-	public static String ENTITY_NAME_TENANTS="Tenants";
-	public static String ENTITY_SET_NAME_TENANTS="TenantsSet";
+
 	public static String tenantId="tenantId";
 	public static String tenantCode="tenantCode";
 	public static String name ="name";
