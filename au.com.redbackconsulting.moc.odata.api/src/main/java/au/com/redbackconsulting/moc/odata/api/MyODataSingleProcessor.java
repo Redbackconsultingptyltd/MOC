@@ -1,6 +1,5 @@
 package au.com.redbackconsulting.moc.odata.api;
 
-import static au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM.ENTITY_SET_NAME_CASYSTEM;
 
 import java.net.URI;
 import java.util.Map;
@@ -22,13 +21,16 @@ import org.apache.olingo.odata2.api.uri.info.GetEntitySetUriInfo;
 import org.apache.olingo.odata2.api.uri.info.GetEntityUriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.bl.BLModelFactory;
+  
 import au.com.redbackconsulting.moc.odata.api.bl.IBLModel;
-import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_CASYSTEM;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_CASYSTEM;
+
 
 
 public class MyODataSingleProcessor extends ODataSingleProcessor {
 
-	private DataStore dataStore = new DataStore();
+//	private DataStore dataStore = new DataStore();
 	private BLModelFactory bmf= BLModelFactory.getInstance();
 	@Override
 	public ODataResponse readEntity(GetEntityUriInfo uriInfo, String contentType)
@@ -39,9 +41,9 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 		if (ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
 				int id = getKeyValue(uriInfo.getKeyPredicates().get(0));
 				
-				IBLModel blModel =bmf.getInstance(MyEdmProvider.ENTITY_KEY_CASYSTEM);
-				
-				Map<String, Object> data = dataStore.getCar(id);
+				IBLModel blModel =bmf.getInstance(ENTITY_KEY_CASYSTEM);
+				Map<String, Object> data = blModel.getData(null);
+//				Map<String, Object> data = dataStore.getCar(id);
 				URI serviceRoot = getContext().getPathInfo()
 						.getServiceRoot();
 				ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
@@ -136,8 +138,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 		if (uriInfo.getNavigationSegments().size() == 0) {
 			entitySet = uriInfo.getStartEntitySet();
 
-			if (CaSystemEDM.ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
-				IBLModel blModel = bmf.getInstance(IMyEdmProvider.ENTITY_KEY_CASYSTEM);
+			if (ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
+				IBLModel blModel = bmf.getInstance(ENTITY_KEY_CASYSTEM);
 				return EntityProvider.writeFeed(
 						contentType,
 						entitySet,

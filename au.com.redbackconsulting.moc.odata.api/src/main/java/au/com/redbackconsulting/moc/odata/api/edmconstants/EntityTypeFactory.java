@@ -3,6 +3,24 @@ package au.com.redbackconsulting.moc.odata.api.edmconstants;
 import org.apache.olingo.odata2.api.edm.provider.EntityType;
 
 import au.com.redbackconsulting.moc.odata.api.MyEdmProvider;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_CASYSTEM;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRHIER;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRHIERMAP;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HROBJECTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HROBJECTSCONSTRAINTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HROBJECTSREL;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HROBJECTSSTATUS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRP1000;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRP1001;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRRELATIONS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_TENANTS;
+
+
+
+
+
+
+
 
 public class EntityTypeFactory {
 	
@@ -20,28 +38,28 @@ public class EntityTypeFactory {
 	public BaseEDM getEDM (int entity_name){
 		
 		switch (entity_name) {
-		case MyEdmProvider.ENTITY_KEY_CASYSTEM:
+		case ENTITY_KEY_CASYSTEM:
 			return new CaSystemEDM(this.namespace) ;
  
-		case MyEdmProvider.ENTITY_KEY_HRHIER:
+		case ENTITY_KEY_HRHIER:
 			return new HrHierEDM(this.namespace);
-		case MyEdmProvider.ENTITY_KEY_HRHIERMAP:
+		case ENTITY_KEY_HRHIERMAP:
 			return new HrHierMapEDM(this.namespace);
-		case MyEdmProvider.ENTITY_KEY_HROBJECTSREL:
+		case ENTITY_KEY_HROBJECTSREL:
 			return new HrObjectRelEDM(this.namespace);
-		case MyEdmProvider.ENTITY_KEY_HROBJECTSCONSTRAINTS:
+		case ENTITY_KEY_HROBJECTSCONSTRAINTS:
 			return new HrObjectsConstraintsEDM(this.namespace);
-		case MyEdmProvider.ENTITY_KEY_HROBJECTS:
+		case ENTITY_KEY_HROBJECTS:
 			return new HrObjectsEDM(this.namespace);
-		case MyEdmProvider.ENTITY_KEY_HROBJECTSSTATUS:
+		case ENTITY_KEY_HROBJECTSSTATUS:
 			return new HrObjectsStatusEDM(this.namespace);
-		case MyEdmProvider.ENTITY_KEY_HRP1000:
+		case ENTITY_KEY_HRP1000:
 			return new HRP1000EDM(this.namespace);
-		case MyEdmProvider.ENTITY_KEY_HRP1001:
+		case ENTITY_KEY_HRP1001:
 			return new HRP1001EDM(this.namespace);
-		case MyEdmProvider.ENTITY_KEY_HRRELATIONS:
+		case ENTITY_KEY_HRRELATIONS:
 			return new HrRelationsEDM(this.namespace);
-		case MyEdmProvider.ENTITY_KEY_TENANTS:
+		case ENTITY_KEY_TENANTS:
 			return new TenantsEDM(this.namespace);
  
 

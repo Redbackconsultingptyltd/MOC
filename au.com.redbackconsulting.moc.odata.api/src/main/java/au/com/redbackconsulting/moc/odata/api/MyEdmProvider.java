@@ -30,9 +30,21 @@ import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 import org.apache.olingo.odata2.api.exception.ODataException;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.BaseEDM;
-import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.EntityTypeFactory;
- 
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_CASYSTEM;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRHIER;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRHIERMAP;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HROBJECTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HROBJECTSCONSTRAINTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HROBJECTSREL;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HROBJECTSSTATUS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRP1000;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRP1001;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRRELATIONS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_TENANTS;
+
+
+
 public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 	
 

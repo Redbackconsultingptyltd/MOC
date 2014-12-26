@@ -2,8 +2,7 @@ package au.com.redbackconsulting.moc.odata.api.bl;
 
 import java.util.List;
 import java.util.Map;
-
-import au.com.redbackconsulting.moc.persistence.model.CaSystems;
+ 
 
 public interface IBLModel {
 	

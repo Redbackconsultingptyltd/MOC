@@ -1,20 +1,14 @@
 package au.com.redbackconsulting.moc.odata.api.edmconstants;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
-import org.apache.olingo.odata2.api.edm.EdmMultiplicity;
-import org.apache.olingo.odata2.api.edm.EdmSimpleTypeKind;
 import org.apache.olingo.odata2.api.edm.FullQualifiedName;
 import org.apache.olingo.odata2.api.edm.provider.Association;
 import org.apache.olingo.odata2.api.edm.provider.EntitySet;
 import org.apache.olingo.odata2.api.edm.provider.EntityType;
-import org.apache.olingo.odata2.api.edm.provider.Facets;
 import org.apache.olingo.odata2.api.edm.provider.Key;
 import org.apache.olingo.odata2.api.edm.provider.Property;
 import org.apache.olingo.odata2.api.edm.provider.PropertyRef;
-import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 
 abstract public class BaseEDM {
 	
@@ -35,8 +29,7 @@ protected String entitySetName ;
 	abstract public  List<PropertyRef> getKeys() ;
 	
 	public EntityType getEntityType( ){
-		
-		  FullQualifiedName ENTITY_TYPE_CASYSTEM =getFullQualifiedName( );
+		 
 				
 			//Properties
 			
