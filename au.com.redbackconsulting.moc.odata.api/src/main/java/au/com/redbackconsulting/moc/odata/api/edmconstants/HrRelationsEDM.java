@@ -16,10 +16,13 @@ import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 
 public class HrRelationsEDM extends BaseEDM {
 
-	public HrRelationsEDM(String namespace ) {
-		super(namespace, ENTITY_TYPE_NAME_HRRELATIONS, ENTITY_SET_NAME_HRRELATIONS);
-	}
+	 
 
+	public HrRelationsEDM(String namespace, String entityTypeName,
+			String entitySetName) {
+		super(namespace, entityTypeName, entitySetName);
+		// TODO Auto-generated constructor stub
+	}
 	public static String tenantId="tenantId";
 	public static String relatType ="relatType";
 	public static String relatTypeT="relatTypeT";

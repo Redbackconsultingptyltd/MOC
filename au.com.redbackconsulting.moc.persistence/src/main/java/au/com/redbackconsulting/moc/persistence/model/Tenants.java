@@ -3,13 +3,14 @@ package au.com.redbackconsulting.moc.persistence.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 
 /**
  * Entity implementation class for Entity: Tenants
  *
  */
 @Entity
-
+@IdClass( TenantsPk.class)
 public class Tenants implements IDBEntity {
 
 	   

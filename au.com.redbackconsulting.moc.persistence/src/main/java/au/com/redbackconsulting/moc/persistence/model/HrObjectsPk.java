@@ -2,7 +2,7 @@ package au.com.redbackconsulting.moc.persistence.model;
 
 import java.io.Serializable;
 
-public class HrObjectsPk implements Serializable{
+public class HrObjectsPk implements IPkModel{
 	
 	
 	/**

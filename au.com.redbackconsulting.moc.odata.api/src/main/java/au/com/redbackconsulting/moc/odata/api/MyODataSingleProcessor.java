@@ -2,6 +2,7 @@ package au.com.redbackconsulting.moc.odata.api;
 
 
 import java.net.URI;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.olingo.odata2.api.edm.EdmEntitySet;
@@ -22,9 +23,12 @@ import org.apache.olingo.odata2.api.uri.info.GetEntityUriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.bl.BLModelFactory;
   
-import au.com.redbackconsulting.moc.odata.api.bl.IBLModel;
+import au.com.redbackconsulting.moc.odata.api.bl.IBLModel; 
+import au.com.redbackconsulting.moc.persistence.model.ICaSystemPK;
+import au.com.redbackconsulting.moc.persistence.model.PKFactory;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_CASYSTEM;
+import static au.com.redbackconsulting.moc.persistence.model.Constants.PK_KEY_CASYSTEM;
 
 
 
@@ -39,10 +43,14 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 		if (uriInfo.getNavigationSegments().size() == 0) {
 			EdmEntitySet entitySet = uriInfo.getStartEntitySet();
 		if (ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
-				int id = getKeyValue(uriInfo.getKeyPredicates().get(0));
+				String sysId = getKeyValueString(uriInfo.getKeyPredicates().get(0));
+				int tenantId = getKeyValue (uriInfo.getKeyPredicates().get(1));
 				
 				IBLModel blModel =bmf.getInstance(ENTITY_KEY_CASYSTEM);
-				Map<String, Object> data = blModel.getData(null);
+				ICaSystemPK pk  = (ICaSystemPK) PKFactory.getInstance().getPKInstance(PK_KEY_CASYSTEM);
+				pk.setSystId(sysId);
+				pk.setTenantId(new Integer(tenantId));
+				Map<String, Object> data = blModel.getData(pk);
 //				Map<String, Object> data = dataStore.getCar(id);
 				URI serviceRoot = getContext().getPathInfo()
 						.getServiceRoot();
@@ -126,6 +134,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 //		throw new ODataNotImplementedException();
 	}
 
+	
+
 	// Implement MyODataSingleProcessor.readEntitySet(GetEntitySetUriInfo
 	// uriParserResultInfo) by overriding the corresponding method of the
 	// ODataSingleProcessor
@@ -140,10 +150,11 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 
 			if (ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_CASYSTEM);
+				List<Map<String, Object>> data =blModel.getDataSet();
 				return EntityProvider.writeFeed(
 						contentType,
 						entitySet,
-						blModel.getDataSet(),
+						data,
 						EntityProviderWriteProperties.serviceRoot(
 								getContext().getPathInfo().getServiceRoot())
 								.build());
@@ -225,5 +236,11 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 		EdmSimpleType type = (EdmSimpleType) property.getType();
 		return type.valueOfString(key.getLiteral(), EdmLiteralKind.DEFAULT,
 				property.getFacets(), Integer.class);
+	}
+	private String getKeyValueString(KeyPredicate key )throws ODataException {
+		EdmProperty property = key.getProperty();
+		EdmSimpleType type = (EdmSimpleType) property.getType();
+		return type.valueOfString(key.getLiteral(), EdmLiteralKind.DEFAULT,
+				property.getFacets(), String.class);
 	}
 }

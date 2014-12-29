@@ -3,8 +3,9 @@ package au.com.redbackconsulting.moc.persistence;
  
 import au.com.redbackconsulting.moc.persistence .manager.EntityManagerProvider;
 import au.com.redbackconsulting.moc.persistence .model.Tenants;
+import au.com.redbackconsulting.moc.persistence.model.TenantsPk;
 
-public class TenantsDAO extends BasicDAO<Tenants> {
+public class TenantsDAO extends BasicDAO<Tenants,  TenantsPk> {
 
 	public TenantsDAO(EntityManagerProvider emProvider) {
 		super(emProvider);

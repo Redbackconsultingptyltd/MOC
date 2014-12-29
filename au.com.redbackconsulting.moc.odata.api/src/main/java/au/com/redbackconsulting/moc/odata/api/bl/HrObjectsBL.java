@@ -3,6 +3,8 @@ package au.com.redbackconsulting.moc.odata.api.bl;
 import java.util.List;
 import java.util.Map;
 
+import au.com.redbackconsulting.moc.persistence.model.IPkModel;
+
 public class HrObjectsBL extends BaseBL {
 
 	public HrObjectsBL(IBLModelFactory bmf) {
@@ -17,7 +19,7 @@ public class HrObjectsBL extends BaseBL {
 	}
 
 	@Override
-	public Map<String, Object> getData(Map<String, Object> keyMap) {
+	public Map<String, Object> getData(IPkModel primaryKeyModel) {
 		// TODO Auto-generated method stub
 		return null;
 	}

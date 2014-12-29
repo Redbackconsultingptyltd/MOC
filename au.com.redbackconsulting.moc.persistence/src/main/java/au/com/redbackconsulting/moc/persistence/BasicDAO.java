@@ -16,18 +16,27 @@ import org.slf4j.LoggerFactory;
  
 
 
+
+
 import au.com.redbackconsulting.moc .persistence.manager.EntityManagerProvider;
 import au.com.redbackconsulting.moc .persistence.model.IDBEntity;
+import au.com.redbackconsulting.moc.persistence.model.IPkModel;
   
  
-public abstract class BasicDAO <T extends IDBEntity >     {
+public abstract class BasicDAO <T extends IDBEntity, PK extends IPkModel >     {
 	
 	  private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
 	    protected EntityManagerProvider emProvider;
+	    protected Class<T> entityClass;
 
-	    public BasicDAO(EntityManagerProvider emProvider) {
+	    @SuppressWarnings("unchecked")
+		public BasicDAO(EntityManagerProvider emProvider) {
 	        this.emProvider = emProvider;
+	       ParameterizedType genericSuperclass = (ParameterizedType) getClass()
+	                .getGenericSuperclass();
+	        this.entityClass = (Class<T>) genericSuperclass
+	             .getActualTypeArguments()[0];
 	    }
 
 	    
@@ -37,11 +46,13 @@ public abstract class BasicDAO <T extends IDBEntity >     {
 	        em.refresh(object);
 	    }
 	    
-	    public void getByPK(T value){
-	    	
+	    public T getByPK(PK value){
+	    	final EntityManager em = emProvider.get();
+	    	  return em.find(entityClass,  value);
+	    	 
 	    }
 
-	    @SuppressWarnings("unchecked")
+	   // @SuppressWarnings("unchecked")
 	    public List<T> getAll() {
 	        final List<T> result = new ArrayList<T>();
 	        final EntityManager em = emProvider.get();

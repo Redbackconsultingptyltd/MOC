@@ -14,7 +14,7 @@ import javax.persistence.OneToMany;
 @Entity
 
 @IdClass( CaSystemsPk.class)
-public class CaSystems implements IDBEntity{
+public class CaSystems implements   ICaSystems{
 
 	   
 	

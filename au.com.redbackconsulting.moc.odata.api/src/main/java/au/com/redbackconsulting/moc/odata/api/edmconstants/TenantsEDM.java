@@ -15,12 +15,13 @@ import org.apache.olingo.odata2.api.edm.provider.PropertyRef;
 import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 
 public class TenantsEDM extends BaseEDM {
-	public TenantsEDM(String namespace) {
-		super(namespace, ENTITY_NAME_TENANTS, ENTITY_SET_NAME_TENANTS);
-		entitySetName="Tenantss";
+	 
 
+	public TenantsEDM(String namespace, String entityTypeName,
+			String entitySetName) {
+		super(namespace, entityTypeName, entitySetName);
+		// TODO Auto-generated constructor stub
 	}
-
 	public static String tenantId="tenantId";
 	public static String tenantCode="tenantCode";
 	public static String name ="name";

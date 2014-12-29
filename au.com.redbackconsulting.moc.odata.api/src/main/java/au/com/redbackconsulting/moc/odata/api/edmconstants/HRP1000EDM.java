@@ -3,25 +3,23 @@ package au.com.redbackconsulting.moc.odata.api.edmconstants;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.olingo.odata2.api.edm.EdmMultiplicity;
 import org.apache.olingo.odata2.api.edm.EdmSimpleTypeKind;
 import org.apache.olingo.odata2.api.edm.FullQualifiedName;
 import org.apache.olingo.odata2.api.edm.provider.Association;
-import org.apache.olingo.odata2.api.edm.provider.AssociationEnd;
-import org.apache.olingo.odata2.api.edm.provider.EntitySet;
 import org.apache.olingo.odata2.api.edm.provider.Facets;
 import org.apache.olingo.odata2.api.edm.provider.Property;
 import org.apache.olingo.odata2.api.edm.provider.PropertyRef;
 import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
-
 public class HRP1000EDM extends BaseEDM {
 
-	public HRP1000EDM(String namespace ) {
-		super(namespace, ENTITY_TYPE_NAME_HRP1000, ENTITY_SET_NAME_HRP1000);
-		 
+	 
+
+
+	public HRP1000EDM(String namespace, String entityTypeName,
+			String entitySetName) {
+		super(namespace, entityTypeName, entitySetName);
+		// TODO Auto-generated constructor stub
 	}
-
-
 	public static String  tenantId="tenantId";
 	public static String objectType="objectType";
 	public static String objectId="objectId";

@@ -44,6 +44,31 @@ import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRRELA
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_TENANTS;
 
 
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_CASYSTEM;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRHIER;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRHIERMAP;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HROBJECTREL;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HROBJECTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HROBJECTSCONSTRAINTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HROBJECTSSTATUS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRP1000;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRP1001;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRRELATIONS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_TENANTS;
+
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_CASYSTEM;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRHIER;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRHIERMAP;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTREL;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTSCONSTRAINTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTSSTATUS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRP1000;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRP1001;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRRELATIONS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_TENANTS;
+
+
 
 public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 	
@@ -54,7 +79,8 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
       private static final String ENTITY_CONTAINER = "ODataMOCEntityContainer";
      
         
-      
+      EntityTypeFactory entityFactory = EntityTypeFactory.getInstance(NAMESPACE);
+
  
 	@Override
 	public List<Schema> getSchemas() throws ODataException {
@@ -63,8 +89,7 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 		Schema schema = new Schema();
 		schema.setNamespace(NAMESPACE);
 		List<EntityType> entityTypes = new ArrayList<EntityType>();
-		EntityTypeFactory entityFactory = EntityTypeFactory.getInstance(NAMESPACE);
-		BaseEDM caSystemEDM = entityFactory.getEDM(ENTITY_KEY_CASYSTEM);
+				BaseEDM caSystemEDM = entityFactory.getEDM(ENTITY_KEY_CASYSTEM);
 		entityTypes.add(caSystemEDM.getEntityType());
 
 		BaseEDM hrHierEDM = entityFactory.getEDM(ENTITY_KEY_HRHIER);
@@ -146,18 +171,27 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 	@Override
 	public EntityType getEntityType(FullQualifiedName edmFQName)
 			throws ODataException {
-		// TODO Auto-generated method stub
-		return super.getEntityType(edmFQName);
+		if (NAMESPACE.equals(edmFQName.getNamespace())) {
+			  if (edmFQName.getName().equals(ENTITY_TYPE_NAME_CASYSTEM)) {
+			EntityType entityType =entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getEntityType();
+
+		return entityType; 	
+				
+			  }
 	}
-
-
+return null;
+	}
 
 
 	@Override
 	public EntitySet getEntitySet(String entityContainer, String name)
 			throws ODataException {
-		// TODO Auto-generated method stub
-		return super.getEntitySet(entityContainer, name);
+		 if (ENTITY_CONTAINER.equals(entityContainer)) {
+			    if (ENTITY_SET_NAME_CASYSTEM.equals(name)) {
+			      return new EntitySet().setName(name).setEntityType(entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getFullQualifiedName());
+			    }  
+			  }
+			  return null;
 	}
 
 
@@ -166,8 +200,11 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 	@Override
 	public EntityContainerInfo getEntityContainerInfo(String name)
 			throws ODataException {
-		// TODO Auto-generated method stub
-		return super.getEntityContainerInfo(name);
+		 if (name == null || "ODataMOCEntityContainer".equals(name)) {
+			    return new EntityContainerInfo().setName("ODataMOCEntityContainer").setDefaultEntityContainer(true);
+			  }
+
+			  return null;
 	}
 
 

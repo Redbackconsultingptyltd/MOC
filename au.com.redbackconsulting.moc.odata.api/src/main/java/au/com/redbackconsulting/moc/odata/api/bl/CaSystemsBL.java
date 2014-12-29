@@ -7,9 +7,13 @@ import java.util.List;
 import java.util.Map;
  
 
+
+
 import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
 import au.com.redbackconsulting.moc.persistence.CaSystemsDAO;
 import au.com.redbackconsulting.moc.persistence.model.CaSystems;
+import au.com.redbackconsulting.moc.persistence.model.CaSystemsPk;
+import au.com.redbackconsulting.moc.persistence.model.IPkModel;
 
 public class CaSystemsBL extends BaseBL   {
 
@@ -37,8 +41,21 @@ public class CaSystemsBL extends BaseBL   {
 	}
 
  
-	public Map<String, Object> getData(Map<String, Object> keyMap) {
-		// TODO Auto-generated method stub
+	public Map<String, Object> getData(IPkModel primaryKeyModel) {
+		CaSystemsPk pk = (CaSystemsPk) primaryKeyModel;
+		 Map<String, Object>  result = new HashMap<String, Object>();
+		try {
+			CaSystemsDAO dao = new CaSystemsDAO();
+		CaSystems entity =	dao.getByPK(pk);
+		result= convertData(entity);
+		return result;
+		} catch (Exception e) {
+			int i =0;
+			i=i+1;
+		}
+		
+		
+		
 		return null;
 	}
 
@@ -67,6 +84,7 @@ public class CaSystemsBL extends BaseBL   {
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put(CaSystemEDM.SYSID, dataModel.getSystId());
 			map.put(CaSystemEDM.SYSDESC, dataModel.getSystDesc());
+			map.put(CaSystemEDM.TENANTID, dataModel.getTenantId());
 			return map;
 			
 		} catch (Exception e) {

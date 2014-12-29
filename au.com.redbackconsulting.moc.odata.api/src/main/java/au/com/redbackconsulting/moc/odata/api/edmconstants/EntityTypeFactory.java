@@ -1,11 +1,5 @@
 package au.com.redbackconsulting.moc.odata.api.edmconstants;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.apache.olingo.odata2.api.edm.provider.EntityType;
-
-import au.com.redbackconsulting.moc.odata.api.MyEdmProvider;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRHIER;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRHIERMAP;
@@ -17,30 +11,31 @@ import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRP100
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRP1001;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRRELATIONS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_TENANTS;
-
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_CASYSTEM;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRHIER;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRHIERMAP;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTS;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTSCONSTRAINTS;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTREL;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTSSTATUS;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRP1000;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRP1001;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRRELATIONS; 
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_TENANTS;
-
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRHIER;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRHIERMAP;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HROBJECTREL;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HROBJECTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HROBJECTSCONSTRAINTS;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HROBJECTREL;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HROBJECTSSTATUS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRP1000;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRP1001;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRRELATIONS; 
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRRELATIONS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_TENANTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_CASYSTEM;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRHIER;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRHIERMAP;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTREL;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTSCONSTRAINTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTSSTATUS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRP1000;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRP1001;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRRELATIONS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_TENANTS;
+
+import java.util.HashMap;
+import java.util.Map;
 
 
 
@@ -102,47 +97,47 @@ public class EntityTypeFactory {
 		switch (entity_Key) {
 		case ENTITY_KEY_CASYSTEM:
 			
-			 edm =  new CaSystemEDM(this.namespace) ;
+			 edm =  new CaSystemEDM(this.namespace, entity_type_name,entity_set_name) ;
 			 edms.put(entity_type_name, edm);
 			 return edm;
 		case ENTITY_KEY_HRHIER:
-			edm= new HrHierEDM(this.namespace);
+			edm= new HrHierEDM(this.namespace, entity_type_name,entity_set_name);
 			 edms.put(entity_type_name, edm);
 			 return edm;
 		case ENTITY_KEY_HRHIERMAP:
-			edm= new HrHierMapEDM(this.namespace);
+			edm= new HrHierMapEDM(this.namespace, entity_type_name,entity_set_name);
 			 edms.put(entity_type_name, edm);
 			 return edm;
 		case ENTITY_KEY_HROBJECTSREL:
-			edm= new HrObjectRelEDM(this.namespace);
+			edm= new HrObjectRelEDM(this.namespace, entity_type_name,entity_set_name);
 			 edms.put(entity_type_name, edm);
 			 return edm;
 		case ENTITY_KEY_HROBJECTSCONSTRAINTS:
-			edm= new HrObjectsConstraintsEDM(this.namespace);
+			edm= new HrObjectsConstraintsEDM(this.namespace, entity_type_name,entity_set_name);
 			 edms.put(entity_type_name, edm);
 			 return edm;
 		case ENTITY_KEY_HROBJECTS:
-			edm= new HrObjectsEDM(this.namespace);
+			edm= new HrObjectsEDM(this.namespace, entity_type_name,entity_set_name);
 			 edms.put(entity_type_name, edm);
 			 return edm;
 		case ENTITY_KEY_HROBJECTSSTATUS:
-			edm= new HrObjectsStatusEDM(this.namespace);
+			edm= new HrObjectsStatusEDM(this.namespace, entity_type_name,entity_set_name);
 			 edms.put(entity_type_name, edm);
 			 return edm;
 		case ENTITY_KEY_HRP1000:
-			edm= new HRP1000EDM(this.namespace);
+			edm= new HRP1000EDM(this.namespace, entity_type_name,entity_set_name);
 			 edms.put(entity_type_name, edm);
 			 return edm;
 		case ENTITY_KEY_HRP1001:
-			edm= new HRP1001EDM(this.namespace);
+			edm= new HRP1001EDM(this.namespace, entity_type_name,entity_set_name);
 			 edms.put(entity_type_name, edm);
 			 return edm;
 		case ENTITY_KEY_HRRELATIONS:
-			edm= new HrRelationsEDM(this.namespace);
+			edm= new HrRelationsEDM(this.namespace, entity_type_name,entity_set_name);
 			 edms.put(entity_type_name, edm);
 			 return edm;
 		case ENTITY_KEY_TENANTS:
-			edm= new TenantsEDM(this.namespace);
+			edm= new TenantsEDM(this.namespace, entity_type_name,entity_set_name);
 			 edms.put(entity_type_name, edm);
 			 return edm;
  
@@ -150,7 +145,9 @@ public class EntityTypeFactory {
 		
 		}
 
-		}
+		} else {
+		return edm;}
 		return null;
+		
 	}
 }

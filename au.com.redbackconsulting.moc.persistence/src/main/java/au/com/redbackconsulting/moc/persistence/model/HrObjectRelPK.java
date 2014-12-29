@@ -6,7 +6,7 @@ import java.io.Serializable;
  * ID class for entity: HrObjectRel
  *
  */ 
-public class HrObjectRelPK  implements Serializable {   
+public class HrObjectRelPK  implements IPkModel {   
    
 	private Integer tenantId;
 		private String objectType;         
