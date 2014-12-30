@@ -16,10 +16,12 @@ public class Constants {
      
      public static String ENTITY_TYPE_NAME_CASYSTEM ="CaSystem";
  	public static String ENTITY_SET_NAME_CASYSTEM="CaSystems";
+ 	 public  static final String ASSOCIATION_SET_CASYSTEM_TENANTS = "CaSystems_Tenants";
  	
 
 public static String ENTITY_TYPE_NAME_HRHIER="HrHier";
 public static String ENTITY_SET_NAME_HRHIER="HrHiers";
+public  static   String ASSOCIATION_SET_HRHIER_1 = "CaSystems_Tenants";
 
 public static String ENTITY_TYPE_NAME_HRHIERMAP="HrHierMap";
 public static String ENTITY_SET_NAME_HRHIERMAP="HrHierMaps";

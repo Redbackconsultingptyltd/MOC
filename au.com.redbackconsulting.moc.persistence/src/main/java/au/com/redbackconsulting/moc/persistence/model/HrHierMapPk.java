@@ -2,7 +2,7 @@ package au.com.redbackconsulting.moc.persistence.model;
 
 import java.io.Serializable;
 
-public class HrHierMapPk implements IPkModel, Serializable {
+public class HrHierMapPk implements IHrHierMapPk, Serializable {
 	
  
 	/**

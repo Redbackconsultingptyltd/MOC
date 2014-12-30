@@ -1,12 +1,9 @@
 package au.com.redbackconsulting.moc.persistence.IDAO;
  
 
-public interface  IDAO<E>     {
+public interface  IDAO     {
 	
-	 public  String getidFieldName();
-	
-    public void refresh(E object);
-	
+	//  public void refresh(T object);
 	  
 
 }

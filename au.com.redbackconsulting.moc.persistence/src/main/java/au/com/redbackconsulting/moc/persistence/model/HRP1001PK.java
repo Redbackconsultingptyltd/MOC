@@ -6,7 +6,7 @@ import java.io.Serializable;
  * ID class for entity: HRP1001
  *
  */ 
-public class HRP1001PK  implements IPkModel {   
+public class HRP1001PK  implements IHRP1001PK {   
    
 	         
 	private Integer tenantId;

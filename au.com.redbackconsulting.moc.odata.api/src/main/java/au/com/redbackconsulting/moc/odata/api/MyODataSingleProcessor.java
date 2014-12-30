@@ -25,10 +25,18 @@ import au.com.redbackconsulting.moc.odata.api.bl.BLModelFactory;
   
 import au.com.redbackconsulting.moc.odata.api.bl.IBLModel; 
 import au.com.redbackconsulting.moc.persistence.model.ICaSystemPK;
+import au.com.redbackconsulting.moc.persistence.model.ITenantsPK;
 import au.com.redbackconsulting.moc.persistence.model.PKFactory;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_CASYSTEM;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_TENANTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_TENANTS;
+
+
+
+
 import static au.com.redbackconsulting.moc.persistence.model.Constants.PK_KEY_CASYSTEM;
+import static au.com.redbackconsulting.moc.persistence.model.Constants.PK_KEY_TENANTS;
 
 
 
@@ -58,6 +66,20 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 						.serviceRoot(serviceRoot);
 				return EntityProvider.writeEntry(contentType, entitySet,
 						data, propertiesBuilder.build());
+		} else if(ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())){
+				int tenantId = getKeyValue (uriInfo.getKeyPredicates().get(0));
+			
+			IBLModel blModel =bmf.getInstance(ENTITY_KEY_TENANTS);
+			ITenantsPK pk  = (ITenantsPK) PKFactory.getInstance().getPKInstance(PK_KEY_TENANTS);
+			pk.setTenantId(new Integer(tenantId));
+			Map<String, Object> data = blModel.getData(pk);
+ 
+			URI serviceRoot = getContext().getPathInfo()
+					.getServiceRoot();
+			ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
+					.serviceRoot(serviceRoot);
+			return EntityProvider.writeEntry(contentType, entitySet,
+					data, propertiesBuilder.build());
 		}
 		}
 		return null;
@@ -158,28 +180,19 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 						EntityProviderWriteProperties.serviceRoot(
 								getContext().getPathInfo().getServiceRoot())
 								.build());
-			} 
+			}  else if (ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())) {
+				IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
+				List<Map<String, Object>> data =blModel.getDataSet();
+				return EntityProvider.writeFeed(
+						contentType,
+						entitySet,
+						data,
+						EntityProviderWriteProperties.serviceRoot(
+								getContext().getPathInfo().getServiceRoot())
+								.build());
+			}
 			
-//			else if (ENTITY_SET_NAME_MANUFACTURERS
-//					.equals(entitySet.getName())) {
-//				return EntityProvider.writeFeed(
-//						contentType,
-//						entitySet,
-//						dataStore.getManufacturers(),
-//						EntityProviderWriteProperties.serviceRoot(
-//								getContext().getPathInfo().getServiceRoot())
-//								.build());
-//			}
-//			 else if (ENTITY_SET_NAME_CASYSTEMS
-//						.equals(entitySet.getName())) {
-//					return EntityProvider.writeFeed(
-//							contentType,
-//							entitySet,
-//							dataStore.getCaSystems(),
-//							EntityProviderWriteProperties.serviceRoot(
-//									getContext().getPathInfo().getServiceRoot())
-//									.build());
-//				}
+
 
 			throw new ODataNotFoundException(ODataNotFoundException.ENTITY);
 

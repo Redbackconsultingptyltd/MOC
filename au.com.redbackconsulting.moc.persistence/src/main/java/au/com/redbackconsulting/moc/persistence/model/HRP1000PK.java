@@ -7,7 +7,7 @@ import java.util.Date;
  * ID class for entity: HRP1000
  *
  */ 
-public class HRP1000PK  implements IPkModel {   
+public class HRP1000PK  implements IHRP1000PK {   
    
 	private Integer tenantId;        
 	private String objectType;         

@@ -1,12 +1,12 @@
 package au.com.redbackconsulting.moc.persistence.model;
 
-import java.io.Serializable;
+ 
 
 /**
  * ID class for entity: HrObjectRel
  *
  */ 
-public class HrObjectRelPK  implements IPkModel {   
+public class HrObjectRelPK  implements IHrObjectRelPK {   
    
 	private Integer tenantId;
 		private String objectType;         

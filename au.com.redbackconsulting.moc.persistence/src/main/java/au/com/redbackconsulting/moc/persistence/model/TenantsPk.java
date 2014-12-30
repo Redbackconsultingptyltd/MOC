@@ -1,6 +1,6 @@
 package au.com.redbackconsulting.moc.persistence.model;
 
-public class TenantsPk  implements IPkModel{
+public class TenantsPk  implements ITenantsPK{
 
 	private static final long serialVersionUID = 1L;
 
