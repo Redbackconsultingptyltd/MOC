@@ -1,6 +1,14 @@
 package au.com.redbackconsulting.moc.odata.api;
 
+import org.apache.olingo.odata2.api.edm.FullQualifiedName;
+
 public class Constants {
+	
+	  public static final String NAMESPACE = "au.com.redbackconsulting.odata2.ODataMoc";
+ 
+      public static final String ENTITY_CONTAINER = "ODataMOCEntityContainer";
+     
+	
 	 public static final int ENTITY_KEY_CASYSTEM=1;
      public static final int ENTITY_KEY_HRHIER=2;
      public static final int ENTITY_KEY_HRHIERMAP=3;
@@ -14,10 +22,14 @@ public class Constants {
      public static final int ENTITY_KEY_TENANTS=11;
      
      
-     public static String ENTITY_TYPE_NAME_CASYSTEM ="CaSystem";
+     public static String ENTITY_NAME_CASYSTEM ="CaSystem";
  	public static String ENTITY_SET_NAME_CASYSTEM="CaSystems";
- 	 public  static final String ASSOCIATION_SET_CASYSTEM_TENANTS = "CaSystems_Tenants";
+ 	public static String ASSOCIATION_NAME_CASYSTEM_TENANT="CaSystems_Tenants_Tenants_CaSystems";
+ 	public static final FullQualifiedName ASSOCIATION_CASYSTEM_TENANT=new FullQualifiedName(NAMESPACE, ASSOCIATION_NAME_CASYSTEM_TENANT);
  	
+ 	
+ 	public static final String ASSOCIATION_SET_CASYSTEM_TENANT="CaSystems_Tenants";
+	
 
 public static String ENTITY_TYPE_NAME_HRHIER="HrHier";
 public static String ENTITY_SET_NAME_HRHIER="HrHiers";

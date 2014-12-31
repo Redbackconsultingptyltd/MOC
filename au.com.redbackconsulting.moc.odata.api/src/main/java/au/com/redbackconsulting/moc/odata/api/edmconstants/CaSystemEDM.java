@@ -1,6 +1,6 @@
 package au.com.redbackconsulting.moc.odata.api.edmconstants;
 
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_CASYSTEM;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_NAME_CASYSTEM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,10 +10,28 @@ import org.apache.olingo.odata2.api.edm.EdmSimpleTypeKind;
 import org.apache.olingo.odata2.api.edm.FullQualifiedName;
 import org.apache.olingo.odata2.api.edm.provider.Association;
 import org.apache.olingo.odata2.api.edm.provider.AssociationEnd;
+import org.apache.olingo.odata2.api.edm.provider.AssociationSet;
+import org.apache.olingo.odata2.api.edm.provider.AssociationSetEnd;
 import org.apache.olingo.odata2.api.edm.provider.Facets;
+import org.apache.olingo.odata2.api.edm.provider.NavigationProperty;
 import org.apache.olingo.odata2.api.edm.provider.Property;
 import org.apache.olingo.odata2.api.edm.provider.PropertyRef;
 import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
+
+import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_NAME_CASYSTEM_TENANT;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_CASYSTEM_TENANT;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_CASYSTEM_TENANT;
+
+
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_CASYSTEM;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_TENANTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_CONTAINER;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_CASYSTEM;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_TENANTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_TENANTS;
+
+
+ 
 
 
 
@@ -22,14 +40,13 @@ public class CaSystemEDM extends BaseEDM {
 	public static String SYSID ="sysId";
 	public static String TENANTID="tenantId";
 	public static String SYSDESC="sysDesc";
-	public static String ASSOCIATION_CASYSTEM_TENANT;
 	public static String ROLE_1_2 = "CaSystem_to_Tenant";
-	public static String ROLE_2_1 = "Tenant_CaSystems";
+	public static String ROLE_1_1 = "Tenant_CaSystems";
 	
 	
 	
-	public CaSystemEDM(String nameSpace, String entity_type_name, String entity_set_name){
-		super(nameSpace, entity_type_name, entity_set_name);
+	public CaSystemEDM(String nameSpace, String entity_type_name, String entity_set_name, EntityTypeFactory factory){
+		super(nameSpace, entity_type_name, entity_set_name, factory);
 	//	entitySetName=CaSystemEDM.ENTITY_SET_NAME;
 		
 		
@@ -53,42 +70,54 @@ public class CaSystemEDM extends BaseEDM {
 		  keyProperties.add(new PropertyRef().setName(CaSystemEDM.TENANTID));
 		return keyProperties;
 	}
+	
+	@Override
+	public List<NavigationProperty> getNavigations() {
+		
+		List<NavigationProperty> navigationProperties = new ArrayList<NavigationProperty>();
+		
+		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_TENANTS).setRelationship(ASSOCIATION_CASYSTEM_TENANT).setFromRole(ROLE_1_1).setToRole(ROLE_1_2));
+		 return navigationProperties;
+	}
+
 
 
 	@Override
-	public Association getAssociation(  FullQualifiedName relatedEntity ) {
-		if(relatedEntity.getName().equals(ENTITY_TYPE_NAME_CASYSTEM)){
-			    return new Association().setName(CaSystemEDM.ASSOCIATION_CASYSTEM_TENANT)
-			        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole(CaSystemEDM.ROLE_1_2).setMultiplicity(EdmMultiplicity.MANY))
-			        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole(CaSystemEDM.ROLE_2_1).setMultiplicity(EdmMultiplicity.ONE));
+	public Association getAssociation(  FullQualifiedName edmFQName ) {
+		if(edmFQName.getName().equals(ASSOCIATION_CASYSTEM_TENANT.getName())){
+			    return new Association().setName(ASSOCIATION_NAME_CASYSTEM_TENANT)
+			        .setEnd1(new AssociationEnd().setType(getFactory().getEDM(ENTITY_KEY_CASYSTEM).getFullQualifiedName()).setRole(CaSystemEDM.ROLE_1_2).setMultiplicity(EdmMultiplicity.MANY))
+			        .setEnd2(new AssociationEnd().setType(getFactory().getEDM(ENTITY_KEY_TENANTS).getFullQualifiedName()).setRole(CaSystemEDM.ROLE_1_1).setMultiplicity(EdmMultiplicity.ONE));
 		}
 		return null;
 	 
 	}
 
 
+	@Override
+	public AssociationSet getAssociationSet(String entityContainer,
+			FullQualifiedName association 
+			 ) {
+		 if (ENTITY_CONTAINER.equals(entityContainer)) {
+			    if (ASSOCIATION_CASYSTEM_TENANT.equals(association)) {
+			      return new AssociationSet().setName(ASSOCIATION_SET_CASYSTEM_TENANT)
+			          .setAssociation(ASSOCIATION_CASYSTEM_TENANT)
+			          .setEnd1(new AssociationSetEnd().setRole(ROLE_1_2).setEntitySet(ENTITY_SET_NAME_CASYSTEM))
+			          .setEnd2(new AssociationSetEnd().setRole(ROLE_1_1).setEntitySet(ENTITY_SET_NAME_TENANTS));
+			    }
+			  }
+			  return null;
+ 
+	}
+
+
+
+
 	
  
 	
 	
-//	public  static	Map<String, Object> getEDMData(  CaSystems entity){
-//		Map<String, Object> data = new HashMap<String, Object>();
-//		
-//		if(entity!=null)
-//		{
-//
-//		data.put(CaSystemEDM.sysId, entity.getSystId());
-//		data.put(CaSystemEDM.tenantId, entity.getTenantId());
-//		data.put(CaSystemEDM.sysDesc,entity.getSystDesc() );
-//		return data;
-//		}
-//		else
-//			return null;
-//	}
-
-	
-	
-	
+ 	
 	 
 	
 

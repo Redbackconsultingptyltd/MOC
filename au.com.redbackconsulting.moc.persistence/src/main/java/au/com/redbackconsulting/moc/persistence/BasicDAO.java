@@ -102,7 +102,7 @@ public abstract class BasicDAO <T extends IDBEntity, PK extends IPkModel >     {
 	        return getById(id, em);
 	    }
 	    
-	    protected abstract String getidFieldName();
+	     protected abstract String getidFieldName();
 
 	    @SuppressWarnings("unchecked")
 	    private T getById(long id, EntityManager em) {

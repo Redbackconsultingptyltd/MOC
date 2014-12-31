@@ -2,6 +2,7 @@ package au.com.redbackconsulting.moc.odata.api;
 
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -201,21 +202,25 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 			// purposes only
 			entitySet = uriInfo.getTargetEntitySet();
 
-//			if (ENTITY_SET_NAME_CARS.equals(entitySet.getName())) {
-//				int manufacturerKey = getKeyValue(uriInfo.getKeyPredicates()
-//						.get(0));
+			if (ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
+//				String sysId = getKeyValueString(uriInfo.getKeyPredicates().get(0));
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
+				IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
+				ITenantsPK pk  = (ITenantsPK) PKFactory.getInstance().getPKInstance(PK_KEY_TENANTS);
+				pk.setTenantId(new Integer(tenantId));
+				Map<String, Object> data = blModel.getData(pk);
+				
+				List<Map<String, Object>> result1 = new ArrayList<Map<String, Object>>();
+				result1.add(data);
 //
-//				List<Map<String, Object>> cars = new ArrayList<Map<String, Object>>();
-//				cars.add(dataStore.getCar(manufacturerKey));
-//
-//				return EntityProvider.writeFeed(
-//						contentType,
-//						entitySet,
-//						cars,
-//						EntityProviderWriteProperties.serviceRoot(
-//								getContext().getPathInfo().getServiceRoot())
-//								.build());
-//			}
+				return EntityProvider.writeFeed(
+						contentType,
+						entitySet,
+						result1,
+						EntityProviderWriteProperties.serviceRoot(
+								getContext().getPathInfo().getServiceRoot())
+								.build());
+ 	}
 
 			throw new ODataNotFoundException(ODataNotFoundException.ENTITY);
 		} else if (uriInfo.getNavigationSegments().size() == 1) {

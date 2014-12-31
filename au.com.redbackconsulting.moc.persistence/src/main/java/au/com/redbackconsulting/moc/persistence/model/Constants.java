@@ -4,7 +4,7 @@ public class Constants {
 	 
 
 	 public static final int PK_KEY_CASYSTEM=1;
-     public static final int PKKEY_HRHIER=2;
+     public static final int PK_KEY_HRHIER=2;
      public static final int PK_KEY_HRHIERMAP=3;
      public static final int PK_KEY_HROBJECTSREL=4;
      public static final int PK_KEY_HROBJECTSCONSTRAINTS=5;

@@ -8,8 +8,10 @@ import org.apache.olingo.odata2.api.edm.EdmSimpleTypeKind;
 import org.apache.olingo.odata2.api.edm.FullQualifiedName;
 import org.apache.olingo.odata2.api.edm.provider.Association;
 import org.apache.olingo.odata2.api.edm.provider.AssociationEnd;
+import org.apache.olingo.odata2.api.edm.provider.AssociationSet;
 import org.apache.olingo.odata2.api.edm.provider.EntitySet;
 import org.apache.olingo.odata2.api.edm.provider.Facets;
+import org.apache.olingo.odata2.api.edm.provider.NavigationProperty;
 import org.apache.olingo.odata2.api.edm.provider.Property;
 import org.apache.olingo.odata2.api.edm.provider.PropertyRef;
 import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
@@ -19,8 +21,8 @@ public class HrRelationsEDM extends BaseEDM {
 	 
 
 	public HrRelationsEDM(String namespace, String entityTypeName,
-			String entitySetName) {
-		super(namespace, entityTypeName, entitySetName);
+			String entitySetName, EntityTypeFactory factory) {
+		super(namespace, entityTypeName, entitySetName, factory);
 		// TODO Auto-generated constructor stub
 	}
 	public static String tenantId="tenantId";
@@ -52,6 +54,17 @@ public class HrRelationsEDM extends BaseEDM {
 //	}
 	return null;
  
+	}
+	@Override
+	public AssociationSet getAssociationSet(String entityContainer,
+			FullQualifiedName association ) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<NavigationProperty> getNavigations() {
+		// TODO Auto-generated method stub
+		return null;
 	}
  
 

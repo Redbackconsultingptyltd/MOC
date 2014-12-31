@@ -1,36 +1,7 @@
 package au.com.redbackconsulting.moc.odata.api;
 
-import java.util.ArrayList;
-import java.util.List;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_CASYSTEM_TENANT;
 
-import org.apache.olingo.odata2.api.edm.EdmConcurrencyMode;
-import org.apache.olingo.odata2.api.edm.EdmMultiplicity;
-import org.apache.olingo.odata2.api.edm.EdmSimpleTypeKind;
-import org.apache.olingo.odata2.api.edm.EdmTargetPath;
-import org.apache.olingo.odata2.api.edm.FullQualifiedName;
-import org.apache.olingo.odata2.api.edm.provider.Association;
-import org.apache.olingo.odata2.api.edm.provider.AssociationEnd;
-import org.apache.olingo.odata2.api.edm.provider.AssociationSet;
-import org.apache.olingo.odata2.api.edm.provider.AssociationSetEnd;
-import org.apache.olingo.odata2.api.edm.provider.ComplexProperty;
-import org.apache.olingo.odata2.api.edm.provider.ComplexType;
-import org.apache.olingo.odata2.api.edm.provider.CustomizableFeedMappings;
-import org.apache.olingo.odata2.api.edm.provider.EdmProvider;
-import org.apache.olingo.odata2.api.edm.provider.EntityContainer;
-import org.apache.olingo.odata2.api.edm.provider.EntityContainerInfo;
-import org.apache.olingo.odata2.api.edm.provider.EntitySet;
-import org.apache.olingo.odata2.api.edm.provider.EntityType;
-import org.apache.olingo.odata2.api.edm.provider.Facets;
-import org.apache.olingo.odata2.api.edm.provider.Key;
-import org.apache.olingo.odata2.api.edm.provider.NavigationProperty;
-import org.apache.olingo.odata2.api.edm.provider.Property;
-import org.apache.olingo.odata2.api.edm.provider.PropertyRef;
-import org.apache.olingo.odata2.api.edm.provider.Schema;
-import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
-import org.apache.olingo.odata2.api.exception.ODataException;
-
-import au.com.redbackconsulting.moc.odata.api.edmconstants.BaseEDM;
-import au.com.redbackconsulting.moc.odata.api.edmconstants.EntityTypeFactory;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRHIER;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRHIERMAP;
@@ -42,34 +13,31 @@ import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRP100
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRP1001;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRRELATIONS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_TENANTS;
-
-
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_CASYSTEM;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRHIER;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRHIERMAP;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HROBJECTREL;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HROBJECTS;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HROBJECTSCONSTRAINTS;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HROBJECTSSTATUS;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRP1000;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRP1001;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRRELATIONS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_TENANTS;
-
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_CASYSTEM;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRHIER;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRHIERMAP;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTREL;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTS;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTSCONSTRAINTS;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTSSTATUS;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRP1000;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRP1001;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRRELATIONS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_NAME_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_TENANTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.NAMESPACE;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_CONTAINER;
+ 
 
-import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_CASYSTEM_TENANTS;
+import java.util.ArrayList;
+import java.util.List;
 
+import org.apache.olingo.odata2.api.edm.FullQualifiedName;
+import org.apache.olingo.odata2.api.edm.provider.Association;
+import org.apache.olingo.odata2.api.edm.provider.AssociationSet;
+import org.apache.olingo.odata2.api.edm.provider.ComplexType;
+import org.apache.olingo.odata2.api.edm.provider.EdmProvider;
+import org.apache.olingo.odata2.api.edm.provider.EntityContainer;
+import org.apache.olingo.odata2.api.edm.provider.EntityContainerInfo;
+import org.apache.olingo.odata2.api.edm.provider.EntitySet;
+import org.apache.olingo.odata2.api.edm.provider.EntityType;
+import org.apache.olingo.odata2.api.edm.provider.Schema;
+import org.apache.olingo.odata2.api.exception.ODataException;
+
+import au.com.redbackconsulting.moc.odata.api.edmconstants.BaseEDM;
+import au.com.redbackconsulting.moc.odata.api.edmconstants.EntityTypeFactory;
 
 
 public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
@@ -77,9 +45,6 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 
 	
  
-	  private static final String NAMESPACE = "au.com.redbackconsulting.odata2.ODataMoc";
-      private static final String ENTITY_CONTAINER = "ODataMOCEntityContainer";
-     
         
       EntityTypeFactory entityFactory = EntityTypeFactory.getInstance(NAMESPACE);
 
@@ -130,11 +95,12 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 //		complexTypes.add(getComplexType(COMPLEX_TYPE));
 //		schema.setComplexTypes(complexTypes);
 
-//		List<Association> associations = new ArrayList<Association>();
-//		associations.add(caSystemEDM.getAssociation(tenantEDM.getFullQualifiedName()));
-//		schema.setAssociations(associations);
-//		
-//		associations.add(e)
+		List<Association> associations = new ArrayList<Association>();
+		Association caSystemAssocation = caSystemEDM.getAssociation(ASSOCIATION_CASYSTEM_TENANT);
+		associations.add(caSystemAssocation);
+		schema.setAssociations(associations);
+		
+	
 
 		
 		
@@ -144,8 +110,8 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 		entityContainer.setName(ENTITY_CONTAINER).setDefaultEntityContainer(true);
 //		entityContainer.
 		List<EntitySet> entitySets = new ArrayList<EntitySet>();
-		
-		entitySets.add(caSystemEDM.getEntitySet( ));
+		EntitySet caSystemEntitySet =caSystemEDM.getEntitySet( );
+		entitySets.add(caSystemEntitySet);
 //		entitySets.add(hrHierEDM.getEntitySet());
 //		entitySets.add(hrHierMapEDM.getEntitySet());
 //		entitySets.add(hrObjectsRelEDM.getEntitySet());
@@ -158,13 +124,10 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 		entitySets.add(tenantEDM.getEntitySet( ));
 		entityContainer.setEntitySets(entitySets);
 
-//		List<AssociationSet> associationSets = new ArrayList<AssociationSet>();
-//		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_CAR_MANUFACTURER, ENTITY_SET_NAME_MANUFACTURERS, ROLE_1_2));
-//		entityContainer.setAssociationSets(associationSets);
-		  List<AssociationSet> associationSets = new ArrayList<AssociationSet>();
-		  associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_SET_CASYSTEM_TENANTS, ENTITY_SET_NAME_TENANTS, ROLE_1_2));
-		  entityContainer.setAssociationSets(associationSets);
-
+		List<AssociationSet> associationSets = new ArrayList<AssociationSet>();
+		associationSets.add(entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getAssociationSet(entityContainer.getName(), ASSOCIATION_CASYSTEM_TENANT));
+		entityContainer.setAssociationSets(associationSets);
+		 
 		
 
 		entityContainers.add(entityContainer);
@@ -182,7 +145,7 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 	public EntityType getEntityType(FullQualifiedName edmFQName)
 			throws ODataException {
 		if (NAMESPACE.equals(edmFQName.getNamespace())) {
-			  if (edmFQName.getName().equals(ENTITY_TYPE_NAME_CASYSTEM)) {
+			  if (edmFQName.getName().equals(ENTITY_NAME_CASYSTEM)) {
 			EntityType entityType =entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getEntityType();
 
 		return entityType; 	
@@ -203,10 +166,12 @@ return null;
 			throws ODataException {
 		 if (ENTITY_CONTAINER.equals(entityContainer)) {
 			    if (ENTITY_SET_NAME_CASYSTEM.equals(name)) {
-			      return new EntitySet().setName(name).setEntityType(entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getFullQualifiedName());
+			    	EntitySet entitySet =  entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getEntitySet();
+			      return entitySet;
 			    }  else if (ENTITY_SET_NAME_TENANTS.equals(name)) {
-				      return new EntitySet().setName(name).setEntityType(entityFactory.getEDM(ENTITY_KEY_TENANTS).getFullQualifiedName());
-				    } 
+			    	EntitySet entitySet =  entityFactory.getEDM(ENTITY_KEY_TENANTS).getEntitySet();
+				return entitySet; 
+			    } 
 			  }
 			  return null;
 	}
@@ -240,10 +205,18 @@ return null;
 	@Override
 	public Association getAssociation(FullQualifiedName edmFQName)
 			throws ODataException {
-		 
+		if (NAMESPACE.equals(edmFQName.getNamespace())) {
+			FullQualifiedName fqName = ASSOCIATION_CASYSTEM_TENANT;
+		    if (fqName.getName().equals(edmFQName.getName())) {
+		      Association association = entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getAssociation(fqName);
+		    	return association;
+		    }
+		  }
+		  return null;
+		  }
 		
 		
-	}
+	 
 
 
 
@@ -252,10 +225,16 @@ return null;
 	public AssociationSet getAssociationSet(String entityContainer,
 			FullQualifiedName association, String sourceEntitySetName,
 			String sourceEntitySetRole) throws ODataException {
+		 if (ENTITY_CONTAINER.equals(entityContainer)) {
+			    if (ASSOCIATION_CASYSTEM_TENANT.equals(association)) {
+			    	AssociationSet associationSet = entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getAssociationSet( entityContainer,
+			    			 association );
+			      return associationSet;
+			    }
+			  }
+			  return null;
 	
-		// TODO Auto-generated method stub
-//		return super.getAssociationSet(entityContainer, association,
-//				sourceEntitySetName, sourceEntitySetRole);
+ 
 	}
 
 
