@@ -43,4 +43,10 @@ public class HrObjectsConstraintsBL extends BaseBL{
 		return null;
 	}
 
+	@Override
+	public List<Map<String, Object>> getRelatedData(IPkModel primaryKey) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }

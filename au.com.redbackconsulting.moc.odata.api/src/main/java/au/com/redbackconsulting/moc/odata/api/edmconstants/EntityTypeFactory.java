@@ -22,7 +22,7 @@ import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_H
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRP1001;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRRELATIONS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_TENANTS;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_NAME_CASYSTEM;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRHIER;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRHIERMAP;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTREL;
@@ -60,7 +60,7 @@ public class EntityTypeFactory {
 		switch (entity_Key_name) {
 		case ENTITY_KEY_CASYSTEM:
 			
-			return  getEDMInstance(ENTITY_KEY_CASYSTEM, ENTITY_NAME_CASYSTEM, ENTITY_SET_NAME_CASYSTEM);//new CaSystemEDM(this.namespace) ;
+			return  getEDMInstance(ENTITY_KEY_CASYSTEM, ENTITY_TYPE_NAME_CASYSTEM, ENTITY_SET_NAME_CASYSTEM);//new CaSystemEDM(this.namespace) ;
  
 		case ENTITY_KEY_HRHIER:
 			return getEDMInstance(ENTITY_KEY_HRHIER, ENTITY_TYPE_NAME_HRHIER, ENTITY_SET_NAME_HRHIER);

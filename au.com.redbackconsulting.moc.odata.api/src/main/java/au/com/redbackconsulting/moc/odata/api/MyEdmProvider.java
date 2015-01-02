@@ -15,7 +15,7 @@ import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRRELA
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_TENANTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_TENANTS;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_NAME_CASYSTEM;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_TENANTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.NAMESPACE;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_CONTAINER;
@@ -98,6 +98,8 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 		List<Association> associations = new ArrayList<Association>();
 		Association caSystemAssocation = caSystemEDM.getAssociation(ASSOCIATION_CASYSTEM_TENANT);
 		associations.add(caSystemAssocation);
+		Association tenantsAssocation = tenantEDM.getAssociation(ASSOCIATION_CASYSTEM_TENANT);
+		associations.add(tenantsAssocation);
 		schema.setAssociations(associations);
 		
 	
@@ -126,6 +128,8 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 
 		List<AssociationSet> associationSets = new ArrayList<AssociationSet>();
 		associationSets.add(entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getAssociationSet(entityContainer.getName(), ASSOCIATION_CASYSTEM_TENANT));
+		associationSets.add(entityFactory.getEDM(ENTITY_KEY_TENANTS).getAssociationSet(entityContainer.getName(), ASSOCIATION_CASYSTEM_TENANT));
+		
 		entityContainer.setAssociationSets(associationSets);
 		 
 		
@@ -145,7 +149,7 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 	public EntityType getEntityType(FullQualifiedName edmFQName)
 			throws ODataException {
 		if (NAMESPACE.equals(edmFQName.getNamespace())) {
-			  if (edmFQName.getName().equals(ENTITY_NAME_CASYSTEM)) {
+			  if (edmFQName.getName().equals(ENTITY_TYPE_NAME_CASYSTEM)) {
 			EntityType entityType =entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getEntityType();
 
 		return entityType; 	

@@ -14,8 +14,8 @@ public class MyServiceFactory extends ODataServiceFactory {
 
 	@Override
 	public ODataService createService(ODataContext ctx) throws ODataException {
-		EdmProvider edmProvider =new  MyEdmProvider();  
-		ODataSingleProcessor singleProcessor =  new MyODataSingleProcessor();  
+		EdmProvider edmProvider =  new  MyEdmProvider();   //
+		ODataSingleProcessor singleProcessor =   new MyODataSingleProcessor(); //
 		
 
 		return createODataSingleProcessorService(edmProvider, singleProcessor);

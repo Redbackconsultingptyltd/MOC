@@ -1,6 +1,7 @@
 package au.com.redbackconsulting.moc.odata.api.bl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -99,6 +100,41 @@ public class TenantsBL extends BaseBL {
 				return null;
 			}
 		}
+
+	@Override
+	public List<Map<String, Object>> getRelatedData(IPkModel primaryKey) {
+		TenantsPk pk = (TenantsPk) primaryKey ;
+		
+		 List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
+		try {
+			TenantsDAO dao = new TenantsDAO();
+		Tenants entity =	dao.getByPK(pk);
+		Collection<CaSystems> collection = entity.getCaSystems();
+		for (Iterator iterator = collection.iterator(); iterator.hasNext();) {
+			CaSystems caSystems = (CaSystems) iterator.next();
+			 Map<String, Object>  map = convertCaSystem(caSystems);
+			 result.add(map);
+		}
+		
+		 
+		return result;
+		} catch (Exception e) {
+			int i =0;
+			i=i+1;
+		}
+		return null;
+	}
+
+	private Map<String, Object> convertCaSystem(CaSystems caSystems) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		
+		map.put(CaSystemEDM.SYSID, caSystems.getSystId());
+		map.put(CaSystemEDM.SYSDESC, caSystems.getSystDesc());
+		map.put(CaSystemEDM.TENANTID, caSystems.getTenantId());
+		return map;
+	}
+	
+	
 		
 	}
 

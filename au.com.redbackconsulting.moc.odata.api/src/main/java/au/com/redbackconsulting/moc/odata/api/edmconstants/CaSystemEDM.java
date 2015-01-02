@@ -1,6 +1,6 @@
 package au.com.redbackconsulting.moc.odata.api.edmconstants;
 
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_NAME_CASYSTEM;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_CASYSTEM;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +40,8 @@ public class CaSystemEDM extends BaseEDM {
 	public static String SYSID ="sysId";
 	public static String TENANTID="tenantId";
 	public static String SYSDESC="sysDesc";
-	public static String ROLE_1_2 = "CaSystem_to_Tenant";
-	public static String ROLE_1_1 = "Tenant_CaSystems";
+	public static String ROLE_1_1 = "CaSystem_to_Tenant";
+	public static String ROLE_1_2 = "Tenant_CaSystems";
 	
 	
 	
@@ -85,9 +85,10 @@ public class CaSystemEDM extends BaseEDM {
 	@Override
 	public Association getAssociation(  FullQualifiedName edmFQName ) {
 		if(edmFQName.getName().equals(ASSOCIATION_CASYSTEM_TENANT.getName())){
-			    return new Association().setName(ASSOCIATION_NAME_CASYSTEM_TENANT)
-			        .setEnd1(new AssociationEnd().setType(getFactory().getEDM(ENTITY_KEY_CASYSTEM).getFullQualifiedName()).setRole(CaSystemEDM.ROLE_1_2).setMultiplicity(EdmMultiplicity.MANY))
-			        .setEnd2(new AssociationEnd().setType(getFactory().getEDM(ENTITY_KEY_TENANTS).getFullQualifiedName()).setRole(CaSystemEDM.ROLE_1_1).setMultiplicity(EdmMultiplicity.ONE));
+			Association association = new Association().setName(ASSOCIATION_NAME_CASYSTEM_TENANT)
+			        .setEnd1(new AssociationEnd().setType(getFactory().getEDM(ENTITY_KEY_CASYSTEM).getFullQualifiedName()).setRole(CaSystemEDM.ROLE_1_1).setMultiplicity(EdmMultiplicity.MANY))
+			        .setEnd2(new AssociationEnd().setType(getFactory().getEDM(ENTITY_KEY_TENANTS).getFullQualifiedName()).setRole(CaSystemEDM.ROLE_1_2).setMultiplicity(EdmMultiplicity.ONE));
+			return association;
 		}
 		return null;
 	 
@@ -102,8 +103,8 @@ public class CaSystemEDM extends BaseEDM {
 			    if (ASSOCIATION_CASYSTEM_TENANT.equals(association)) {
 			      return new AssociationSet().setName(ASSOCIATION_SET_CASYSTEM_TENANT)
 			          .setAssociation(ASSOCIATION_CASYSTEM_TENANT)
-			          .setEnd1(new AssociationSetEnd().setRole(ROLE_1_2).setEntitySet(ENTITY_SET_NAME_CASYSTEM))
-			          .setEnd2(new AssociationSetEnd().setRole(ROLE_1_1).setEntitySet(ENTITY_SET_NAME_TENANTS));
+			          .setEnd1(new AssociationSetEnd().setRole(ROLE_1_1).setEntitySet(ENTITY_SET_NAME_CASYSTEM))
+			          .setEnd2(new AssociationSetEnd().setRole(ROLE_1_2).setEntitySet(ENTITY_SET_NAME_TENANTS));
 			    }
 			  }
 			  return null;

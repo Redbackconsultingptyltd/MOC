@@ -82,6 +82,36 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 			return EntityProvider.writeEntry(contentType, entitySet,
 					data, propertiesBuilder.build());
 		}
+		}  else if (uriInfo.getNavigationSegments().size() == 1) {
+			EdmEntitySet entitySet = uriInfo.getTargetEntitySet();
+			
+			if (ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())) {
+//				String sysId = getKeyValueString(uriInfo.getKeyPredicates().get(0));
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
+				IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
+				ITenantsPK pk  = (ITenantsPK) PKFactory.getInstance().getPKInstance(PK_KEY_TENANTS);
+			//	pk.setSystId(sysId);
+				pk.setTenantId(new Integer(tenantId));
+				Map<String, Object> data = blModel.getData(pk);				
+				List<Map<String, Object>> result1 = new ArrayList<Map<String, Object>>();
+				result1.add(data);
+				if (data != null) {
+					URI serviceRoot = getContext().getPathInfo()
+							.getServiceRoot();
+					ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
+							.serviceRoot(serviceRoot);
+
+					return EntityProvider.writeEntry(contentType, entitySet,
+							data, propertiesBuilder.build());
+				}
+				
+			} else if(ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
+				
+				
+			}
+			
+			
 		}
 		return null;
 
@@ -203,16 +233,16 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 			entitySet = uriInfo.getTargetEntitySet();
 
 			if (ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
-//				String sysId = getKeyValueString(uriInfo.getKeyPredicates().get(0));
-				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
+				
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
 				ITenantsPK pk  = (ITenantsPK) PKFactory.getInstance().getPKInstance(PK_KEY_TENANTS);
+			//	pk.setSystId(sysId);
 				pk.setTenantId(new Integer(tenantId));
-				Map<String, Object> data = blModel.getData(pk);
-				
+				Map<String, Object> data = blModel.getData(pk);				
 				List<Map<String, Object>> result1 = new ArrayList<Map<String, Object>>();
 				result1.add(data);
-//
+ 
 				return EntityProvider.writeFeed(
 						contentType,
 						entitySet,

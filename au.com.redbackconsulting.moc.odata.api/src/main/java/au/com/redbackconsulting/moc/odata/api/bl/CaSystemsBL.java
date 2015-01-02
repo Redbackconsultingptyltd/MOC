@@ -9,6 +9,7 @@ import java.util.Map;
 
 
 
+
 import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
 import au.com.redbackconsulting.moc.persistence.CaSystemsDAO;
 import au.com.redbackconsulting.moc.persistence.model.CaSystems;
@@ -90,6 +91,13 @@ public class CaSystemsBL extends BaseBL   {
 		} catch (Exception e) {
 			return null;
 		}
+	}
+
+
+	@Override
+	public List<Map<String, Object>> getRelatedData(IPkModel primaryKey) {
+		
+		return null;
 	}
 	
 

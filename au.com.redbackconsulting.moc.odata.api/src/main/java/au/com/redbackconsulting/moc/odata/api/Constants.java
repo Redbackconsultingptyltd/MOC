@@ -22,11 +22,11 @@ public class Constants {
      public static final int ENTITY_KEY_TENANTS=11;
      
      
-     public static String ENTITY_NAME_CASYSTEM ="CaSystem";
+     public static String ENTITY_TYPE_NAME_CASYSTEM ="CaSystem";
  	public static String ENTITY_SET_NAME_CASYSTEM="CaSystems";
  	public static String ASSOCIATION_NAME_CASYSTEM_TENANT="CaSystems_Tenants_Tenants_CaSystems";
  	public static final FullQualifiedName ASSOCIATION_CASYSTEM_TENANT=new FullQualifiedName(NAMESPACE, ASSOCIATION_NAME_CASYSTEM_TENANT);
- 	
+ 	 
  	
  	public static final String ASSOCIATION_SET_CASYSTEM_TENANT="CaSystems_Tenants";
 	
