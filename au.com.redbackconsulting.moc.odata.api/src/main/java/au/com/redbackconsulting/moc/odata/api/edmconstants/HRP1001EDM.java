@@ -39,18 +39,34 @@ public class HRP1001EDM extends BaseEDM{
 	@Override
 	public List<Property> getProperties() {
 		List<Property> properties = new ArrayList<Property>();
-		  properties.add(new SimpleProperty().setName(HrHierEDM.hierId).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(HrHierEDM.tenantId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(HrHierEDM.hierDesc).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
-		  properties.add(new SimpleProperty().setName(HrHierEDM.hrHierMap).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.tenantId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.robjectType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.robjectId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(true)));
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.rsobjectType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
 			
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.rsobjectId).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.validFrom).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.validTo).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.changedBy).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+			
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.changedOn).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.subType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.status).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.guid).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+			
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.relatType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		  
+		  
+		  
 		  return properties;
 	}
 	@Override
 	public List<PropertyRef> getKeys() {
 		List<PropertyRef> keyProperties = new ArrayList<PropertyRef>();
-		 keyProperties.add(new PropertyRef().setName(CaSystemEDM.SYSID));
-		  keyProperties.add(new PropertyRef().setName(CaSystemEDM.TENANTID));
+		 keyProperties.add(new PropertyRef().setName(HRP1001EDM.tenantId));
+		  keyProperties.add(new PropertyRef().setName(HRP1001EDM.robjectId));
+		  
+		  keyProperties.add(new PropertyRef().setName(HRP1001EDM.rsobjectId));
 		return keyProperties;
 	}
 	@Override

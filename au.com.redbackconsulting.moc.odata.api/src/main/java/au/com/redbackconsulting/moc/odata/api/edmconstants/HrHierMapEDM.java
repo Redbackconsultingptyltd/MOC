@@ -33,18 +33,20 @@ public class HrHierMapEDM  extends BaseEDM{
 	@Override
 	public List<Property> getProperties() {
 		List<Property> properties = new ArrayList<Property>();
-		  properties.add(new SimpleProperty().setName(HrHierEDM.hierId).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(HrHierEDM.tenantId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(HrHierEDM.hierDesc).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
-		  properties.add(new SimpleProperty().setName(HrHierEDM.hrHierMap).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
-			
+		  properties.add(new SimpleProperty().setName(HrHierMapEDM.hierId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HrHierMapEDM.tenantId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HrHierMapEDM.seqNo).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		  properties.add(new SimpleProperty().setName(HrHierMapEDM.objectType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		  properties.add(new SimpleProperty().setName(HrHierMapEDM.relatType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		  properties.add(new SimpleProperty().setName(HrHierMapEDM.sObjType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		  properties.add(new SimpleProperty().setName(HrHierMapEDM.skip).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
 		  return properties;
 	}
 	@Override
 	public List<PropertyRef> getKeys() {
 		List<PropertyRef> keyProperties = new ArrayList<PropertyRef>();
-		 keyProperties.add(new PropertyRef().setName(CaSystemEDM.SYSID));
-		  keyProperties.add(new PropertyRef().setName(CaSystemEDM.TENANTID));
+		 keyProperties.add(new PropertyRef().setName(HrHierMapEDM.hierId));
+		  keyProperties.add(new PropertyRef().setName(HrHierMapEDM.tenantId));
 		return keyProperties;
 	}
 	@Override

@@ -98,13 +98,11 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 		List<Association> associations = new ArrayList<Association>();
 		Association caSystemAssocation = caSystemEDM.getAssociation(ASSOCIATION_CASYSTEM_TENANT);
 		associations.add(caSystemAssocation);
-		Association tenantsAssocation = tenantEDM.getAssociation(ASSOCIATION_CASYSTEM_TENANT);
-		associations.add(tenantsAssocation);
+ 
 		schema.setAssociations(associations);
 		
 	
 
-		
 		
 		
 		List<EntityContainer> entityContainers = new ArrayList<EntityContainer>();
@@ -128,7 +126,7 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 
 		List<AssociationSet> associationSets = new ArrayList<AssociationSet>();
 		associationSets.add(entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getAssociationSet(entityContainer.getName(), ASSOCIATION_CASYSTEM_TENANT));
-		associationSets.add(entityFactory.getEDM(ENTITY_KEY_TENANTS).getAssociationSet(entityContainer.getName(), ASSOCIATION_CASYSTEM_TENANT));
+	associationSets.add(entityFactory.getEDM(ENTITY_KEY_TENANTS).getAssociationSet(entityContainer.getName(), ASSOCIATION_CASYSTEM_TENANT));
 		
 		entityContainer.setAssociationSets(associationSets);
 		 

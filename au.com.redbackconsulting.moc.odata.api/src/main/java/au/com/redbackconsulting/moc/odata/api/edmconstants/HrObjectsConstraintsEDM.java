@@ -25,18 +25,17 @@ public class HrObjectsConstraintsEDM extends BaseEDM {
 	@Override
 	public List<Property> getProperties() {
 		List<Property> properties = new ArrayList<Property>();
-		  properties.add(new SimpleProperty().setName(HrHierEDM.hierId).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(HrHierEDM.tenantId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(HrHierEDM.hierDesc).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
-		  properties.add(new SimpleProperty().setName(HrHierEDM.hrHierMap).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
-			
+		 properties.add(new SimpleProperty().setName(HrObjectsConstraintsEDM.timeConstraint).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HrObjectsConstraintsEDM.tenantId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HrObjectsConstraintsEDM.objectType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		  properties.add(new SimpleProperty().setName(HrObjectsConstraintsEDM.tableId).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
 		  return properties;
 	}
 	@Override
 	public List<PropertyRef> getKeys() {
 		List<PropertyRef> keyProperties = new ArrayList<PropertyRef>();
-		 keyProperties.add(new PropertyRef().setName(CaSystemEDM.SYSID));
-		  keyProperties.add(new PropertyRef().setName(CaSystemEDM.TENANTID));
+		 keyProperties.add(new PropertyRef().setName(HrObjectsConstraintsEDM.tableId));
+		  keyProperties.add(new PropertyRef().setName(HrObjectsConstraintsEDM.tenantId));
 		return keyProperties;
 	}
 	@Override

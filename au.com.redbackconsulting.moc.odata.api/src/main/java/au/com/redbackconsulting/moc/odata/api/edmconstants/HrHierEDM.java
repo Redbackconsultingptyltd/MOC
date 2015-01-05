@@ -42,7 +42,7 @@ public class HrHierEDM  extends BaseEDM{
 	@Override
 	public List<PropertyRef> getKeys() {
 		List<PropertyRef> keyProperties = new ArrayList<PropertyRef>();
-		 keyProperties.add(new PropertyRef().setName("sysId"));
+		 keyProperties.add(new PropertyRef().setName("hierId"));
 		  keyProperties.add(new PropertyRef().setName("tenantId"));
 		return keyProperties;
 	}

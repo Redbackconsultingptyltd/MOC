@@ -26,18 +26,18 @@ public class HrObjectsEDM  extends BaseEDM{
 	@Override
 	public List<Property> getProperties() {
 		List<Property> properties = new ArrayList<Property>();
-		  properties.add(new SimpleProperty().setName(HrHierEDM.hierId).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(HrHierEDM.tenantId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(HrHierEDM.hierDesc).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
-		  properties.add(new SimpleProperty().setName(HrHierEDM.hrHierMap).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		  properties.add(new SimpleProperty().setName(HrObjectsEDM.tenantId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HrObjectsEDM.objectType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HrObjectsEDM.systId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(true)));
+		  properties.add(new SimpleProperty().setName(HrObjectsEDM.sObjectType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
 			
 		  return properties;
 	}
 	@Override
 	public List<PropertyRef> getKeys() {
 		List<PropertyRef> keyProperties = new ArrayList<PropertyRef>();
-		 keyProperties.add(new PropertyRef().setName(CaSystemEDM.SYSID));
-		  keyProperties.add(new PropertyRef().setName(CaSystemEDM.TENANTID));
+		 keyProperties.add(new PropertyRef().setName(HrObjectsEDM.tenantId));
+		 keyProperties.add(new PropertyRef().setName(HrObjectsEDM.systId));
 		return keyProperties;
 	}
 	@Override

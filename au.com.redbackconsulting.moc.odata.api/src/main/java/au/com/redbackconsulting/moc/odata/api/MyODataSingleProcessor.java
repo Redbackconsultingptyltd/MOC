@@ -107,7 +107,18 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				
 			} else if(ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
 				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
-				
+				IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
+				ITenantsPK pk  = (ITenantsPK) PKFactory.getInstance().getPKInstance(PK_KEY_TENANTS);
+			//	pk.setSystId(sysId);
+				pk.setTenantId(new Integer(tenantId));
+				List<Map<String, Object>> data = blModel.getRelatedData(pk);	
+				return EntityProvider.writeFeed(
+						contentType,
+						entitySet,
+						data,
+						EntityProviderWriteProperties.serviceRoot(
+								getContext().getPathInfo().getServiceRoot())
+								.build());
 				
 			}
 			
@@ -239,14 +250,14 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				ITenantsPK pk  = (ITenantsPK) PKFactory.getInstance().getPKInstance(PK_KEY_TENANTS);
 			//	pk.setSystId(sysId);
 				pk.setTenantId(new Integer(tenantId));
-				Map<String, Object> data = blModel.getData(pk);				
-				List<Map<String, Object>> result1 = new ArrayList<Map<String, Object>>();
-				result1.add(data);
+				List<Map<String, Object>> data = blModel.getRelatedData(pk);				
+//				List<Map<String, Object>> result1 = new ArrayList<Map<String, Object>>();
+//				result1.add(data);
  
 				return EntityProvider.writeFeed(
 						contentType,
 						entitySet,
-						result1,
+						data,
 						EntityProviderWriteProperties.serviceRoot(
 								getContext().getPathInfo().getServiceRoot())
 								.build());

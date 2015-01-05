@@ -24,6 +24,9 @@ import org.apache.olingo.odata2.api.edm.provider.Property;
 import org.apache.olingo.odata2.api.edm.provider.PropertyRef;
 import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 
+import static au.com.redbackconsulting.moc.odata.api.Constants.ROLE_CASYSTEMS_TENANTS_1_1;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ROLE_TENANTS_CASYSTEMS_1_2;
+
 public class TenantsEDM extends BaseEDM {
 	 
 
@@ -34,9 +37,7 @@ public class TenantsEDM extends BaseEDM {
 	}
 	public static String tenantId="tenantId";
 	public static String tenantCode="tenantCode";
-	public static String name ="name";
-	public static String ROLE_1_1 = "Tenant_CaSystems";
-	public static String ROLE_1_2 = "CaSystem_to_Tenant";
+	public static String name ="name"; 
 	
 	
 	@Override
@@ -59,8 +60,8 @@ public class TenantsEDM extends BaseEDM {
 	public Association getAssociation(FullQualifiedName relatedEntity) {
 		if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_CASYSTEM)){
 		    return new Association().setName( ASSOCIATION_CASYSTEM_TENANT.getName())
-		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole(CaSystemEDM.ROLE_1_2).setMultiplicity(EdmMultiplicity.ONE))
-		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole(CaSystemEDM.ROLE_1_1).setMultiplicity(EdmMultiplicity.MANY));
+		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_TENANTS_CASYSTEMS_1_2).setMultiplicity(EdmMultiplicity.ONE))
+		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole(ROLE_CASYSTEMS_TENANTS_1_1).setMultiplicity(EdmMultiplicity.MANY));
 	}
 	return null;
  
@@ -72,8 +73,8 @@ public class TenantsEDM extends BaseEDM {
 			    if (ASSOCIATION_CASYSTEM_TENANT.equals(association)) {
 			      return new AssociationSet().setName(ASSOCIATION_SET_CASYSTEM_TENANT)
 			          .setAssociation(ASSOCIATION_CASYSTEM_TENANT)
-			          .setEnd1(new AssociationSetEnd().setRole(ROLE_1_1).setEntitySet(ENTITY_SET_NAME_TENANTS))
-			          .setEnd2(new AssociationSetEnd().setRole(ROLE_1_2).setEntitySet(ENTITY_SET_NAME_CASYSTEM));
+			          .setEnd1(new AssociationSetEnd().setRole(ROLE_TENANTS_CASYSTEMS_1_2).setEntitySet(ENTITY_SET_NAME_TENANTS))
+			          .setEnd2(new AssociationSetEnd().setRole(ROLE_CASYSTEMS_TENANTS_1_1).setEntitySet(ENTITY_SET_NAME_CASYSTEM));
 			    }
 			  }
 			  return null;
@@ -83,7 +84,7 @@ public class TenantsEDM extends BaseEDM {
 	public List<NavigationProperty> getNavigations() {
 List<NavigationProperty> navigationProperties = new ArrayList<NavigationProperty>();
 		
-		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_CASYSTEM).setRelationship(ASSOCIATION_CASYSTEM_TENANT).setFromRole(ROLE_1_1).setToRole(ROLE_1_2));
+		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_CASYSTEM).setRelationship(ASSOCIATION_CASYSTEM_TENANT).setFromRole(ROLE_CASYSTEMS_TENANTS_1_1).setToRole(ROLE_TENANTS_CASYSTEMS_1_2));
 		 return navigationProperties;
 
 	}

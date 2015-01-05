@@ -60,4 +60,9 @@ public static String ENTITY_SET_NAME_HRRELATIONS="HrRelationsSet";
 
 public static String ENTITY_TYPE_NAME_TENANTS="Tenants";
 public static String ENTITY_SET_NAME_TENANTS="TenantsSet";
+
+
+public static final String ROLE_CASYSTEMS_TENANTS_1_1 = "CaSystem_to_Tenant";
+public static final String ROLE_TENANTS_CASYSTEMS_1_2 = "Tenant_CaSystems";
+
 }
