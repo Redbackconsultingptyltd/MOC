@@ -1,9 +1,13 @@
 package au.com.redbackconsulting.moc.persistence.model;
  
+import java.util.Collection;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 /**
  * Entity implementation class for Entity: Tenants
@@ -21,6 +25,15 @@ public class Tenants implements IDBEntity {
 	private String name;
 	private static final long serialVersionUID = 1L;
 
+	@OneToMany(mappedBy=  "tenants")
+	private Collection<CaSystems> caSystems; 
+	
+	public Collection<CaSystems> getCaSystems() {
+		return caSystems;
+	}
+	public void setCaSystems(Collection<CaSystems> caSystems) {
+		this.caSystems = caSystems;
+	}
 	public Tenants() {
 		super();
 	}   

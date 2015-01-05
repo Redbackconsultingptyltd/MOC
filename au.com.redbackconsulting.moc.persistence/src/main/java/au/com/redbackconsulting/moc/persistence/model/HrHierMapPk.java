@@ -9,7 +9,7 @@ public class HrHierMapPk implements IHrHierMapPk, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private String hierId;
+	private String hiermapId;
  
 	/* (non-Javadoc)
 	 * @see java.lang.Object#hashCode()
@@ -18,7 +18,7 @@ public class HrHierMapPk implements IHrHierMapPk, Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((hierId == null) ? 0 : hierId.hashCode());
+		result = prime * result + ((hiermapId == null) ? 0 : hiermapId.hashCode());
 		result = prime * result
 				+ ((tenantId == null) ? 0 : tenantId.hashCode());
 		return result;
@@ -36,10 +36,10 @@ public class HrHierMapPk implements IHrHierMapPk, Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		HrHierMapPk other = (HrHierMapPk) obj;
-		if (hierId == null) {
-			if (other.hierId != null)
+		if (hiermapId == null) {
+			if (other.hiermapId != null)
 				return false;
-		} else if (!hierId.equals(other.hierId))
+		} else if (!hiermapId.equals(other.hiermapId))
 			return false;
 		if (tenantId == null) {
 			if (other.tenantId != null)
@@ -53,14 +53,14 @@ public class HrHierMapPk implements IHrHierMapPk, Serializable {
 	 * @return the hierId
 	 */
 	public String getHierId() {
-		return hierId;
+		return hiermapId;
 	}
 
 	/**
 	 * @param hierId the hierId to set
 	 */
 	public void setHierId(String hierId) {
-		this.hierId = hierId;
+		this.hiermapId = hiermapId;
 	}
 
 	/**

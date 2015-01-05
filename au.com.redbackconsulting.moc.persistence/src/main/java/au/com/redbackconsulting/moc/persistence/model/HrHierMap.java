@@ -16,7 +16,7 @@ import javax.persistence.ManyToOne;
 public class HrHierMap implements IDBEntity {
 
 	@Id
-	private String hierId;
+	private String hiermapId;
 	@Id
 	private Integer tenantId;
 	
@@ -28,7 +28,7 @@ public class HrHierMap implements IDBEntity {
 	private static final long serialVersionUID = 1L;
 	@ManyToOne
 	@JoinColumns({
-	@JoinColumn(name = "hierId", referencedColumnName="hierId", insertable=false, updatable=false),
+	@JoinColumn(name = "hiermapId", referencedColumnName="hierId", insertable=false, updatable=false),
 	@JoinColumn(name="tenantId", referencedColumnName="tenantId", insertable=false, updatable=false)
 	})
 	private HrHier hrHier; 
@@ -39,11 +39,11 @@ public class HrHierMap implements IDBEntity {
 	}
 
 	public String getHierId() {
-		return this.hierId;
+		return this.hiermapId;
 	}
 
 	public void setHierId(String hierId) {
-		this.hierId = hierId;
+		this.hiermapId = hierId;
 	}
 
 	public Integer getSeqNo() {

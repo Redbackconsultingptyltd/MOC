@@ -5,6 +5,8 @@ import java.util.Collection;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.IdClass;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 /**
@@ -26,6 +28,17 @@ public class CaSystems implements   ICaSystems{
 	
 	private String systDesc;
 	private static final long serialVersionUID = 1L;
+	
+	@ManyToOne
+	@JoinColumn(name="tenantId", referencedColumnName="tenantId", insertable=false, updatable=false)
+	private Tenants tenants;
+	
+	public Tenants getTenants() {
+		return tenants;
+	}
+	public void setTenants(Tenants tenants) {
+		this.tenants = tenants;
+	}
 	@OneToMany(mappedBy = "caSystems")
 	private Collection<HrObjects> hrObjects;
 	public CaSystems() {
