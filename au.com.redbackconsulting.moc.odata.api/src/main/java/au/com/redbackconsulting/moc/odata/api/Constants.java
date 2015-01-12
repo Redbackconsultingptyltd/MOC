@@ -149,5 +149,8 @@ public static final String ROLE_HRRELATIONS_HROBJECTREL = "HrRelations_to_HrObje
 public static final String ROLE_HRP1001_HRRELATIONS = "Hrp1001_to_HrRelations";
 
 public static final String ROLE_HROBJECTS_CASYSTEMS= "HrObjects_CaSystems";
+public static final String ROLE_HROBJECTS_TENANTS= "HrObjects_Tenants";
+public static final String ROLE_HRP1001_HROBJECTS= "Hrp1001_HrObjects";
+
 
 }
