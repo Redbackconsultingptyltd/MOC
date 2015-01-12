@@ -19,7 +19,7 @@ import org.apache.olingo.odata2.api.edm.provider.PropertyRef;
 import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_NAME_CASYSTEM_TENANT;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_CASYSTEM_TENANT;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_CASYSTEM_TENANT;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_CASYSTEM_TENANT;
 
 
@@ -76,7 +76,7 @@ public class CaSystemEDM extends BaseEDM {
 		
 		List<NavigationProperty> navigationProperties = new ArrayList<NavigationProperty>();
 		
-		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_TENANTS).setRelationship(ASSOCIATION_CASYSTEM_TENANT).setFromRole(ROLE_CASYSTEMS_TENANTS_1_1).setToRole(ROLE_TENANTS_CASYSTEMS_1_2));
+		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_TENANTS).setRelationship(ASSOCIATION_FQN_CASYSTEM_TENANT).setFromRole(ROLE_CASYSTEMS_TENANTS_1_1).setToRole(ROLE_TENANTS_CASYSTEMS_1_2));
 		 return navigationProperties;
 	}
 
@@ -84,7 +84,7 @@ public class CaSystemEDM extends BaseEDM {
 
 	@Override
 	public Association getAssociation(  FullQualifiedName edmFQName ) {
-		if(edmFQName.getName().equals(ASSOCIATION_CASYSTEM_TENANT.getName())){
+		if(edmFQName.getName().equals(ASSOCIATION_FQN_CASYSTEM_TENANT.getName())){
 			Association association = new Association().setName(ASSOCIATION_NAME_CASYSTEM_TENANT)
 			        .setEnd1(new AssociationEnd().setType(getFactory().getEDM(ENTITY_KEY_CASYSTEM).getFullQualifiedName()).setRole(ROLE_CASYSTEMS_TENANTS_1_1).setMultiplicity(EdmMultiplicity.MANY))
 			        .setEnd2(new AssociationEnd().setType(getFactory().getEDM(ENTITY_KEY_TENANTS).getFullQualifiedName()).setRole(ROLE_TENANTS_CASYSTEMS_1_2).setMultiplicity(EdmMultiplicity.ONE));
@@ -100,9 +100,9 @@ public class CaSystemEDM extends BaseEDM {
 			FullQualifiedName association 
 			 ) {
 		 if (ENTITY_CONTAINER.equals(entityContainer)) {
-			    if (ASSOCIATION_CASYSTEM_TENANT.equals(association)) {
+			    if (ASSOCIATION_FQN_CASYSTEM_TENANT.equals(association)) {
 			      return new AssociationSet().setName(ASSOCIATION_SET_CASYSTEM_TENANT)
-			          .setAssociation(ASSOCIATION_CASYSTEM_TENANT)
+			          .setAssociation(ASSOCIATION_FQN_CASYSTEM_TENANT)
 			          .setEnd1(new AssociationSetEnd().setRole(ROLE_CASYSTEMS_TENANTS_1_1).setEntitySet(ENTITY_SET_NAME_CASYSTEM))
 			          .setEnd2(new AssociationSetEnd().setRole(ROLE_TENANTS_CASYSTEMS_1_2).setEntitySet(ENTITY_SET_NAME_TENANTS));
 			    }
