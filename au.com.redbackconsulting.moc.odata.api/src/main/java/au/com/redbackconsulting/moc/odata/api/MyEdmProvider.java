@@ -94,7 +94,7 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 //		schema.setComplexTypes(complexTypes);
 
 		List<Association> associations = new ArrayList<Association>();
-		Association caSystemAssocation = caSystemEDM.getAssociation(ASSOCIATION_CASYSTEM_TENANT);
+		Association caSystemAssocation = caSystemEDM.getAssociation(ASSOCIATION_FQN_CASYSTEM_TENANT);
 		associations.add(caSystemAssocation);
  
 		schema.setAssociations(associations);
@@ -123,8 +123,8 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 		entityContainer.setEntitySets(entitySets);
 
 		List<AssociationSet> associationSets = new ArrayList<AssociationSet>();
-		associationSets.add(entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getAssociationSet(entityContainer.getName(), ASSOCIATION_CASYSTEM_TENANT));
-	associationSets.add(entityFactory.getEDM(ENTITY_KEY_TENANTS).getAssociationSet(entityContainer.getName(), ASSOCIATION_CASYSTEM_TENANT));
+		associationSets.add(entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getAssociationSet(entityContainer.getName(), ASSOCIATION_FQN_CASYSTEM_TENANT));
+	associationSets.add(entityFactory.getEDM(ENTITY_KEY_TENANTS).getAssociationSet(entityContainer.getName(), ASSOCIATION_FQN_CASYSTEM_TENANT));
 		
 		entityContainer.setAssociationSets(associationSets);
 		 
@@ -206,7 +206,7 @@ return null;
 	public Association getAssociation(FullQualifiedName edmFQName)
 			throws ODataException {
 		if (NAMESPACE.equals(edmFQName.getNamespace())) {
-			FullQualifiedName fqName = ASSOCIATION_CASYSTEM_TENANT;
+			FullQualifiedName fqName = ASSOCIATION_FQN_CASYSTEM_TENANT;
 		    if (fqName.getName().equals(edmFQName.getName())) {
 		      Association association = entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getAssociation(fqName);
 		    	return association;
@@ -226,7 +226,7 @@ return null;
 			FullQualifiedName association, String sourceEntitySetName,
 			String sourceEntitySetRole) throws ODataException {
 		 if (ENTITY_CONTAINER.equals(entityContainer)) {
-			    if (ASSOCIATION_CASYSTEM_TENANT.equals(association)) {
+			    if (ASSOCIATION_FQN_CASYSTEM_TENANT.equals(association)) {
 			    	AssociationSet associationSet = entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getAssociationSet( entityContainer,
 			    			 association );
 			      return associationSet;

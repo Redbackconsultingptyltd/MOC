@@ -1,6 +1,6 @@
 package au.com.redbackconsulting.moc.odata.api.edmconstants;
 
-import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_CASYSTEM_TENANT;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_CASYSTEM_TENANT;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_CASYSTEM_TENANT;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_CONTAINER;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_CASYSTEM;
@@ -59,7 +59,7 @@ public class TenantsEDM extends BaseEDM {
 	@Override
 	public Association getAssociation(FullQualifiedName relatedEntity) {
 		if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_CASYSTEM)){
-		    return new Association().setName( ASSOCIATION_CASYSTEM_TENANT.getName())
+		    return new Association().setName( ASSOCIATION_FQN_CASYSTEM_TENANT.getName())
 		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_TENANTS_CASYSTEMS_1_2).setMultiplicity(EdmMultiplicity.ONE))
 		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole(ROLE_CASYSTEMS_TENANTS_1_1).setMultiplicity(EdmMultiplicity.MANY));
 	}
@@ -70,9 +70,9 @@ public class TenantsEDM extends BaseEDM {
 	public AssociationSet getAssociationSet(String entityContainer,
 			FullQualifiedName association ) {
 		 if (ENTITY_CONTAINER.equals(entityContainer)) {
-			    if (ASSOCIATION_CASYSTEM_TENANT.equals(association)) {
+			    if (ASSOCIATION_FQN_CASYSTEM_TENANT.equals(association)) {
 			      return new AssociationSet().setName(ASSOCIATION_SET_CASYSTEM_TENANT)
-			          .setAssociation(ASSOCIATION_CASYSTEM_TENANT)
+			          .setAssociation(ASSOCIATION_FQN_CASYSTEM_TENANT)
 			          .setEnd1(new AssociationSetEnd().setRole(ROLE_TENANTS_CASYSTEMS_1_2).setEntitySet(ENTITY_SET_NAME_TENANTS))
 			          .setEnd2(new AssociationSetEnd().setRole(ROLE_CASYSTEMS_TENANTS_1_1).setEntitySet(ENTITY_SET_NAME_CASYSTEM));
 			    }
@@ -84,7 +84,7 @@ public class TenantsEDM extends BaseEDM {
 	public List<NavigationProperty> getNavigations() {
 List<NavigationProperty> navigationProperties = new ArrayList<NavigationProperty>();
 		
-		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_CASYSTEM).setRelationship(ASSOCIATION_CASYSTEM_TENANT).setFromRole(ROLE_CASYSTEMS_TENANTS_1_1).setToRole(ROLE_TENANTS_CASYSTEMS_1_2));
+		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_CASYSTEM).setRelationship(ASSOCIATION_FQN_CASYSTEM_TENANT).setFromRole(ROLE_CASYSTEMS_TENANTS_1_1).setToRole(ROLE_TENANTS_CASYSTEMS_1_2));
 		 return navigationProperties;
 
 	}
