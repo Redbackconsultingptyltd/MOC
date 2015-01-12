@@ -41,7 +41,7 @@ public class Constants {
 	public static final String ASSOCIATION_NAME_HRP1001_HROBJECTS="Hrp1001_HrObjects_Hrp1001_HrObjects";
 	public static final String ASSOCIATION_NAME_HRP1001_HRP1000="Hrp1001_Hrp1000_Hrp1001_Hrp1000";
 	
-	
+	public static final String ASSOCIATION_NAME_HRHIERMAP_TENANTS="HrHierMap_Tenants_HrHierMap_Tenants";
  	
  	
  	public static final FullQualifiedName ASSOCIATION_CASYSTEM_TENANT=new FullQualifiedName(NAMESPACE, ASSOCIATION_NAME_CASYSTEM_TENANT);
