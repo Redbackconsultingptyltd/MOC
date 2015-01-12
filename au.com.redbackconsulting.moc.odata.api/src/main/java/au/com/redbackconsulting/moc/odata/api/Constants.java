@@ -27,7 +27,21 @@ public class Constants {
  	public static String ASSOCIATION_NAME_CASYSTEM_TENANT="CaSystems_Tenants_Tenants_CaSystems";
  	public static final String ASSOCIATION_NAME_HRHIER_TENANT="HrHier_Tenants_Tenants_HrHier";
  	public static final String ASSOCIATION_NAME_HRHIER_HRHIERMAP="HrHier_HrHierMap_HrHierMap_HrHier";
- 	
+ 	// i am write some code here only variable
+	public static final String ASSOCIATION_NAME_HROBJECTSCONSTRAINT_TENANT="HrObjectsConstraint_Tenants_HrObjectsConstraint_Tenants";
+	public static final String ASSOCIATION_NAME_HROBJECTSCONSTRAINT_HROBJECTSSTATUS="HrObjectsConstraint_HrObjectsStatus_HrObjectsConstraint_HrObjectsStatus";
+	public static final String ASSOCIATION_NAME_HROBJECTSCONSTRAINT_HROBJECTS="HrObjectsConstraint_HrObjects_HrObjectsConstraint_HrObjects";
+	
+	public static final String ASSOCIATION_NAME_HROBJECTSSTATUS_HROBJECTS="HrObjectsStatus_HrObjects_HrObjectsStatus_HrObjects";
+	public static final String ASSOCIATION_NAME_HROBJECTSSTATUS_HRP1000="HrObjectsStatus_Hrp1000_HrObjectsStatus_Hrp1000";
+	
+	public static final String ASSOCIATION_NAME_HRRELATIONS_HRP1001="HrRelations_Hrp1001_HrRelations_Hrp1001";
+	public static final String ASSOCIATION_NAME_HRRELATIONS_HROBJECTREL="HrRelations_HrObjectRel_HrRelations_HrObjectRel";
+	
+	public static final String ASSOCIATION_NAME_HRP1001_HROBJECTS="Hrp1001_HrObjects_Hrp1001_HrObjects";
+	public static final String ASSOCIATION_NAME_HRP1001_HRP1000="Hrp1001_Hrp1000_Hrp1001_Hrp1000";
+	
+	
  	
  	
  	public static final FullQualifiedName ASSOCIATION_CASYSTEM_TENANT=new FullQualifiedName(NAMESPACE, ASSOCIATION_NAME_CASYSTEM_TENANT);
