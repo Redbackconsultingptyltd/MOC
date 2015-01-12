@@ -128,29 +128,55 @@ public static final String ROLE_TENANTS_CASYSTEMS_1_2 = "Tenant_CaSystems";
 
 
 public static final String ROLE_HRHIER_TENANTS = "HrHier_to_Tenant";
+public static final String ROLE_TENANTS_HRHIER = "Tenant_HrHier";
+
+
 public static final String ROLE_HRHIER_HRHIERMAP= "HrHier_to_HrHierMap";
+public static final String ROLE_HRHIERMAP_HRHIER = "HrHierMap_HrHier";
+
 
 public static final String ROLE_HRHIERMAP_TENANTS = "HrHierMap_to_Tenant";
-public static final String ROLE_HRHIERMAP_HRHIER = "HrHierMap_to_HrHier";
+public static final String ROLE_TENANTS_HRHIERMAP = "Tenant_HrHierMap";
+
+
 public static final String ROLE_HRHIERMAP_HROBJECTREL = "HrHierMap_to_HrObjectRel";
+public static final String ROLE_HROBJECTREL_HRHIERMAP = "HrObjectRel_HrHierMap";
 
 public static final String ROLE_HROBJECTSSTATUS_HROBJECTCONSTRAINTS= "HrObjectsStatus_to_HrObjectConstraints";
+public static final String ROLE_HROBJECTCONSTRAINTS_HROBJECTSSTATUS= "HrObjectConstraints_HrObjectsStatus";
+
 public static final String ROLE_HROBJECTSSTATUS_HROBJECTS = "HrObjectsStatus_to_HrObjects";
+public static final String ROLE_HROBJECTS_HROBJECTSSTATUS = "HrObjects_HrObjectsStatus";
 
 public static final String ROLE_HRP1000_HROBJECTSSTATUS = "HrObjectsStatus_to_Hrp1000";
+public static final String ROLE_HROBJECTSSTATUS_HRP1000 = "Hrp1000_HrObjectsStatus";
 
 public static final String ROLE_HROBJECTCONSTRAINTS_TENANTS= "HrObjectsConstraints_to_Tenants";
+
+public static final String ROLE_TENANTS_HROBJECTCONSTRAINTS= "Tenants_HrObjectsConstraints";
+
 public static final String ROLE_HROBJECTCONSTRAINTS_HROBJECTS= "HrObjectsConstraints_to_HrObjects";
+public static final String ROLE_HROBJECTS_HROBJECTCONSTRAINTS= "HrObjects_HrObjectsConstraints";
 
 public static final String ROLE_HROBJECTREL_TENANTS = "HrObjectRel_to_Tenants";
+public static final String ROLE_TENANTS_HROBJECTREL = "Tenants_HrObjectRel";
+
 public static final String ROLE_HROBJECTREL_HROBJECTS = "HrObjectRel_to_HrObjects";
+public static final String ROLE_HROBJECTS_HROBJECTREL = "HrObjects_HrObjectRel";
 
-public static final String ROLE_HRRELATIONS_HROBJECTREL = "HrRelations_to_HrObjectRel";
+
+public static final String ROLE_HROBJECTREL_HRRELATIONS = "HrObjectRel_to_HrRelations";
+public static final String ROLE_HRRELATIONS_HROBJECTREL = "HrRelations_HrObjectRel";
 public static final String ROLE_HRP1001_HRRELATIONS = "Hrp1001_to_HrRelations";
+public static final String ROLE_HRRELATIONS_HRP1001 = "HrRelations_Hrp1001";
 
-public static final String ROLE_HROBJECTS_CASYSTEMS= "HrObjects_CaSystems";
-public static final String ROLE_HROBJECTS_TENANTS= "HrObjects_Tenants";
-public static final String ROLE_HRP1001_HROBJECTS= "Hrp1001_HrObjects";
 
+public static final String ROLE_HROBJECTS_CASYSTEMS= "HrObjects_to_CaSystems";
+public static final String ROLE_CASYSTEMS_HROBJECTS= "CaSystems_HrObjects";
+
+public static final String ROLE_HROBJECTS_TENANTS= "HrObjects_to_Tenants";
+public static final String ROLE_TENANTS_HROBJECTS= "Tenants_HrObjects";
+public static final String ROLE_HRP1001_HROBJECTS= "Hrp1001_to_HrObjects";
+public static final String ROLE_HROBJECTS_HRP1001= "HrObjects_Hrp1001";
 
 }
