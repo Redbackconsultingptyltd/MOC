@@ -14,5 +14,7 @@
 		<class>au.com.redbackconsulting.moc.persistence.model.HrObjectsStatus</class>
 		<class>au.com.redbackconsulting.moc.persistence.model.CaSystems</class>
 		<class>au.com.redbackconsulting.moc.persistence.model.Tenants</class>
+		 
+		
 	</persistence-unit>
 </persistence>

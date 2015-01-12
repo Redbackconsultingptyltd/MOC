@@ -4,14 +4,14 @@ public class TenantsPk  implements ITenantsPK{
 
 	private static final long serialVersionUID = 1L;
 
-	private Integer tenantId;
+	private Integer idtenants;
 	
 	public Integer getTenantId() {
-		return tenantId;
+		return idtenants;
 	}
 
 	public void setTenantId(Integer tenantId) {
-		this.tenantId = tenantId;
+		this.idtenants = tenantId;
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class TenantsPk  implements ITenantsPK{
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((tenantId == null) ? 0 : tenantId.hashCode());
+				+ ((idtenants == null) ? 0 : idtenants.hashCode());
 		return result;
 	}
 
@@ -32,10 +32,10 @@ public class TenantsPk  implements ITenantsPK{
 		if (getClass() != obj.getClass())
 			return false;
 		TenantsPk other = (TenantsPk) obj;
-		if (tenantId == null) {
-			if (other.tenantId != null)
+		if (idtenants == null) {
+			if (other.idtenants != null)
 				return false;
-		} else if (!tenantId.equals(other.tenantId))
+		} else if (!idtenants.equals(other.idtenants))
 			return false;
 		return true;
 	}

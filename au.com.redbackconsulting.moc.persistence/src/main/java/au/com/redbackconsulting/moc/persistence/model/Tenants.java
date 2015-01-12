@@ -19,9 +19,9 @@ public class Tenants implements IDBEntity {
 
 	   
 	@Id
-	private Integer tenantId;
+	private Integer idtenants;
 	@Column(unique = true, nullable = false)
-	private String tenantCode;
+	private String tenantsCode;
 	private String name;
 	private static final long serialVersionUID = 1L;
 
@@ -38,18 +38,18 @@ public class Tenants implements IDBEntity {
 		super();
 	}   
 	public Integer getTenantId() {
-		return this.tenantId;
+		return this.idtenants;
 	}
 
 	public void setTenantId(Integer tenantId) {
-		this.tenantId = tenantId;
+		this.idtenants = tenantId;
 	}   
 	public String getTenantCode() {
-		return this.tenantCode;
+		return this.tenantsCode;
 	}
 
 	public void setTenantCode(String tenantCode) {
-		this.tenantCode = tenantCode;
+		this.tenantsCode = tenantCode;
 	}   
 	public String getName() {
 		return this.name;
