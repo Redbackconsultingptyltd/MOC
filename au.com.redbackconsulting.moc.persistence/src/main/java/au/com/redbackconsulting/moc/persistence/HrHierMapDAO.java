@@ -1,13 +1,14 @@
 package au.com.redbackconsulting.moc.persistence;
  
 import au.com.redbackconsulting. moc.persistence.manager.EntityManagerProvider;
+import au.com.redbackconsulting.moc.persistence.manager.PersistenceManager;
 import au.com.redbackconsulting .moc.persistence.model.HrHierMap;
 import au.com.redbackconsulting.moc.persistence.model.HrHierMapPk;
 
 public class HrHierMapDAO extends BasicDAO<HrHierMap, HrHierMapPk>  {
 
-	public HrHierMapDAO(EntityManagerProvider emProvider) {
-		super(emProvider);
+	public HrHierMapDAO() {
+		super(PersistenceManager.getInstance().getEntityManagerProvider());
 		// TODO Auto-generated constructor stub
 	}
 
