@@ -15,7 +15,7 @@ import org.apache.olingo.odata2.api.edm.provider.NavigationProperty;
 import org.apache.olingo.odata2.api.edm.provider.Property;
 import org.apache.olingo.odata2.api.edm.provider.PropertyRef;
 import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
- 
+
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_HRHIER_TENANT;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_NAME_HRHIER_TENANT;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRHIER;
@@ -23,13 +23,6 @@ import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_TENANT
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_TENANTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ROLE_HRHIER_TENANTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ROLE_TENANTS_HRHIER;
- 
-import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_NAME_HRHIER_TENANT;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRHIER;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_TENANTS; 
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_TENANTS;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ROLE_CASYSTEMS_TENANTS_1_1;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ROLE_TENANTS_CASYSTEMS_1_2;
  
 public class HrHierEDM  extends BaseEDM{
 
@@ -65,11 +58,10 @@ public class HrHierEDM  extends BaseEDM{
 	public Association getAssociation(FullQualifiedName relatedEntity) {
 		if(relatedEntity.getName().equals(ASSOCIATION_NAME_HRHIER_TENANT)){
 		    return new Association().setName(ASSOCIATION_NAME_HRHIER_TENANT)
- 
 		    		 .setEnd1(new AssociationEnd().setType(getFactory().getEDM(ENTITY_KEY_HRHIER).getFullQualifiedName()).setRole(ROLE_HRHIER_TENANTS ).setMultiplicity(EdmMultiplicity.MANY))
 				        .setEnd2(new AssociationEnd().setType(getFactory().getEDM(ENTITY_KEY_TENANTS).getFullQualifiedName()).setRole(ROLE_TENANTS_HRHIER ).setMultiplicity(EdmMultiplicity.ONE));
- 
-	 }
+				 
+	}
 	return null;
  
 	}
@@ -82,10 +74,9 @@ public class HrHierEDM  extends BaseEDM{
 	@Override
 	public List<NavigationProperty> getNavigations() {
 	List<NavigationProperty> navigationProperties = new ArrayList<NavigationProperty>();
- 
+		
 		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_TENANTS).setRelationship(ASSOCIATION_FQN_HRHIER_TENANT).setFromRole(ROLE_HRHIER_TENANTS).setToRole(ROLE_TENANTS_HRHIER));
- 
-		  		 return navigationProperties;
+		 return navigationProperties;
 	}
 	 
  
