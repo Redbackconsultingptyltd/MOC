@@ -116,9 +116,9 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
  		entitySets.add(hrObjectConstraintsEDM.getEntitySet());
  		entitySets.add(hrObjectsEDM.getEntitySet());
  	entitySets.add(hrObjectsStutusEDM.getEntitySet());
-//		entitySets.add(hrP1000EDM.getEntitySet());
-//		entitySets.add(hrP1001EDM.getEntitySet() );
-//		entitySets.add(hrRelationsEDM.getEntitySet());
+		entitySets.add(hrP1000EDM.getEntitySet());
+		entitySets.add(hrP1001EDM.getEntitySet() );
+		entitySets.add(hrRelationsEDM.getEntitySet());
 		entitySets.add(tenantEDM.getEntitySet( ));
 		entityContainer.setEntitySets(entitySets);
 
