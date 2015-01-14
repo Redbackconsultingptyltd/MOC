@@ -24,16 +24,20 @@
   <script type="text/javascript" src="i4erp/js/jquery.easing.js"></script>
  <script type="text/javascript" src="i4erp/js/jquery-ui.min.js"></script>
  <script type="text/javascript" src="i4erp/js/scrollsync.js"></script>
+ 
+ 
+ <script type="text/javascript" src="i4erp/js/dummy.js"></script>
 <!--  <script type="text/javascript" src="i4erp/js/dragscrollable.js"></script> -->
  <script type="text/javascript" src="i4erp/js/htmlctr.js"></script>
  
  
  <script type="text/javascript" src="i4erp/services/jitservices.js"></script>
 
-<script type="text/javascript" src="i4erp/modal/prnt-look.js"></script>
+
 <script type="text/javascript" src="i4erp/const/constants.js"></script>
 <script type="text/javascript" src="i4erp/ui-designer/ui-design-manager.js"></script>
-
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?sensor=false">
+</script>
 
  <!--[if IE]><script type="text/javascript" src="js/excanvas.js"></script><![endif]-->
   <style type="text/css">
@@ -209,7 +213,7 @@ jQuery.support.cors = true;
 	<div id="canvasContainer">	
 	</div>
 	<div id='printCanvas'>	  
-	   <div class='printtree'></div>
+	   <div class='printtree'  id="printtree"></div>
 	  <div class='printhtree'></div>
 	  <div class='printftree'></div>
 	  
@@ -229,5 +233,10 @@ jQuery.support.cors = true;
                  
 	  </div> 
 <div id="text" style="bottom:0;left:0; height:100px;color:white;background:black;width:300px;z-index:100;position:absolute;display:none;"></div>
+
+<div id="imgContainer" style="border:1px solid;bottom:0;left:0; height:300px;color:red;background:white;width:600px;z-index:100;position:absolute;display:none;">
+ 
+</div>
+
 </body>
 </html>

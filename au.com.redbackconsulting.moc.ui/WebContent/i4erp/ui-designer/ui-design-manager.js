@@ -583,6 +583,7 @@ function getnodeData(childId){
 				classDiv="top_contain green";
 				classIcon="inserticon s";
 			}
+			
 			if(jQuery.inArray(parentChild[i].split('@')[2], tempVacantArray)!=-1)
 			{
 							//classDiv="top_contain blue";
@@ -637,19 +638,28 @@ function drop(ev,sqNo,objId){
 		orgFrameWork.setObjectId(objId);
 		orgFrameWork.setRootSqNo(sqNo);
 		if(orgFrameWork.getMovePasteStatus()){
-			if(orgFrameWork.isNotMoveNodeSqNoIsInitailSqNo(orgFrameWork.getSelectedMoveNodeSqNo())&& orgFrameWork.isNotMoveNodeMoveToItsChilds(orgFrameWork.getRootSqNo(), orgFrameWork.getSelectedMoveNodeSqNo())){
-				orgFrameWork.setIsDragStatus(false);
-				debugger;
-				var mChild = orgFrameWork.getMoveChildInfo(orgFrameWork.getSelectedMoveNodeSqNo(),orgFrameWork.getRootSqNo());
-				orgFrameWork.setMoveChildInfo(mChild);
-				orgFrameWork.setFormJson(createEmptyFormTemplate());
-				orgFrameWork.approveObjectDataBeforeMoveConfirm(mChild);
-			}
-			else{
+			
+			var moveNodeParentId = orgFrameWork.getRoot(parentChild, orgFrameWork.getDraggableNodeMoveSqnNo());
+			if(moveNodeParentId!=sqNo){
+				if(orgFrameWork.isNotMoveNodeSqNoIsInitailSqNo(orgFrameWork.getSelectedMoveNodeSqNo())&& orgFrameWork.isNotMoveNodeMoveToItsChilds(orgFrameWork.getRootSqNo(), orgFrameWork.getSelectedMoveNodeSqNo())){
+					orgFrameWork.setIsDragStatus(false);
+					debugger;
+					var mChild = orgFrameWork.getMoveChildInfo(orgFrameWork.getSelectedMoveNodeSqNo(),orgFrameWork.getRootSqNo());
+					orgFrameWork.setMoveChildInfo(mChild);
+					orgFrameWork.setFormJson(createEmptyFormTemplate());
+					orgFrameWork.approveObjectDataBeforeMoveConfirm(mChild);
+				}
+				else{
+					var uiMessage = new UIMessage();
+					uiMessage.dragAlertMessage({text:"The parent root node can't be moved its own hierarchy level",label:"Cancel",action:"HIDE-DRAG-DROP-MESSAGE"});
+
+				}
+			}else{
 				var uiMessage = new UIMessage();
-				uiMessage.dragAlertMessage({text:"The parent root node can't be moved its own hierarchy level",label:"Cancel",action:"HIDE-DRAG-DROP-MESSAGE"});
+				uiMessage.dragAlertMessage({text:"The move node already belong to that relationship !",label:"Cancel",action:"HIDE-DRAG-DROP-MESSAGE"});
 
 			}
+			
 		}
 		
 	}
@@ -712,7 +722,9 @@ function toggleDraggableControl(sqNo,objId){
 	}else{
 		if(props.control!=null){
 			if($(props.control)!=null){
-				$("a."+props.sqNo).attr("draggable", "false");
+				 var ele = document.getElementById(props.sqNo);
+				 $(ele).draggable(false);
+				//$("a."+props.sqNo).attr("draggable", "false");
 				//$(props.control).draggable(false);
 				 props.control = null;
 				 props.status=false;
@@ -725,23 +737,17 @@ function toggleDraggableControl(sqNo,objId){
 			}
 		}
 	}
-	
 }
 function drag(evt,sqNo,objId){
-//	orgFrameWork.setDraggableNodeMove({isMove:true,sqnNo:sqNo,objectId:objId});
-//	orgFrameWork.setMovePasteStatus(true);
-//	orgFrameWork.setSelectedMoveNodeSqNo(orgFrameWork.getRootSqNo());
-//	var props = orgFrameWork.getDraggalbeProperties();
-//	props.status=true;
-//	orgFrameWork.setDraggalbeProperties(props);
-//	orgFrameWork.setIsDragStatus(true);
+	if(orgFrameWork.getSelectedAppVersion()==0){
+		return;
+	} 
 	if(!orgFrameWork.getMoveMessageStatus()){
 		var uiMessage = new UIMessage();
 		uiMessage.dragAlertMessage({text:"Node:{"+objId+"} is ready for drag and drop !",label:"Cancel",action:"CANCEL-DRAG-DROP-ACTION"});
 		orgFrameWork.setMoveMessageStatus(true);
 
 	}
-	
 }
 /*  ===============================================================================================================================
 	= End....																													  =

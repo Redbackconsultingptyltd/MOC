@@ -450,35 +450,26 @@ function resetTree(foo,centerDiv)
 }
 function createCanvas()
 {
-	htmlBasePrintOrg();
-	return ;
+	
 	var svgClass="";
 	var popUpId="";
 	if(treeOpenName=="V")
 	{
 		popupHeight = parseInt($('#TreeContainer').css('height')); 
-		popupWidth = parseInt($('#TreeContainer').css('width')); 
+		popupWidth = parseInt($('.tree').css('width')); 
 		$('.printtree').html($('#TreeContainer').html());
 		svgClass='printtree';
 		popUpId='.printtree';
-		$('#collapser').find('a').find('div').each(function(){
-	     if(this.id=='boxdata'){
-			$(this).css('display','none');
-		}
-		});
+
 	}
 	else if(treeOpenName=="H")
 	{
 		popupHeight = parseInt($('#horizontalContainer').css('height')); 
-		popupWidth = parseInt($('#horizontalContainer').css('width')); 
+		popupWidth = parseInt($('.htree').css('width')); 
 		$('.printtree').html($('#horizontalContainer').html());
 		svgClass='printtree';
 		popUpId='.printtree';
-		$('#htree').find('a').find('div').each(function(){
-	     if(this.id=='boxdata'){
-			$(this).css('display','none');
-		}
-		});
+
 	}
 	else if(treeOpenName=="F")
 	{
@@ -487,12 +478,9 @@ function createCanvas()
 		$('.printftree').html($('#folderContainer').html());
 		svgClass='printftree';
 		popUpId='.printftree';
-		$('#ftree').find('a').find('div').each(function(){
-	     if(this.id=='boxdata'){
-			$(this).css('display','none');
-		}
-		});
+	
 	}
+	
 	$("."+svgClass).dialog({ width: popupWidth,height:'auto',
 		
 		close: function(event, ui) {
@@ -550,11 +538,13 @@ function createCanvas()
 						 "</foreignObject>";
 			}				
 						data+="</svg>";
-			var svg = new (self.BlobBuilder || self.MozBlobBuilder || self.WebKitBlobBuilder); 
+			
+			var svg = new Blob([data], {type: 'image/svg+xml;charset=utf-8'});
 			var DOMURL = self.URL || self.webkitURL || self;
 			var img =  new Image(containerWidth,containerHeight);  
-			svg.append(data);  
-			url = DOMURL.createObjectURL(svg.getBlob("image/svg+xml;charset=utf-8"));
+			
+			
+			var url = DOMURL.createObjectURL(svg);
 			ctx.fillStyle = "#ffffff";
 			img.onload = function() {
 				ctx.drawImage(img,0,0,containerWidth,containerHeight);
@@ -566,16 +556,15 @@ function createCanvas()
 		},
 		open: function(event, ui) {
 			popupHeight=$(this).outerHeight();
-			popupWidth=$(this).outerWidth();
+			popupWidth=$(this).outerWidth()-100;
 		}
 		,
 		resizable: false
 	});
 	$("."+svgClass).dialog("close");
+	$("."+svgClass).printElement();
 	
-	printIt();
 }
-
 function sliceImage(svg){
  	var image = svg ; // new Image();
 	image.onload = cutImageUp;
@@ -662,23 +651,4 @@ function sliceImage(svg){
         }
 	
 	}
-}
-function printIt() {
-       //var win = window.open('', 'Image', 'resizable=yes,...');
-        if (win) {
-				win.document.writeln('<html><head><style type="text/css" media="print"> img#img { display:block;page-break-inside:always;background:#fff;}</style></head><body style="background:#fff;">');
-                win.document.writeln("<img width='"+containerWidth+"' height='"+containerHeight+"' style='background:#fff' id='img_print' src=\""+strDataURI+"\" alt='file.png'></html>");
-                win.document.close();
-                win.focus();
-                win.print();
-        }
-        return false;
-}
-
-function createSVG(h,w,NS){
- var svg = document.createElementNS(NS,"svg");
- svg.width=w;
- svg.height=h;
- svg.id ="amit";
- return svg;
 }

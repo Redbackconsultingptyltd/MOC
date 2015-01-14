@@ -40,7 +40,9 @@
 .org-page-header-logo-img{
 	
 	margin:2px 2px 2px 2px;
-	background-image: url(../img/logo.png); height: 110px; width: 290px;
+	background-image: url(../img/logo.png); 
+	height: 110px; 
+	width: 290px;
 	background-repeat: no-repeat;
 	background-color:transparent;
 	-webkit-border-radius: 12px;
@@ -303,7 +305,7 @@ ul li a {
     z-index:52;
     display:block;
 	border:5px solid #cccccc;
-	border-radius:10px;
+	
 	background-color:white;
 	top:11%;
 	left:20%;
@@ -326,6 +328,23 @@ ul li a {
 	 padding-left:3px;
 	 padding-right:3px;
 	 margin-bottom:3px;
+}
+
+.orgScreenTopBarButton{
+	background-image: url(../img/closed.png);
+    width:20px; 
+    height:20px; 
+    float:right; 
+    margin-top:5px;
+    margin-right:2px;
+    background-position: center;
+   
+
+}
+.orgScreenTopBarButton:hover{
+	border:1px solid grey;
+   
+
 }
 .commanAlertButton{
 	height:15px;
@@ -438,7 +457,9 @@ input[type=submit]:active {
 .orgScreenTopBar{
 	width:100%;
 	height:30px;
-background-color:#cccccc;
+    background-color:#444444;
+    border:0px;
+    
 }
 .orgScreenFooterBar{
 	width:100%;
@@ -446,11 +467,11 @@ background-color:#cccccc;
 	position:absolute;
 	right:0;
 	bottom:0;
-	background-color:#cccccc;
+	background-color:#909090;
 	vertical-align: middle;
 }
 .orgActionButton{
-	height: 20px;
+	height: 18px;
 	margin-top:2px;
 	color:black;
 	width: 70px;
@@ -458,7 +479,7 @@ background-color:#cccccc;
 	font-size:12px;
 	font-weight:bold;
 	text-align:center;
-	border-radius:10px;
+    margin-right:2px;
     text-shadow: 0 1px 1px white;
     background: -webkit-gradient(linear, left top, left bottom, from(#eee), to(#ddd));
     background: -moz-linear-gradient(top center, #eee, #ddd);
@@ -588,4 +609,16 @@ background-color:#cccccc;
 	height:150px;
 	margin:12px auto;
 	border-radius:10px;
+}
+#mapcontent{
+	margin-top:15px;
+	border:1px grey solid;
+}
+.mapHeader{
+	width:100%;
+	height:30px;
+	background:#5081BD;background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#609ad3), to(#4f7ebb));
+	 background: -webkit-linear-gradient(top, #609ad3, #4f7ebb); background: -moz-linear-gradient(top, #609ad3, #4f7ebb);
+	 background: -ms-linear-gradient(top, #609ad3, #4f7ebb); background: -o-linear-gradient(top, #609ad3, #4f7ebb); 
+	 -webkit-border-top-left-radius: 0px;-moz-border-radius-topleft: 0px;border-top-left-radius: 0px;
 }

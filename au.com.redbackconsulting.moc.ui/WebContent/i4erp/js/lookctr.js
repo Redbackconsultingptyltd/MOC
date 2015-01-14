@@ -682,12 +682,12 @@ function applyTreeWidthPlus(pid)
 	
 		if(orgFrameWork.initialRoot==pid){
 			if(xCounter==2){
-				tree = (120*(xCounter-1))+(((xCounter*2))*10);
+				tree = (120*(xCounter-1))+(((xCounter*2))*9);
 			}else{
 				tree = (120*(xCounter-1))+(((xCounter*2)-1)*10);
 			}
 		}else{
-			tree = (120*(xCounter-1))+((xCounter+1)*10);
+			tree = (120*(xCounter-1))+((xCounter+1)*9);
 	}
 	}	
 		
@@ -1751,80 +1751,7 @@ function createPrintableSelectedNodeInformation(){
 	//createCanvas();
 	//htmlBasePrintOrg();
 }
-function htmlBasePrintOrg(){
-	
-	var  containerWidth;
-	var containerHeight;
-	var containerId;
-	var rootcontainer;
-	var data;
-	if(treeOpenName=="V")
-	{
-		popupHeight = parseInt($('#TreeContainer').css('height')); 
-		popupWidth = parseInt($('#TreeContainer').css('width')); 
-		$('.printtree').html($('#TreeContainer').html());
-		svgClass='printtree';
-		popUpId='.printtree';
-//		$('#collapser').find('a').find('div').each(function(){
-//	     if(this.id=='boxdata'){
-//			$(this).css('display','none');
-//		}
-//		});
-	}
-	else if(treeOpenName=="H")
-	{
-		popupHeight = parseInt($('#horizontalContainer').css('height')); 
-		popupWidth = parseInt($('#horizontalContainer').css('width')); 
-		$('.printtree').html($('#horizontalContainer').html());
-		svgClass='printtree';
-		popUpId='.printtree';
-//		$('#htree').find('a').find('div').each(function(){
-//	     if(this.id=='boxdata'){
-//			$(this).css('display','none');
-//		}
-//		});
-	}
-	else if(treeOpenName=="F")
-	{
-		popupHeight = parseInt($('#folderContainer').css('height')); 
-		popupWidth = parseInt($('#folderContainer').css('width')); 
-		$('.printftree').html($('#folderContainer').html());
-		svgClass='printftree';
-		popUpId='.printftree';
-//		$('#ftree').find('a').find('div').each(function(){
-//	     if(this.id=='boxdata'){
-//			$(this).css('display','none');
-//		}
-//		});
-	}
-	containerWidth=popupWidth;
-	containerHeight=popupHeight;
-	var win = window.open('', 'Image', 'resizable=yes,...');
-	//alert($('#collapser').html());
-	var data= '<div class="printtree" width="'+containerWidth+'" height="'+containerHeight+'>'+
-						'<ul id="collasper" style="width:"'+containerWidth+'"px;height:"'+containerHeight+'px;">'+
-							$('#collapser').html()+							 
-						'</ul>'	+							
-					 '</div>';
-	
-	if(win) {
-				
-				win.document.writeln('<!DOCTYPE html><html><head><style type="text/css" media="print"> #bg{ display:block; page-break-after:always;}</style>');
-				win.document.writeln('<link href="i4erp/css/other.css" rel="stylesheet" type="text/css" media="all" />');
-				win.document.writeln('<link href="i4erp/css/print.css" rel="stylesheet" type="text/css" media="all" />');
- 				win.document.writeln('<link href="i4erp/css/printnode.css" rel="stylesheet" type="text/css" media="all" />');
-				win.document.writeln('</head><body style="background-color:#ffffff;width:100%">');
-				
-				win.document.writeln(data);							 
-				 
-                win.document.writeln("</body></html>");
-				win.document.close();
-				win.focus();
-				win.print();
-				//win.close();
-		}
 
-}
 function getObjectImageForPrint(objectImgPros){
     
        	$.ajax({
@@ -2240,6 +2167,7 @@ function doAlertAction(choice){
 				orgFrameWork.setDraggableNodeMove({isMove:false,sqnNo:null,objectId:null});
 				var props = orgFrameWork.getDraggalbeProperties();
 				props.status=false;
+				props.sqNo=0;
 				orgFrameWork.setDraggalbeProperties(props);
 				orgFrameWork.setIsDragStatus(false);
 				uiMessage.removeDragMessage();

@@ -124,12 +124,12 @@ var UIMessage=function(){
 		document.getElementById("dragMessage").innerHTML= this.dragMessageContent(message);
 	};
 	this.dragMessageContent=function(message){
-		return '<div id="apDiv1" bor><table  width="267" height="177" align="left" cellpadding="0.0" cellspacing="0.0">'+
+		return '<div id="lightbox"  bor><table  width="267" height="177" align="left" cellpadding="0.0" cellspacing="0.0">'+
 		'<tr><td width="10" height="29" bgcolor="#444444">&nbsp;</td><td width="131" bgcolor="#444444">&nbsp;</td><td width="126" bgcolor="#444444">&nbsp;</td></tr>'+
-		'<tr><td bgcolor="#C6C6C6">&nbsp;</td><td colspan="2" bgcolor="#C6C6C6"><span style="font-size:15px;">'+message.text+'</span></td></tr>'+
+		'<tr><td bgcolor="#C6C6C6">&nbsp;</td><td colspan="2" valign="middle" bgcolor="#C6C6C6"><span><div style="font-size:12px; font-family: arial;">'+message.text+'</div></span></td></tr>'+
 		'<tr><td height="19" bgcolor="#C6C6C6">&nbsp;</td><td bgcolor="#C6C6C6">&nbsp;</td><td align="right" valign="middle" bgcolor="#C6C6C6">&nbsp;</td></tr>'+
 		'<tr><td height="68" bgcolor="#C6C6C6">&nbsp;</td><td bgcolor="#C6C6C6">&nbsp;</td><td align="right" valign="middle" bgcolor="#C6C6C6">'+
-		'<div style=" border-radius: 25px; font-size: 18px; height:25px; vertical-align: middle; margin-bottom:15px; margin-left:30px border: 1px solid;" align="right"  class="commanAlertButton" onclick=doAlertAction("'+message.action+'") >'+message.label+'</div></td></tr>'+
+		'<div style=" border-radius: 8px; font-weight: bold; font-family: arial; font-size: 12px; height:17px; padding-top:5px; margin-bottom:15px; margin-left:30px border: 1px solid;" align="right"  class="commanAlertButton" onclick=doAlertAction("'+message.action+'") >'+message.label+'</div></td></tr>'+
 		'<tr><td height="36" bgcolor="#909090">&nbsp;</td><td bgcolor="#909090">&nbsp;</td><td bgcolor="#909090">&nbsp;</td></tr>'+
 		'</table></div>'   
 	};
@@ -198,7 +198,7 @@ var UIMessage=function(){
 		};
 	};
 	this.JSONToForm=function(json,action){
-		var html='<div class="orgScreenTopBar"></div>';
+		var html='<div class="orgScreenTopBar"><div class="orgScreenTopBarButton" onclick=doAction("exit") ></div></div>';
 		html+='<table class="orgFormTable"cellpadding="0" cellspacing="0" border="0">';
 		for(obj in json){
 			if(json[obj].visible==true){
@@ -234,6 +234,56 @@ var UIMessage=function(){
 			         ' <div class="orgActionButton" onclick=doAction("exit")>Exit</div>'+
 			    ' </div>'+
 			'</div>';
+		return html;
+	};
+	this.createElement=function(type,id){
+		var ele;
+		switch(type){
+		case 'div':
+			 
+			ele = document.createElement('div');
+			ele.id = id;
+			break; 
+		}
+		return ele;
+	};
+	this.showMapWindow=function(mapAttr){
+		
+		document.body.appendChild( this.createElement('div','orgCover'));
+		var orgScreen = this.createElement('div', 'orgScreen');
+		document.getElementById("orgCover").appendChild(orgScreen);
+		
+		$("#orgCover").addClass("orgCover");
+		$("#orgScreen").addClass("orgScreen");
+		document.getElementById("orgScreen").appendChild(this.createElement('div', 'screenHeader'));
+		document.getElementById("screenHeader").innerHTML= this.mapHeader(mapAttr.formatted_address);
+		
+
+		 var mapProp = {
+			     zoom: 12,
+			   center: new google.maps.LatLng(mapAttr.geometry.location.lat, mapAttr.geometry.location.lng),
+			center: {lat:mapAttr.geometry.location.lat, lng: mapAttr.geometry.location.lng},
+			    mapTypeId:google.maps.MapTypeId.ROADMAP,
+			   
+			  };
+		
+		 document.getElementById("orgScreen").appendChild(this.createElement('div', 'mapContent'));
+		 $("#mapContent").css('width',$("#orgScreen").width()+'px');
+		
+		 $("#mapContent").css('height',$("#orgScreen").height()-50+'px');
+		 $("#mapContent").addClass("mapContent");
+		 var map=new google.maps.Map(document.getElementById("mapContent"), mapProp);
+		 var markerPos = new google.maps.LatLng( mapAttr.geometry.location.lat, mapAttr.geometry.location.lng);
+
+		 var marker = new google.maps.Marker({
+			   position: markerPos,
+			   map: mapContent,
+			   title: "PC Pro Offices"
+			});
+		 
+	};
+	this.mapHeader=function(headerStr){
+		var html='<div class="mapHeader">'+headerStr+'<div class="orgScreenTopBarButton" onclick=doAction("exit") ></div></div>';
 		return html;
 	};
 };

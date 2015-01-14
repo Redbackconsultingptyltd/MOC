@@ -230,26 +230,38 @@ function getAddtionalAndObjectInfoOfSelectedNodeFromServlet(sqNO){
 	===============================================================================================================================
 */
 function getGoogleMaps(nodeId){
+//	var uiMessage = new UIMessage();
+//	uiMessage.showMapWindow({});
+	var selectedNode=null;
+	for(var i=0;i<parentChild.length;i++){
+		if(parentChild[i].split('@')[0]==nodeId.toString()){
+			selectedNode = parentChild[i].split('@')[7];
+			break;
+		}
+		
+	}
+	
+	var arr = selectedNode.split(',');
+	
+	
+	
+	
+	var serverUrl = "https://maps.googleapis.com/maps/api/geocode/json?address="+ arr[3];
  	$.ajax({
-		type:'POST',
+		type:'get',
         url: serverUrl,
-		data:"action=map&id="+nodeId,
 		dataType: "json" ,
+		cache:false,
   		success: function(mapObject){
-  			var cnst = new RdbConstant();
-  			rdbpopup = new RdbPOPUPModal();
-  			var _status =eval("(" + mapObject.ui.status + ")");
-  			if(_status){
-  				rdbpopup.getJSONErrorMessagePOPUP(mapObject.mapUrl,Object,'Google Map',cnst.POPUP_MAP_ACTION,nodeId);
+  			debugger;
+  		    if(mapObject.status=='OK'){
+  		    	var uiMessage = new UIMessage();
+  		    	uiMessage.showMapWindow(mapObject.results[0]);
+  		    }
   				
-  			}else{
-  				rdbpopup.getJSONErrorMessagePOPUP(mapObject.ui.messages,Object,mapObject.ui.headerString,cnst.POPUP_MAP_ACTION,nodeId);
-			}				
 		},
 		error: function(XMLHttpRequest, textStatus,errorThrown){
-			var cnst = new RdbConstant();
-			rdbpopup = new RdbPOPUPModal();
-			rdbpopup.getJSONErrorMessagePOPUP(null,XMLHttpRequest,'Hierarchy Map Error',cnst.POPUP_MAP_ACTION,"");
+			
 		}
  	});
 }

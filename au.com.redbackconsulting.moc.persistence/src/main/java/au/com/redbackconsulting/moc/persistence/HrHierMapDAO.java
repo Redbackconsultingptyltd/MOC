@@ -7,9 +7,12 @@ import au.com.redbackconsulting.moc.persistence.model.HrHierMapPk;
 
 public class HrHierMapDAO extends BasicDAO<HrHierMap, HrHierMapPk>  {
 
-	public HrHierMapDAO() {
-		super(PersistenceManager.getInstance().getEntityManagerProvider());
-		// TODO Auto-generated constructor stub
+	 
+	
+
+	public HrHierMapDAO( ) {
+		 super(PersistenceManager.getInstance().getEntityManagerProvider());
+		 
 	}
 
 	@Override

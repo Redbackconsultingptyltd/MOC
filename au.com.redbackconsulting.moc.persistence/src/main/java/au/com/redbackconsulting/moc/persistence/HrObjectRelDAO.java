@@ -8,9 +8,9 @@ import au.com.redbackconsulting.moc.persistence.model.HrObjectRelPK;
 
 public class HrObjectRelDAO extends BasicDAO<HrObjectRel, HrObjectRelPK>  {
 
-	public HrObjectRelDAO() {
-		super(PersistenceManager.getInstance().getEntityManagerProvider());
-		// TODO Auto-generated constructor stub
+	public HrObjectRelDAO( ) {
+		 
+		 super(PersistenceManager.getInstance().getEntityManagerProvider());
 	}
 
 	@Override
