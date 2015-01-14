@@ -16,6 +16,12 @@ import au.com.redbackconsulting.moc.persistence.model.HrHier;
 import au.com.redbackconsulting.moc.persistence.model.HrHierPk;
 import au.com.redbackconsulting.moc.persistence.model.IPkModel;
 
+
+import au.com.redbackconsulting.moc.persistence.model.IPkModel;
+ 
+
+ 
+
 public class HrHierBL extends BaseBL{
 
 	public HrHierBL(IBLModelFactory bmf) {

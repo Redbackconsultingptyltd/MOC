@@ -1,5 +1,10 @@
 package au.com.redbackconsulting.moc.odata.api;
+ 
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_CASYSTEM_TENANT;
+ 
+
+import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_NAME_CASYSTEM_TENANT;
+ 
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRHIER;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRHIERMAP;
@@ -94,8 +99,10 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 //		schema.setComplexTypes(complexTypes);
 
 		List<Association> associations = new ArrayList<Association>();
+ 
 		Association caSystemAssocation = caSystemEDM.getAssociation(ASSOCIATION_FQN_CASYSTEM_TENANT);
-		associations.add(caSystemAssocation);
+ 
+	 	associations.add(caSystemAssocation);
  
 		schema.setAssociations(associations);
 		
@@ -123,9 +130,11 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 		entityContainer.setEntitySets(entitySets);
 
 		List<AssociationSet> associationSets = new ArrayList<AssociationSet>();
+ 
 		associationSets.add(entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getAssociationSet(entityContainer.getName(), ASSOCIATION_FQN_CASYSTEM_TENANT));
 	associationSets.add(entityFactory.getEDM(ENTITY_KEY_TENANTS).getAssociationSet(entityContainer.getName(), ASSOCIATION_FQN_CASYSTEM_TENANT));
-		
+ 
+	 	
 		entityContainer.setAssociationSets(associationSets);
 		 
 		
@@ -206,7 +215,7 @@ return null;
 	public Association getAssociation(FullQualifiedName edmFQName)
 			throws ODataException {
 		if (NAMESPACE.equals(edmFQName.getNamespace())) {
-			FullQualifiedName fqName = ASSOCIATION_FQN_CASYSTEM_TENANT;
+ 			FullQualifiedName fqName = ASSOCIATION_FQN_CASYSTEM_TENANT;
 		    if (fqName.getName().equals(edmFQName.getName())) {
 		      Association association = entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getAssociation(fqName);
 		    	return association;
@@ -221,13 +230,18 @@ return null;
 
 
 
+	 
+
+
+
+
 	@Override
 	public AssociationSet getAssociationSet(String entityContainer,
 			FullQualifiedName association, String sourceEntitySetName,
 			String sourceEntitySetRole) throws ODataException {
 		 if (ENTITY_CONTAINER.equals(entityContainer)) {
 			    if (ASSOCIATION_FQN_CASYSTEM_TENANT.equals(association)) {
-			    	AssociationSet associationSet = entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getAssociationSet( entityContainer,
+ 			    	AssociationSet associationSet = entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getAssociationSet( entityContainer,
 			    			 association );
 			      return associationSet;
 			    }

@@ -1,5 +1,13 @@
 package au.com.redbackconsulting.moc.odata.api.edmconstants;
 
+import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_HROBJECTSCONSTRAINT_TENANT;
+
+import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_HROBJECTSCONSTRAINT_HROBJECTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_TENANTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ROLE_HROBJECTCONSTRAINTS_TENANTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ROLE_TENANTS_HROBJECTCONSTRAINTS;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +24,8 @@ import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 public class HrObjectsConstraintsEDM extends BaseEDM {
 	public HrObjectsConstraintsEDM(String namespace , String entity_type_name, String entity_set_name, EntityTypeFactory factory) {
 		super(namespace,    entity_type_name,   entity_set_name, factory);
-		// TODO Auto-generated constructor stub
+ 
+ 
 	}
 		public static String tenantId="tenantId";
 	public static String objectType="objectType";
@@ -56,8 +65,12 @@ public class HrObjectsConstraintsEDM extends BaseEDM {
 	}
 	@Override
 	public List<NavigationProperty> getNavigations() {
-		// TODO Auto-generated method stub
-		return null;
+ 
+List<NavigationProperty> navigationProperties = new ArrayList<NavigationProperty>();
+		
+		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_TENANTS).setRelationship(ASSOCIATION_FQN_HROBJECTSCONSTRAINT_TENANT).setFromRole(ROLE_HROBJECTCONSTRAINTS_TENANTS).setToRole(ROLE_TENANTS_HROBJECTCONSTRAINTS));
+		 return navigationProperties;
+ 
 	}
  
 	

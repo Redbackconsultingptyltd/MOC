@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
+ 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrHierEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrHierMapEDM;
 import au.com.redbackconsulting.moc.persistence.CaSystemsDAO;
@@ -16,7 +16,7 @@ import au.com.redbackconsulting.moc.persistence.model.CaSystemsPk;
 import au.com.redbackconsulting.moc.persistence.model.HrHier;
 import au.com.redbackconsulting.moc.persistence.model.HrHierMap;
 import au.com.redbackconsulting.moc.persistence.model.HrHierMapPk;
-import au.com.redbackconsulting.moc.persistence.model.IPkModel;
+ import au.com.redbackconsulting.moc.persistence.model.IPkModel;
 
 public class HrHierMapBL extends BaseBL {
 
@@ -47,6 +47,7 @@ public class HrHierMapBL extends BaseBL {
 
 	@Override
 	public Map<String, Object> getData(IPkModel primaryKeyModel) {
+ 
 		HrHierMapPk pk = (HrHierMapPk) primaryKeyModel;
 		 Map<String, Object>  result = new HashMap<String, Object>();
 		try {
@@ -59,8 +60,7 @@ public class HrHierMapBL extends BaseBL {
 			i=i+1;
 		}
 		
-		
-		
+		 
 		return null;
 	}
 
@@ -88,6 +88,7 @@ public class HrHierMapBL extends BaseBL {
 		// TODO Auto-generated method stub
 		return null;
 	}
+ 
 	
 private Map<String, Object> convertData( HrHierMap dataModel){
 		
@@ -106,5 +107,5 @@ private Map<String, Object> convertData( HrHierMap dataModel){
 			return null;
 		}
 	}
-
+ 
 }

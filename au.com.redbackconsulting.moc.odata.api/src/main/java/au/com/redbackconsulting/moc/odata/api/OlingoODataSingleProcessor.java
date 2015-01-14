@@ -26,10 +26,12 @@ import static au.com.redbackconsulting.moc.odata.api.OlingoMyEDMProvider.ENTITY_
 import static au.com.redbackconsulting.moc.odata.api.OlingoMyEDMProvider.ENTITY_SET_NAME_CARS;
 import static au.com.redbackconsulting.moc.odata.api.OlingoMyEDMProvider.ENTITY_SET_NAME_MANUFACTURERS;
 
+ 
 
 public class OlingoODataSingleProcessor extends ODataSingleProcessor {
 	private DataStore dataStore = new DataStore();
-	
+ 
+ 	
 	public ODataResponse readEntity(GetEntityUriInfo uriInfo, String contentType) throws ODataException {
 
 		if (uriInfo.getNavigationSegments().size() == 0) {

@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+ 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectRelEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsEDM;
 import au.com.redbackconsulting.moc.persistence.HrObjectRelDAO;
@@ -15,7 +16,10 @@ import au.com.redbackconsulting.moc.persistence.model.HrObjectRelPK;
 import au.com.redbackconsulting.moc.persistence.model.HrObjects;
 import au.com.redbackconsulting.moc.persistence.model.HrObjectsPk;
 import au.com.redbackconsulting.moc.persistence.model.IPkModel;
+ 
+import au.com.redbackconsulting.moc.persistence.model.IPkModel;
 
+ 
 public class HrObjectsBL extends BaseBL {
 
 	public HrObjectsBL(IBLModelFactory bmf) {
@@ -24,6 +28,7 @@ public class HrObjectsBL extends BaseBL {
 	}
 
 	@Override
+ 
 	public List<Map<String, Object>> getDataSet() {
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		try {
@@ -40,24 +45,10 @@ public class HrObjectsBL extends BaseBL {
 		return result;
 	}
 
-	@Override
+	 
 	public Map<String, Object> getData(IPkModel primaryKeyModel) {
-
-		HrObjectsPk pk = (HrObjectsPk) primaryKeyModel;
-		 Map<String, Object>  result = new HashMap<String, Object>();
-		try {
-			HrObjectsDAO dao = new HrObjectsDAO();
-		HrObjects entity =	dao.getByPK(pk);
-		result= convertData(entity);
-		return result;
-		} catch (Exception e) {
-			int i =0;
-			i=i+1;
-		}
-		
-		
-		
-		return null;
+		// TODO Auto-generated method stub
+ 		return null;
 	}
 
 	@Override
@@ -84,6 +75,7 @@ public class HrObjectsBL extends BaseBL {
 		// TODO Auto-generated method stub
 		return null;
 	}
+ 
 	
 private Map<String, Object> convertData( HrObjects dataModel){
 		
@@ -99,6 +91,6 @@ private Map<String, Object> convertData( HrObjects dataModel){
 		} catch (Exception e) {
 			return null;
 		}
-	}
+	} 
 
 }

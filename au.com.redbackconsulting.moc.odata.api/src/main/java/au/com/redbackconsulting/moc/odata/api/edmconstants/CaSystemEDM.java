@@ -19,10 +19,6 @@ import org.apache.olingo.odata2.api.edm.provider.PropertyRef;
 import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_NAME_CASYSTEM_TENANT;
-
-
-
-
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_CASYSTEM_TENANT;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_CASYSTEM_TENANT;
 
