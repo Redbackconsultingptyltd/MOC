@@ -5,13 +5,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
- 
+
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsConstraintsEDM;
 import au.com.redbackconsulting.moc.persistence.HrObjectsConstraintsDAO;
+import au.com.redbackconsulting.moc.persistence.HrObjectsStatusDAO;
 import au.com.redbackconsulting.moc.persistence.model.HrObjectsConstraints;
 import au.com.redbackconsulting.moc.persistence.model.HrObjectsConstraintsPk;
+import au.com.redbackconsulting.moc.persistence.model.HrObjectsStatus;
 import au.com.redbackconsulting.moc.persistence.model.IPkModel;
- 
 import au.com.redbackconsulting.moc.persistence.model.IPkModel;
  
 
@@ -27,9 +28,9 @@ public class HrObjectsStatusBL extends BaseBL {
 	public List<Map<String, Object>> getDataSet() {
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		try {
-			HrObjectsConstraintsDAO dao = new HrObjectsConstraintsDAO();
+			HrObjectsStatusDAO dao = new HrObjectsStatusDAO();
 			//CaSystemsDAO dao = new CaSystemsDAO();
-		    List<HrObjectsConstraints> collectin =	dao.getAll();
+		    List<HrObjectsStatus> collectin =	dao.getAll();
 		for (Iterator iterator = collectin.iterator(); iterator.hasNext();) {
 			HrObjectsConstraints hrObjectConstraints = (HrObjectsConstraints) iterator.next();
 			Map<String, Object> map = convertData(hrObjectConstraints);
