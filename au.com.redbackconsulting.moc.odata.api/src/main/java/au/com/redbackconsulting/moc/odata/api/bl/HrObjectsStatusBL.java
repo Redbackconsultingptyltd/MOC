@@ -31,7 +31,7 @@ public class HrObjectsStatusBL extends BaseBL {
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		try {
 			HrObjectsStatusDAO dao = new HrObjectsStatusDAO();
-			//CaSystemsDAO dao = new CaSystemsDAO();
+		//CaSystemsDAO dao = new CaSystemsDAO();
 		    List<HrObjectsStatus> collectin =	dao.getAll();
 		for (Iterator iterator = collectin.iterator(); iterator.hasNext();) {
 			HrObjectsStatus hrObjectConstraints = (HrObjectsStatus) iterator.next();
@@ -44,7 +44,7 @@ public class HrObjectsStatusBL extends BaseBL {
 		return null;
 	}
 private Map<String, Object> convertData( HrObjectsStatus dataModel){
-		
+		/*remark*/
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
 			//map.put(HrObjectsConstraintsEDM.tenantId, dataModel.get);
