@@ -6,18 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
- 
-import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectRelEDM;
-import au.com.redbackconsulting.moc.persistence.CaSystemsDAO;
 import au.com.redbackconsulting.moc.persistence.HrObjectRelDAO;
-import au.com.redbackconsulting.moc.persistence.model.CaSystems;
-import au.com.redbackconsulting.moc.persistence.model.CaSystemsPk;
-import au.com.redbackconsulting.moc.persistence.model.HrObjectRel;
-import au.com.redbackconsulting.moc.persistence.model.HrObjectRelPK;
-import au.com.redbackconsulting.moc.persistence.model.IPkModel;
- 
-import au.com.redbackconsulting.moc.persistence.model.IPkModel;
+import au.com.redbackconsulting.moc.persistence.model2.Hrobjectrel;
+import au.com.redbackconsulting.moc.persistence.model2.HrobjectrelPK;
+import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
 
  
 
@@ -34,9 +27,9 @@ public class HrObjectsRelBL extends BaseBL{
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		try {
 			HrObjectRelDAO dao = new HrObjectRelDAO();
-		List<HrObjectRel> collectin =	dao.getAll();
+		List<Hrobjectrel> collectin =	dao.getAll();
 		for (Iterator iterator = collectin.iterator(); iterator.hasNext();) {
-			HrObjectRel caSystems = (HrObjectRel) iterator.next();
+			Hrobjectrel caSystems = (Hrobjectrel) iterator.next();
 			Map<String, Object> map = convertData(caSystems);
 		result.add(map);
 		}
@@ -49,11 +42,11 @@ public class HrObjectsRelBL extends BaseBL{
 	@Override
 	public Map<String, Object> getData(IPkModel primaryKeyModel) {
 
-		HrObjectRelPK pk = (HrObjectRelPK) primaryKeyModel;
+		HrobjectrelPK pk = (HrobjectrelPK) primaryKeyModel;
 		 Map<String, Object>  result = new HashMap<String, Object>();
 		try {
 			HrObjectRelDAO dao = new HrObjectRelDAO();
-		HrObjectRel entity =	dao.getByPK(pk);
+			Hrobjectrel entity =	dao.getByPK(pk);
 		result= convertData(entity);
 		return result;
 		} catch (Exception e) {
@@ -89,15 +82,15 @@ public class HrObjectsRelBL extends BaseBL{
 	}
  
 	
-private Map<String, Object> convertData( HrObjectRel dataModel){
+private Map<String, Object> convertData( Hrobjectrel dataModel){
 		
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(HrObjectRelEDM.objectType, dataModel.getObjectType());
-			map.put(HrObjectRelEDM.relatType, dataModel.getRelatType());
-			map.put(HrObjectRelEDM.sObjectType, dataModel.getSObjectType());
-			map.put(HrObjectRelEDM.tenantId, dataModel.getTenantId());
-			map.put(HrObjectRelEDM.timeConstraint, dataModel.getTimeConstraint());
+			map.put(HrObjectRelEDM.objectType, dataModel.getId().getIdobjectype());
+			map.put(HrObjectRelEDM.relatType, dataModel.getId().getIdrelatType());
+			map.put(HrObjectRelEDM.sObjectType, dataModel.getId().getIdsobjectype());
+			map.put(HrObjectRelEDM.tenantId, dataModel.getId().getTenants_idTenants());
+			map.put(HrObjectRelEDM.timeConstraint, dataModel.getId().getTimeConstraints());
 			return map;
 			
 		} catch (Exception e) {

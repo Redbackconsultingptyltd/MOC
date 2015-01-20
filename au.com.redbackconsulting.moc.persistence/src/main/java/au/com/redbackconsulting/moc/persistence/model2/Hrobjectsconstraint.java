@@ -31,7 +31,9 @@ public class Hrobjectsconstraint implements IDBEntity {
 
 	//bi-directional many-to-one association to Tenant
 	@ManyToOne
-	@JoinColumn(name="Tenants_idTenants")
+	@JoinColumns({
+	@JoinColumn(name="Tenants_idTenants", referencedColumnName= "id", updatable=false, insertable=false)
+	})
 	private Tenant tenant;
 
 	public Hrobjectsconstraint() {

@@ -6,18 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrHierEDM;
-import au.com.redbackconsulting.moc.persistence.CaSystemsDAO;
 import au.com.redbackconsulting.moc.persistence.HrHierDAO;
-import au.com.redbackconsulting.moc.persistence.model.CaSystems;
-import au.com.redbackconsulting.moc.persistence.model.CaSystemsPk;
-import au.com.redbackconsulting.moc.persistence.model.HrHier;
-import au.com.redbackconsulting.moc.persistence.model.HrHierPk;
-import au.com.redbackconsulting.moc.persistence.model.IPkModel;
-
-
-import au.com.redbackconsulting.moc.persistence.model.IPkModel;
+import au.com.redbackconsulting.moc.persistence.model2.Hrhier;
+import au.com.redbackconsulting.moc.persistence.model2.HrhierPK;
+import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
  
 
  
@@ -36,9 +29,9 @@ public class HrHierBL extends BaseBL{
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		try {
 			HrHierDAO dao = new HrHierDAO();
-		List<HrHier> collectin =	dao.getAll();
+		List<Hrhier> collectin =	dao.getAll();
 		for (Iterator iterator = collectin.iterator(); iterator.hasNext();) {
-			HrHier hrhier = (HrHier) iterator.next();
+			Hrhier hrhier = (Hrhier) iterator.next();
 			Map<String, Object> map = convertData(hrhier);
 		result.add(map);
 		}
@@ -53,11 +46,11 @@ public class HrHierBL extends BaseBL{
 	@Override
 	public Map<String, Object> getData(IPkModel primaryKeyModel) {
 		// TODO Auto-generated method stub
-		HrHierPk pk = (HrHierPk) primaryKeyModel;
+		HrhierPK pk = (HrhierPK) primaryKeyModel;
 		 Map<String, Object>  result = new HashMap<String, Object>();
 		try {
 			HrHierDAO dao = new HrHierDAO();
-		HrHier entity =	dao.getByPK(pk);
+		Hrhier entity =	dao.getByPK(pk);
 		result= convertData(entity);
 		return result;
 		} catch (Exception e) {
@@ -95,14 +88,14 @@ public class HrHierBL extends BaseBL{
 		return null;
 	}
 	
-private Map<String, Object> convertData( HrHier dataModel){
+private Map<String, Object> convertData( Hrhier dataModel){
 		
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(HrHierEDM.hierId, dataModel.getHierId());
-			map.put(HrHierEDM.hierDesc, dataModel.getHierDesc());
-			map.put(HrHierEDM.tenantId, dataModel.getTenantId());
-			map.put(HrHierEDM.hrHierMap, dataModel.getHrHierMap());
+			map.put(HrHierEDM.hierId, dataModel.getId().getIdHrHier());
+			map.put(HrHierEDM.hierDesc, dataModel.getHierdesc());
+			map.put(HrHierEDM.tenantId, dataModel.getId().getTenants_idTenants());
+//			map.put(HrHierEDM.hrHierMap, dataModel.getHrHierMap());
 			return map;
 			
 		} catch (Exception e) {

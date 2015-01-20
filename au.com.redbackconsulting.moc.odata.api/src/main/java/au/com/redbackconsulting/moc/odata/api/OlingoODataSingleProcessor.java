@@ -1,5 +1,8 @@
 package au.com.redbackconsulting.moc.odata.api;
 
+import static au.com.redbackconsulting.moc.odata.api.OlingoMyEDMProvider.ENTITY_SET_NAME_CARS;
+import static au.com.redbackconsulting.moc.odata.api.OlingoMyEDMProvider.ENTITY_SET_NAME_MANUFACTURERS;
+
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,12 +22,7 @@ import org.apache.olingo.odata2.api.processor.ODataResponse;
 import org.apache.olingo.odata2.api.processor.ODataSingleProcessor;
 import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.info.GetEntitySetUriInfo;
-import org.apache.olingo.odata2.api.uri.info.GetEntityUriInfo; 
-
-import static au.com.redbackconsulting.moc.odata.api.OlingoMyEDMProvider.ENTITY_NAME_CAR;
-import static au.com.redbackconsulting.moc.odata.api.OlingoMyEDMProvider.ENTITY_NAME_MANUFACTURER;
-import static au.com.redbackconsulting.moc.odata.api.OlingoMyEDMProvider.ENTITY_SET_NAME_CARS;
-import static au.com.redbackconsulting.moc.odata.api.OlingoMyEDMProvider.ENTITY_SET_NAME_MANUFACTURERS;
+import org.apache.olingo.odata2.api.uri.info.GetEntityUriInfo;
 
  
 

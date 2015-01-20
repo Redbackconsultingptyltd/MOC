@@ -9,14 +9,11 @@ import java.util.Map;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.TenantsEDM;
-import au.com.redbackconsulting.moc.persistence.CaSystemsDAO;
 import au.com.redbackconsulting.moc.persistence.TenantsDAO;
-import au.com.redbackconsulting.moc.persistence.model.CaSystems;
-import au.com.redbackconsulting.moc.persistence.model.CaSystemsPk;
-import au.com.redbackconsulting.moc.persistence.model.IPkModel;
-import au.com.redbackconsulting.moc.persistence.model.ITenantsPK;
-import au.com.redbackconsulting.moc.persistence.model.Tenants;
-import au.com.redbackconsulting.moc.persistence.model.TenantsPk;
+import au.com.redbackconsulting.moc.persistence.model2.Casystem;
+import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
+import au.com.redbackconsulting.moc.persistence.model2.Tenant;
+import au.com.redbackconsulting.moc.persistence.model2.TenantPK;
 
 public class TenantsBL extends BaseBL {
 
@@ -30,9 +27,9 @@ public class TenantsBL extends BaseBL {
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		try {
 			TenantsDAO dao = new TenantsDAO();
-		List<Tenants> collectin =	dao.getAll();
+		List<Tenant> collectin =	dao.getAll();
 		for (Iterator iterator = collectin.iterator(); iterator.hasNext();) {
-			Tenants entity = (Tenants) iterator.next();
+			Tenant entity = (Tenant) iterator.next();
 			Map<String, Object> map = convertData(entity);
 		result.add(map);
 		}
@@ -50,11 +47,11 @@ public class TenantsBL extends BaseBL {
 	
 		
 		
-		TenantsPk pk = (TenantsPk) primaryKeyModel;
+		TenantPK pk = (TenantPK) primaryKeyModel;
 		 Map<String, Object>  result = new HashMap<String, Object>();
 		try {
 			TenantsDAO dao = new TenantsDAO();
-		Tenants entity =	dao.getByPK(pk);
+		Tenant  entity =	dao.getByPK(pk);
 		result= convertData(entity);
 		return result;
 		} catch (Exception e) {
@@ -87,13 +84,13 @@ public class TenantsBL extends BaseBL {
 	}
 	
 	
-	private Map<String, Object> convertData(Tenants entity) {
+	private Map<String, Object> convertData(Tenant entity) {
 		 	
 			try {
 				Map<String, Object> map = new HashMap<String, Object>();
-				map.put(TenantsEDM.tenantId, entity.getTenantId());
+				map.put(TenantsEDM.tenantId, entity.getTenantPK().getId());
 				map.put(TenantsEDM.name, entity.getName());
-				map.put(TenantsEDM.tenantCode, entity.getTenantCode());
+				map.put(TenantsEDM.tenantCode, entity.getTenantsCode());
 				return map;
 				
 			} catch (Exception e) {
@@ -103,15 +100,15 @@ public class TenantsBL extends BaseBL {
 
 	@Override
 	public List<Map<String, Object>> getRelatedData(IPkModel primaryKey) {
-		TenantsPk pk = (TenantsPk) primaryKey ;
+		TenantPK pk = (TenantPK) primaryKey ;
 		
 		 List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
 		try {
 			TenantsDAO dao = new TenantsDAO();
-		Tenants entity =	dao.getByPK(pk);
-		Collection<CaSystems> collection = entity.getCaSystems();
+		Tenant entity =	dao.getByPK(pk);
+		Collection<Casystem> collection = entity.getCasystems();
 		for (Iterator iterator = collection.iterator(); iterator.hasNext();) {
-			CaSystems caSystems = (CaSystems) iterator.next();
+			Casystem  caSystems = (Casystem) iterator.next();
 			 Map<String, Object>  map = convertCaSystem(caSystems);
 			 result.add(map);
 		}
@@ -125,12 +122,12 @@ public class TenantsBL extends BaseBL {
 		return null;
 	}
 
-	private Map<String, Object> convertCaSystem(CaSystems caSystems) {
+	private Map<String, Object> convertCaSystem(Casystem caSystems) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		
-		map.put(CaSystemEDM.SYSID, caSystems.getSystId());
-		map.put(CaSystemEDM.SYSDESC, caSystems.getSystDesc());
-		map.put(CaSystemEDM.TENANTID, caSystems.getTenantId());
+		map.put(CaSystemEDM.SYSID, caSystems.getId().getIdsys());
+		map.put(CaSystemEDM.SYSDESC, caSystems.getSysdesc());
+		map.put(CaSystemEDM.TENANTID, caSystems.getId().getTenants_idTenants());
 		return map;
 	}
 	

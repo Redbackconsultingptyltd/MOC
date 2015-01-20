@@ -42,7 +42,7 @@ public class Hrp1000 implements IDBEntity {
 	@ManyToOne
 	@JoinColumns({
 		@JoinColumn(name="status", referencedColumnName="idHrObjectsStatus"),
-		@JoinColumn(name="Tenants_idTenants", referencedColumnName="Tenants_idTenants")
+		@JoinColumn(name="Tenants_idTenants", referencedColumnName="Tenants_idTenants", updatable=false, insertable=false)
 		})
 	private Hrobjectsstatus hrobjectsstatus;
 

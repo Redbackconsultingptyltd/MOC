@@ -19,6 +19,14 @@ public class Tenant implements IDBEntity {
 //	@GeneratedValue(strategy=GenerationType.AUTO)
 	private TenantPK tenantPK;
 
+	public TenantPK getTenantPK() {
+		return tenantPK;
+	}
+
+	public void setTenantPK(TenantPK tenantPK) {
+		this.tenantPK = tenantPK;
+	}
+
 	private String name;
 
 	private String tenantsCode;

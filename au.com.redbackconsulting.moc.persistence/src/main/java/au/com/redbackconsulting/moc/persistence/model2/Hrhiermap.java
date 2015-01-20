@@ -34,7 +34,9 @@ public class Hrhiermap implements IDBEntity {
 
 	//bi-directional many-to-one association to Tenant
 	@ManyToOne
-	@JoinColumn(name="Tenants_idTenants")
+	@JoinColumns({
+	@JoinColumn(name="Tenants_idTenants", referencedColumnName="id", insertable=false, updatable=false)
+	})
 	private Tenant tenant;
 
 	public Hrhiermap() {

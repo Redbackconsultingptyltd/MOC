@@ -32,7 +32,7 @@ public class Hrobjectrel implements IDBEntity {
 	@ManyToOne
 	@JoinColumns({
 		@JoinColumn(name="idsobjectype", referencedColumnName="idObjectType"),
-		@JoinColumn(name="Tenants_idTenants", referencedColumnName="Tenants_idTenants")
+		@JoinColumn(name="Tenants_idTenants", referencedColumnName="Tenants_idTenants", insertable=false, updatable=false)
 		})
 	private Hrobject hrobject2;
 

@@ -3,7 +3,7 @@ package au.com.redbackconsulting.moc.odata.api.bl;
 import java.util.List;
 import java.util.Map;
 
-import au.com.redbackconsulting.moc.persistence.model.IPkModel;
+import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
 
 public class HRP1000BL extends BaseBL {
 

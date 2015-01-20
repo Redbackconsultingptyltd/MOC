@@ -1,6 +1,11 @@
 package au.com.redbackconsulting.moc.odata.api;
 
 
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_CASYSTEM;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_TENANTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_CASYSTEM;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_TENANTS;
+
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,12 +28,10 @@ import org.apache.olingo.odata2.api.uri.info.GetEntitySetUriInfo;
 import org.apache.olingo.odata2.api.uri.info.GetEntityUriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.bl.BLModelFactory;
-  
-import au.com.redbackconsulting.moc.odata.api.bl.IBLModel;  
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_CASYSTEM;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_CASYSTEM;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_TENANTS;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_TENANTS;
+import au.com.redbackconsulting.moc.odata.api.bl.IBLModel;
+import au.com.redbackconsulting.moc.persistence.model2.CasystemPK;
+import au.com.redbackconsulting.moc.persistence.model2.ITenantsPK;
+import au.com.redbackconsulting.moc.persistence.model2.TenantPK;
 
 
  
@@ -45,15 +48,14 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 		if (uriInfo.getNavigationSegments().size() == 0) {
 			EdmEntitySet entitySet = uriInfo.getStartEntitySet();
 		if (ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
-				String sysId = getKeyValueString(uriInfo.getKeyPredicates().get(0));
+				int sysId = getKeyValue (uriInfo.getKeyPredicates().get(0));
 				int tenantId = getKeyValue (uriInfo.getKeyPredicates().get(1));
 				
 				IBLModel blModel =bmf.getInstance(ENTITY_KEY_CASYSTEM);
-				ICaSystemPK pk  = (ICaSystemPK) PKFactory.getInstance().getPKInstance(PK_KEY_CASYSTEM);
-				pk.setSystId(sysId);
-				pk.setTenantId(new Integer(tenantId));
-				Map<String, Object> data = blModel.getData(pk);
-//				Map<String, Object> data = dataStore.getCar(id);
+				CasystemPK pk  = new CasystemPK();
+				pk.setIdsys(sysId);
+				pk.setTenants_idTenants((tenantId));
+				Map<String, Object> data = blModel.getData(pk); 
 				URI serviceRoot = getContext().getPathInfo()
 						.getServiceRoot();
 				ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
@@ -64,8 +66,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				int tenantId = getKeyValue (uriInfo.getKeyPredicates().get(0));
 			
 			IBLModel blModel =bmf.getInstance(ENTITY_KEY_TENANTS);
-			ITenantsPK pk  = (ITenantsPK) PKFactory.getInstance().getPKInstance(PK_KEY_TENANTS);
-			pk.setTenantId(new Integer(tenantId));
+			TenantPK pk  = new TenantPK();
+			pk.setId((tenantId));
 			Map<String, Object> data = blModel.getData(pk);
  
 			URI serviceRoot = getContext().getPathInfo()
@@ -82,9 +84,9 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 //				String sysId = getKeyValueString(uriInfo.getKeyPredicates().get(0));
 				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
-				ITenantsPK pk  = (ITenantsPK) PKFactory.getInstance().getPKInstance(PK_KEY_TENANTS);
+				TenantPK pk  =new TenantPK();
 			//	pk.setSystId(sysId);
-				pk.setTenantId(new Integer(tenantId));
+				pk.setId((tenantId));
 				Map<String, Object> data = blModel.getData(pk);				
 				List<Map<String, Object>> result1 = new ArrayList<Map<String, Object>>();
 				result1.add(data);
@@ -101,9 +103,9 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 			} else if(ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
 				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
-				ITenantsPK pk  = (ITenantsPK) PKFactory.getInstance().getPKInstance(PK_KEY_TENANTS);
+				TenantPK pk  = new TenantPK();
 			//	pk.setSystId(sysId);
-				pk.setTenantId(new Integer(tenantId));
+				pk.setId((tenantId));
 				List<Map<String, Object>> data = blModel.getRelatedData(pk);	
 				return EntityProvider.writeFeed(
 						contentType,
@@ -240,9 +242,9 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				
 				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
-				ITenantsPK pk  = (ITenantsPK) PKFactory.getInstance().getPKInstance(PK_KEY_TENANTS);
+			TenantPK pk = new TenantPK();
 			//	pk.setSystId(sysId);
-				pk.setTenantId(new Integer(tenantId));
+				pk.setId((tenantId));
 				List<Map<String, Object>> data = blModel.getRelatedData(pk);				
 //				List<Map<String, Object>> result1 = new ArrayList<Map<String, Object>>();
 //				result1.add(data);

@@ -6,16 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsConstraintsEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsStatusEDM;
-import au.com.redbackconsulting.moc.persistence.HrObjectsConstraintsDAO;
 import au.com.redbackconsulting.moc.persistence.HrObjectsStatusDAO;
-import au.com.redbackconsulting.moc.persistence.model.HrObjectsConstraints;
-import au.com.redbackconsulting.moc.persistence.model.HrObjectsConstraintsPk;
-import au.com.redbackconsulting.moc.persistence.model.HrObjectsStatus;
-import au.com.redbackconsulting.moc.persistence.model.HrObjectsStatusPk;
-import au.com.redbackconsulting.moc.persistence.model.IPkModel;
-import au.com.redbackconsulting.moc.persistence.model.IPkModel;
+import au.com.redbackconsulting.moc.persistence.model2.Hrobjectsstatus;
+import au.com.redbackconsulting.moc.persistence.model2.HrobjectsstatusPK;
+import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
  
 
 public class HrObjectsStatusBL extends BaseBL {
@@ -32,9 +27,9 @@ public class HrObjectsStatusBL extends BaseBL {
 		try {
 			HrObjectsStatusDAO dao = new HrObjectsStatusDAO();
 		//CaSystemsDAO dao = new CaSystemsDAO();
-		    List<HrObjectsStatus> collectin =	dao.getAll();
+		    List<Hrobjectsstatus> collectin =	dao.getAll();
 		for (Iterator iterator = collectin.iterator(); iterator.hasNext();) {
-			HrObjectsStatus hrObjectConstraints = (HrObjectsStatus) iterator.next();
+			Hrobjectsstatus hrObjectConstraints = (Hrobjectsstatus) iterator.next();
 			Map<String, Object> map = convertData(hrObjectConstraints);
 		result.add(map);
 		}
@@ -43,15 +38,15 @@ public class HrObjectsStatusBL extends BaseBL {
 		}
 		return null;
 	}
-private Map<String, Object> convertData( HrObjectsStatus dataModel){
+private Map<String, Object> convertData( Hrobjectsstatus dataModel){
 		/*remark*/
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
 			//map.put(HrObjectsConstraintsEDM.tenantId, dataModel.get);
 			map.put(HrObjectsStatusEDM.description, dataModel.getDescription());
-			map.put(HrObjectsStatusEDM.hRP1000, dataModel.getHRP1000());
-			map.put(HrObjectsStatusEDM.hRP1001, dataModel.getHRP1001());
-			map.put(HrObjectsStatusEDM.status, dataModel.getStatus());
+//			map.put(HrObjectsStatusEDM.hRP1000, dataModel.getId().gHRP1000());
+		//	map.put(HrObjectsStatusEDM.hRP1001, dataModel.getHRP1001());
+			map.put(HrObjectsStatusEDM.status, dataModel.getId().getIdHrObjectsStatus());
 		
 			return map;
 			
@@ -62,11 +57,11 @@ private Map<String, Object> convertData( HrObjectsStatus dataModel){
 
 	@Override
 	public Map<String, Object> getData(IPkModel primaryKeyModel) {
-		HrObjectsStatusPk pk = (HrObjectsStatusPk) primaryKeyModel;
+		HrobjectsstatusPK pk = (HrobjectsstatusPK) primaryKeyModel;
 		 Map<String, Object>  result = new HashMap<String, Object>();
 		try {
 			HrObjectsStatusDAO dao = new HrObjectsStatusDAO();
-			HrObjectsStatus entity =	dao.getByPK(pk);
+			Hrobjectsstatus entity =	dao.getByPK(pk);
 		    result= convertData(entity);
 		    return result;
 		} catch (Exception e) {

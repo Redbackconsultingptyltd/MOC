@@ -2,7 +2,6 @@
 
 package au.com.redbackconsulting.moc.odata.api;
 
-import org.apache.olingo.odata2.api.ODataCallback;
 import org.apache.olingo.odata2.api.ODataService;
 import org.apache.olingo.odata2.api.ODataServiceFactory;
 import org.apache.olingo.odata2.api.edm.provider.EdmProvider;

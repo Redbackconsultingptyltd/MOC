@@ -23,7 +23,9 @@ public class Hrhier implements IDBEntity {
 
 	//bi-directional many-to-one association to Tenant
 	@ManyToOne
-	@JoinColumn(name="Tenants_idTenants")
+	@JoinColumns({
+	@JoinColumn(name="Tenants_idTenants", referencedColumnName="id")
+	})
 	private Tenant tenant;
 
 	//bi-directional many-to-one association to Hrhiermap

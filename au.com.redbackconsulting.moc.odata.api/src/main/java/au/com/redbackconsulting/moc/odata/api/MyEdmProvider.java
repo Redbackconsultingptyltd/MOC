@@ -1,5 +1,6 @@
 package au.com.redbackconsulting.moc.odata.api;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_CASYSTEM_TENANT;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_CONTAINER;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRHIER;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRHIERMAP;
@@ -16,8 +17,6 @@ import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_T
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_TENANTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.NAMESPACE;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_CONTAINER;
- 
 
 import java.util.ArrayList;
 import java.util.List;

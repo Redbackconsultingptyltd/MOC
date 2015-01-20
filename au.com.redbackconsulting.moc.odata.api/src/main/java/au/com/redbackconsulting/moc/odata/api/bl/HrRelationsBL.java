@@ -5,15 +5,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
- 
-import au.com.redbackconsulting.moc.persistence.model.IPkModel;
 
- 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrRelationsEDM;
 import au.com.redbackconsulting.moc.persistence.HrRelationsDAO;
-import au.com.redbackconsulting.moc.persistence.model.HrRelations;
-import au.com.redbackconsulting.moc.persistence.model.HrRelationsPk;
-import au.com.redbackconsulting.moc.persistence.model.IPkModel;
+import au.com.redbackconsulting.moc.persistence.model2.Hrrelation;
+import au.com.redbackconsulting.moc.persistence.model2.HrrelationPK;
+import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
 
 public class HrRelationsBL extends BaseBL {
 
@@ -23,12 +20,12 @@ public class HrRelationsBL extends BaseBL {
 	}
 
 	
-private Map<String, Object> convertData( HrRelations dataModel){
+private Map<String, Object> convertData( Hrrelation dataModel){
 		
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
 			//map.put(HrRelationsEDM.tenantId, dataModel.getSystId());
-			map.put(HrRelationsEDM.relatType, dataModel.getRelatType());
+			map.put(HrRelationsEDM.relatType, dataModel.getId().getRelatType());
 			map.put(HrRelationsEDM.relatTypeT, dataModel.getRelatTypeT());
 		
 			
@@ -43,9 +40,9 @@ private Map<String, Object> convertData( HrRelations dataModel){
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		try {
 			HrRelationsDAO dao = new HrRelationsDAO();
-		List<HrRelations> collectin =	dao.getAll();
+		List<Hrrelation> collectin =	dao.getAll();
 		for (Iterator iterator = collectin.iterator(); iterator.hasNext();) {
-			HrRelations hrRelations = (HrRelations) iterator.next();
+			Hrrelation hrRelations = (Hrrelation) iterator.next();
 			Map<String, Object> map = convertData(hrRelations);
 		result.add(map);
 		}
@@ -58,11 +55,11 @@ private Map<String, Object> convertData( HrRelations dataModel){
 	@Override
 	public Map<String, Object> getData(IPkModel primaryKeyModel) {
  
-		HrRelationsPk pk = (HrRelationsPk) primaryKeyModel;
+		HrrelationPK pk = (HrrelationPK) primaryKeyModel;
 		 Map<String, Object>  result = new HashMap<String, Object>();
 		try {
 			HrRelationsDAO dao = new HrRelationsDAO();
-			HrRelations entity =	dao.getByPK(pk);
+			Hrrelation entity =	dao.getByPK(pk);
 		result= convertData(entity);
 		return result;
 		} catch (Exception e) {

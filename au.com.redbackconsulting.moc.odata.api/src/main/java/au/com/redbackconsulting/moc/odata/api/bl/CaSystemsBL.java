@@ -5,13 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
- 
-
-
-
-
-
-
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
 import au.com.redbackconsulting.moc.persistence.CaSystemsDAO;
@@ -86,9 +79,9 @@ public class CaSystemsBL extends BaseBL   {
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
 			
-			map.put(CaSystemEDM.SYSID, dataModel.getId());
+			map.put(CaSystemEDM.SYSID, dataModel.getId().getIdsys());
 			map.put(CaSystemEDM.SYSDESC, dataModel.getSysdesc());
-			map.put(CaSystemEDM.TENANTID, dataModel.getTenant().gTenantId());
+			map.put(CaSystemEDM.TENANTID, dataModel.getId().getTenants_idTenants());
 			return map;
 			
 		} catch (Exception e) {
