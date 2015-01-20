@@ -1,5 +1,7 @@
 package au.com.redbackconsulting.moc.odata.api;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_CASYSTEM_TENANT;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_HRHIER_HRHIERMAP;
+
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_CONTAINER;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRHIER;
@@ -13,8 +15,11 @@ import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRP100
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRRELATIONS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_TENANTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_CASYSTEM;
+
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRHIER;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_TENANTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_CASYSTEM;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRHIER;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_TENANTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.NAMESPACE;
 
@@ -94,8 +99,10 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 
 		List<Association> associations = new ArrayList<Association>();
 		Association caSystemAssocation = caSystemEDM.getAssociation(ASSOCIATION_FQN_CASYSTEM_TENANT);
+		
 		associations.add(caSystemAssocation);
- 
+		Association hrhierAssocation = caSystemEDM.getAssociation(ASSOCIATION_FQN_HRHIER_HRHIERMAP);
+		associations.add(hrhierAssocation);
 		schema.setAssociations(associations);
 		
 	
@@ -110,11 +117,11 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 		EntitySet caSystemEntitySet =caSystemEDM.getEntitySet( );
 		entitySets.add(caSystemEntitySet);
  		entitySets.add(hrHierEDM.getEntitySet());
- 	entitySets.add(hrHierMapEDM.getEntitySet());
+ 		entitySets.add(hrHierMapEDM.getEntitySet());
  		entitySets.add(hrObjectsRelEDM.getEntitySet());
  		entitySets.add(hrObjectConstraintsEDM.getEntitySet());
  		entitySets.add(hrObjectsEDM.getEntitySet());
- 	entitySets.add(hrObjectsStutusEDM.getEntitySet());
+ 		entitySets.add(hrObjectsStutusEDM.getEntitySet());
 		entitySets.add(hrP1000EDM.getEntitySet());
 		entitySets.add(hrP1001EDM.getEntitySet() );
 		entitySets.add(hrRelationsEDM.getEntitySet());
@@ -123,7 +130,9 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 
 		List<AssociationSet> associationSets = new ArrayList<AssociationSet>();
 		associationSets.add(entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getAssociationSet(entityContainer.getName(), ASSOCIATION_FQN_CASYSTEM_TENANT));
-	associationSets.add(entityFactory.getEDM(ENTITY_KEY_TENANTS).getAssociationSet(entityContainer.getName(), ASSOCIATION_FQN_CASYSTEM_TENANT));
+		associationSets.add(entityFactory.getEDM(ENTITY_KEY_HRHIER).getAssociationSet(entityContainer.getName(), ASSOCIATION_FQN_HRHIER_HRHIERMAP));
+		
+		associationSets.add(entityFactory.getEDM(ENTITY_KEY_TENANTS).getAssociationSet(entityContainer.getName(), ASSOCIATION_FQN_CASYSTEM_TENANT));
 		
 		entityContainer.setAssociationSets(associationSets);
 		 
@@ -149,7 +158,12 @@ public class MyEdmProvider extends EdmProvider  implements IMyEdmProvider{
 
 		return entityType; 	
 				
-			  } else 			  if (edmFQName.getName().equals(ENTITY_TYPE_NAME_TENANTS)) {
+			  }else 			  if (edmFQName.getName().equals(ENTITY_TYPE_NAME_HRHIER)) {
+					EntityType entityType =entityFactory.getEDM(ENTITY_KEY_TENANTS).getEntityType();
+
+					return entityType; 	
+							
+						  } else 			  if (edmFQName.getName().equals(ENTITY_TYPE_NAME_TENANTS)) {
 					EntityType entityType =entityFactory.getEDM(ENTITY_KEY_TENANTS).getEntityType();
 
 					return entityType; 	
@@ -167,6 +181,9 @@ return null;
 			    if (ENTITY_SET_NAME_CASYSTEM.equals(name)) {
 			    	EntitySet entitySet =  entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getEntitySet();
 			      return entitySet;
+			    } else if (ENTITY_SET_NAME_HRHIER.equals(name)) {
+			    	EntitySet entitySet =  entityFactory.getEDM(ENTITY_KEY_HRHIER).getEntitySet();
+				return entitySet; 
 			    }  else if (ENTITY_SET_NAME_TENANTS.equals(name)) {
 			    	EntitySet entitySet =  entityFactory.getEDM(ENTITY_KEY_TENANTS).getEntitySet();
 				return entitySet; 
@@ -205,9 +222,9 @@ return null;
 	public Association getAssociation(FullQualifiedName edmFQName)
 			throws ODataException {
 		if (NAMESPACE.equals(edmFQName.getNamespace())) {
-			FullQualifiedName fqName = ASSOCIATION_FQN_CASYSTEM_TENANT;
-		    if (fqName.getName().equals(edmFQName.getName())) {
-		      Association association = entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getAssociation(fqName);
+//			FullQualifiedName fqName = ASSOCIATION_FQN_CASYSTEM_TENANT;
+		    if (ASSOCIATION_FQN_CASYSTEM_TENANT.getName().equals(edmFQName.getName())) {
+		      Association association = entityFactory.getEDM(ENTITY_KEY_CASYSTEM).getAssociation(edmFQName);
 		    	return association;
 		    }
 		  }
