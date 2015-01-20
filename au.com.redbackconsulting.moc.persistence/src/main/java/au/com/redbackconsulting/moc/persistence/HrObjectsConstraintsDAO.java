@@ -1,11 +1,10 @@
 package au.com.redbackconsulting.moc.persistence;
 
- import au.com.redbackconsulting .moc.persistence.manager.EntityManagerProvider;
-import au.com.redbackconsulting.moc.persistence.manager.PersistenceManager;
-import au.com.redbackconsulting .moc.persistence.model.HrObjectsConstraints;
-import au.com.redbackconsulting.moc.persistence.model.HrObjectsConstraintsPk;
+ import au.com.redbackconsulting.moc.persistence.manager.PersistenceManager;
+import au.com.redbackconsulting.moc.persistence.model2.Hrobjectsconstraint;
+import au.com.redbackconsulting.moc.persistence.model2.HrobjectsconstraintPK;
 
-public class HrObjectsConstraintsDAO extends BasicDAO<HrObjectsConstraints, HrObjectsConstraintsPk>    {
+public class HrObjectsConstraintsDAO extends BasicDAO<Hrobjectsconstraint, HrobjectsconstraintPK>    {
 
 	public HrObjectsConstraintsDAO( ) {
 		 

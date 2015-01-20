@@ -13,16 +13,10 @@ import javax.persistence.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
- 
 
-
-
-
-
-import au.com.redbackconsulting.moc.persistence.IDAO.IDAO;
-import au.com.redbackconsulting.moc .persistence.manager.EntityManagerProvider;
-import au.com.redbackconsulting.moc .persistence.model.IDBEntity;
-import au.com.redbackconsulting.moc.persistence.model.IPkModel;
+import au.com.redbackconsulting.moc.persistence.manager.EntityManagerProvider;
+import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
+import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
   
  
 public abstract class BasicDAO <T extends IDBEntity, PK extends IPkModel >     {

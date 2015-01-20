@@ -3,17 +3,27 @@
 	<persistence-unit name="au.com.redbackconsulting.moc.persistence" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
 		<non-jta-data-source>java:comp/env/ds/mocDS</non-jta-data-source>
-		<class>au.com.redbackconsulting.moc.persistence.model.HrHier</class>
-		<class>au.com.redbackconsulting.moc.persistence.model.HrHierMap</class>
-		<class>au.com.redbackconsulting.moc.persistence.model.HRP1001</class>
-		<class>au.com.redbackconsulting.moc.persistence.model.HRP1000</class>
-		<class>au.com.redbackconsulting.moc.persistence.model.HrObjects</class>
-		<class>au.com.redbackconsulting.moc.persistence.model.HrObjectsConstraints</class>
-		<class>au.com.redbackconsulting.moc.persistence.model.HrRelations</class>
-		<class>au.com.redbackconsulting.moc.persistence.model.HrObjectRel</class>
-		<class>au.com.redbackconsulting.moc.persistence.model.HrObjectsStatus</class>
-		<class>au.com.redbackconsulting.moc.persistence.model.CaSystems</class>
-		<class>au.com.redbackconsulting.moc.persistence.model.Tenants</class>
+	
+		<class>au.com.redbackconsulting.moc.persistence.model2.Casystem</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.CasystemPK</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.Hrhier</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.HrhierPK</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.Hrhiermap</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.HrhiermapPK</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.Hrobjectrel</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.HrobjectrelPK</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.Hrobject</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.HrobjectPK</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.Hrobjectsconstraint</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.HrobjectsconstraintPK</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.Hrobjectsstatus</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.HrobjectsstatusPK</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.Hrp1000</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.Hrp1000PK</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.Hrrelation</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.HrrelationPK</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.Tenant</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.TenantPK</class>
 		 
 		
 	</persistence-unit>

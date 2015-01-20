@@ -3,10 +3,11 @@ package au.com.redbackconsulting.moc.persistence;
  
 
 import au.com.redbackconsulting.moc.persistence.manager.PersistenceManager;
-import au.com.redbackconsulting.moc.persistence.model.CaSystems;
-import au.com.redbackconsulting.moc.persistence.model.CaSystemsPk;
+import au.com.redbackconsulting.moc.persistence.model2.Casystem;
+import au.com.redbackconsulting.moc.persistence.model2.CasystemPK;
+import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
 
-public class CaSystemsDAO extends BasicDAO<CaSystems, CaSystemsPk> {
+public class CaSystemsDAO extends BasicDAO<Casystem, CasystemPK> {
 	
 	public CaSystemsDAO(){
 		
@@ -15,7 +16,7 @@ public class CaSystemsDAO extends BasicDAO<CaSystems, CaSystemsPk> {
 	}
 
 	
-	public 	 CaSystems  getPK (CaSystemsPk pk){
+	public 	 Casystem   getPK (CasystemPK pk){
 //		final EntityManager em = emProvider.get();
 //			entity =em.find(entity.getClass(), entity);
 //        return entity;

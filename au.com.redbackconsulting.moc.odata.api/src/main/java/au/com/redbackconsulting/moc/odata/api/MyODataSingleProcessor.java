@@ -24,21 +24,14 @@ import org.apache.olingo.odata2.api.uri.info.GetEntityUriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.bl.BLModelFactory;
   
-import au.com.redbackconsulting.moc.odata.api.bl.IBLModel; 
-import au.com.redbackconsulting.moc.persistence.model.ICaSystemPK;
-import au.com.redbackconsulting.moc.persistence.model.ITenantsPK;
-import au.com.redbackconsulting.moc.persistence.model.PKFactory;
+import au.com.redbackconsulting.moc.odata.api.bl.IBLModel;  
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_TENANTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_TENANTS;
 
 
-
-
-import static au.com.redbackconsulting.moc.persistence.model.Constants.PK_KEY_CASYSTEM;
-import static au.com.redbackconsulting.moc.persistence.model.Constants.PK_KEY_TENANTS;
-
+ 
 
 
 public class MyODataSingleProcessor extends ODataSingleProcessor {

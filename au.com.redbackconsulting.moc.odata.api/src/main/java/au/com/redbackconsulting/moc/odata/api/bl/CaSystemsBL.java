@@ -10,12 +10,14 @@ import java.util.Map;
 
 
 
+
+
+
 import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
 import au.com.redbackconsulting.moc.persistence.CaSystemsDAO;
-import au.com.redbackconsulting.moc.persistence.model.CaSystems;
-import au.com.redbackconsulting.moc.persistence.model.CaSystemsPk;
-import au.com.redbackconsulting.moc.persistence.model.IPkModel;
-
+import au.com.redbackconsulting.moc.persistence.model2.Casystem;
+import au.com.redbackconsulting.moc.persistence.model2.CasystemPK;
+import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
 public class CaSystemsBL extends BaseBL   {
 
  
@@ -29,9 +31,9 @@ public class CaSystemsBL extends BaseBL   {
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		try {
 			CaSystemsDAO dao = new CaSystemsDAO();
-		List<CaSystems> collectin =	dao.getAll();
+		List<Casystem> collectin =	dao.getAll();
 		for (Iterator iterator = collectin.iterator(); iterator.hasNext();) {
-			CaSystems caSystems = (CaSystems) iterator.next();
+			Casystem caSystems = (Casystem) iterator.next();
 			Map<String, Object> map = convertData(caSystems);
 		result.add(map);
 		}
@@ -43,11 +45,11 @@ public class CaSystemsBL extends BaseBL   {
 
  
 	public Map<String, Object> getData(IPkModel primaryKeyModel) {
-		CaSystemsPk pk = (CaSystemsPk) primaryKeyModel;
+		CasystemPK pk = (CasystemPK) primaryKeyModel;
 		 Map<String, Object>  result = new HashMap<String, Object>();
 		try {
 			CaSystemsDAO dao = new CaSystemsDAO();
-		CaSystems entity =	dao.getByPK(pk);
+		Casystem entity =	dao.getByPK(pk);
 		result= convertData(entity);
 		return result;
 		} catch (Exception e) {
@@ -79,13 +81,14 @@ public class CaSystemsBL extends BaseBL   {
 		return null;
 	}
 
-	private Map<String, Object> convertData( CaSystems dataModel){
+	private Map<String, Object> convertData( Casystem dataModel){
 		
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(CaSystemEDM.SYSID, dataModel.getSystId());
-			map.put(CaSystemEDM.SYSDESC, dataModel.getSystDesc());
-			map.put(CaSystemEDM.TENANTID, dataModel.getTenantId());
+			
+			map.put(CaSystemEDM.SYSID, dataModel.getId());
+			map.put(CaSystemEDM.SYSDESC, dataModel.getSysdesc());
+			map.put(CaSystemEDM.TENANTID, dataModel.getTenant().gTenantId());
 			return map;
 			
 		} catch (Exception e) {

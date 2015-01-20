@@ -1,11 +1,10 @@
 package au.com.redbackconsulting.moc.persistence;
 
-import au.com.redbackconsulting.moc.persistence .manager.EntityManagerProvider;
 import au.com.redbackconsulting.moc.persistence.manager.PersistenceManager;
-import au.com.redbackconsulting.moc.persistence. model.HrRelations;
-import au.com.redbackconsulting.moc.persistence.model.HrRelationsPk;
+import au.com.redbackconsulting.moc.persistence.model2.Hrrelation;
+import au.com.redbackconsulting.moc.persistence.model2.HrrelationPK;
 
-public class HrRelationsDAO extends BasicDAO<HrRelations, HrRelationsPk> {
+public class HrRelationsDAO extends BasicDAO<Hrrelation, HrrelationPK> {
 
 	public HrRelationsDAO( ) {
 		 super(PersistenceManager.getInstance().getEntityManagerProvider());

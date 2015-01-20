@@ -1,7 +1,5 @@
 package au.com.redbackconsulting.moc.odata.api.bl;
 
-import java.util.List;
-import java.util.Map;
 
 public abstract class BaseBL implements IBLModel {
 
