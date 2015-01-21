@@ -14,8 +14,7 @@ public class Constants {
 
      
 	 
- 	
-	
+
 	
 	
     
@@ -269,6 +268,20 @@ public static final String ROLE_HRP1001_HROBJECTSSTATUS = "Hrp1001_to_HrObjectsS
 public static final String ROLE_HROBJECTSSTATUS_HRP1001 = "HrObjectsStatus_to_Hrp1001";
 
 public static final String ROLE_HROBJECTS_CASYSTEMS= "HrObjects_CaSystems";
+
+
+	
+ public static final FullQualifiedName ENTITY_FQN_CASYSTEM=new FullQualifiedName(NAMESPACE, ENTITY_TYPE_NAME_CASYSTEM);
+ public static final FullQualifiedName ENTITY_FQN_HRHIER=new FullQualifiedName(NAMESPACE, ENTITY_TYPE_NAME_HRHIER);
+ public static final FullQualifiedName ENTITY_FQN_HRHIERMAP=new FullQualifiedName(NAMESPACE, ENTITY_TYPE_NAME_HRHIERMAP);
+ public static final FullQualifiedName ENTITY_FQN_HROBJECTSREL=new FullQualifiedName(NAMESPACE, ENTITY_TYPE_NAME_HROBJECTREL);
+ public static final FullQualifiedName ENTITY_FQN_HROBJECTSCONSTRAINT=new FullQualifiedName(NAMESPACE, ENTITY_TYPE_NAME_HROBJECTSCONSTRAINTS);
+ public static final FullQualifiedName ENTITY_FQN_HROBJECTS=new FullQualifiedName(NAMESPACE, ENTITY_TYPE_NAME_HROBJECTS);
+ public static final FullQualifiedName ENTITY_FQN_HROBJECTSSTATUS=new FullQualifiedName(NAMESPACE, ENTITY_TYPE_NAME_HROBJECTSSTATUS);
+ public static final FullQualifiedName ENTITY_FQN_HRP1000=new FullQualifiedName(NAMESPACE, ENTITY_TYPE_NAME_HRP1000);
+ public static final FullQualifiedName ENTITY_FQN_HRP1001=new FullQualifiedName(NAMESPACE, ENTITY_TYPE_NAME_HRP1001);
+ public static final FullQualifiedName ENTITY_FQN_HRRELATIONS=new FullQualifiedName(NAMESPACE, ENTITY_TYPE_NAME_HRRELATIONS);
+ public static final FullQualifiedName ENTITY_FQN_TENANTS=new FullQualifiedName(NAMESPACE, ENTITY_TYPE_NAME_TENANTS);
 
  
 
