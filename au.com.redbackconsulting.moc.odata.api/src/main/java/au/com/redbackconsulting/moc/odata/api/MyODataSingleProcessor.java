@@ -5,6 +5,47 @@ import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_CASYST
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_TENANTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_TENANTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_TYPE_NAME_HRHIER;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_SET_NAME_HRHIER;
+
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_TYPE_NAME_HRHIERMAP;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_SET_NAME_HRHIERMAP;
+
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_TYPE_NAME_HROBJECTREL;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_SET_NAME_HROBJECTREL;
+
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_TYPE_NAME_HROBJECTSCONSTRAINTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_SET_NAME_HROBJECTSCONSTRAINTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_TYPE_NAME_HROBJECTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_SET_NAME_HROBJECTS;
+
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_TYPE_NAME_HROBJECTSSTATUS;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_SET_NAME_HROBJECTSSTATUS;
+
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_TYPE_NAME_HRP1000;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_SET_NAME_HRP1000;
+
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_TYPE_NAME_HRP1001;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_SET_NAME_HRP1001;
+
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_TYPE_NAME_HRRELATIONS;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_SET_NAME_HRRELATIONS;
+
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_TYPE_NAME_TENANTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_SET_NAME_TENANTS;
+
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_KEY_CASYSTEM;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_KEY_HRHIER;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_KEY_HRHIERMAP;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_KEY_HROBJECTSREL;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_KEY_HROBJECTSCONSTRAINTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_KEY_HROBJECTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_KEY_HROBJECTSSTATUS;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_KEY_HRP1000;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_KEY_HRP1001;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_KEY_HRRELATIONS;
+import static au.com.redbackconsulting.moc.odata.api.Constants. ENTITY_KEY_TENANTS;
+
 
 import java.net.URI;
 import java.util.ArrayList;
@@ -62,10 +103,10 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 						.serviceRoot(serviceRoot);
 				return EntityProvider.writeEntry(contentType, entitySet,
 						data, propertiesBuilder.build());
-		} else if(ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())){
+		} else if(ENTITY_SET_NAME_HRHIER.equals(entitySet.getName())){
 				int tenantId = getKeyValue (uriInfo.getKeyPredicates().get(0));
 			
-			IBLModel blModel =bmf.getInstance(ENTITY_KEY_TENANTS);
+			IBLModel blModel =bmf.getInstance(ENTITY_KEY_HRHIER);
 			TenantPK pk  = new TenantPK();
 			pk.setId((tenantId));
 			Map<String, Object> data = blModel.getData(pk);
@@ -76,7 +117,120 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 					.serviceRoot(serviceRoot);
 			return EntityProvider.writeEntry(contentType, entitySet,
 					data, propertiesBuilder.build());
-		}
+		} else if(ENTITY_SET_NAME_HRHIERMAP.equals(entitySet.getName())){
+			int tenantId = getKeyValue (uriInfo.getKeyPredicates().get(0));
+			
+		IBLModel blModel =bmf.getInstance(ENTITY_KEY_HRHIERMAP);
+		TenantPK pk  = new TenantPK();
+		pk.setId((tenantId));
+		Map<String, Object> data = blModel.getData(pk);
+
+		URI serviceRoot = getContext().getPathInfo()
+				.getServiceRoot();
+		ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
+				.serviceRoot(serviceRoot);
+		return EntityProvider.writeEntry(contentType, entitySet,
+				data, propertiesBuilder.build());
+	}
+		else if(ENTITY_SET_NAME_HROBJECTREL.equals(entitySet.getName())){
+			int tenantId = getKeyValue (uriInfo.getKeyPredicates().get(0));
+		
+		IBLModel blModel =bmf.getInstance(ENTITY_KEY_HROBJECTSREL);
+		TenantPK pk  = new TenantPK();
+		pk.setId((tenantId));
+		Map<String, Object> data = blModel.getData(pk);
+
+		URI serviceRoot = getContext().getPathInfo()
+				.getServiceRoot();
+		ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
+				.serviceRoot(serviceRoot);
+		return EntityProvider.writeEntry(contentType, entitySet,
+				data, propertiesBuilder.build());
+	}else if(ENTITY_SET_NAME_HROBJECTS.equals(entitySet.getName())){
+		int tenantId = getKeyValue (uriInfo.getKeyPredicates().get(0));
+		
+	IBLModel blModel =bmf.getInstance(ENTITY_KEY_HROBJECTS);
+	TenantPK pk  = new TenantPK();
+	pk.setId((tenantId));
+	Map<String, Object> data = blModel.getData(pk);
+
+	URI serviceRoot = getContext().getPathInfo()
+			.getServiceRoot();
+	ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
+			.serviceRoot(serviceRoot);
+	return EntityProvider.writeEntry(contentType, entitySet,
+			data, propertiesBuilder.build());
+}else if(ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())){
+	int tenantId = getKeyValue (uriInfo.getKeyPredicates().get(0));
+	
+IBLModel blModel =bmf.getInstance(ENTITY_KEY_TENANTS);
+TenantPK pk  = new TenantPK();
+pk.setId((tenantId));
+Map<String, Object> data = blModel.getData(pk);
+
+URI serviceRoot = getContext().getPathInfo()
+		.getServiceRoot();
+ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
+		.serviceRoot(serviceRoot);
+return EntityProvider.writeEntry(contentType, entitySet,
+		data, propertiesBuilder.build());
+}else if(ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())){
+	int tenantId = getKeyValue (uriInfo.getKeyPredicates().get(0));
+	
+IBLModel blModel =bmf.getInstance(ENTITY_KEY_TENANTS);
+TenantPK pk  = new TenantPK();
+pk.setId((tenantId));
+Map<String, Object> data = blModel.getData(pk);
+
+URI serviceRoot = getContext().getPathInfo()
+		.getServiceRoot();
+ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
+		.serviceRoot(serviceRoot);
+return EntityProvider.writeEntry(contentType, entitySet,
+		data, propertiesBuilder.build());
+}else if(ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())){
+	int tenantId = getKeyValue (uriInfo.getKeyPredicates().get(0));
+	
+IBLModel blModel =bmf.getInstance(ENTITY_KEY_TENANTS);
+TenantPK pk  = new TenantPK();
+pk.setId((tenantId));
+Map<String, Object> data = blModel.getData(pk);
+
+URI serviceRoot = getContext().getPathInfo()
+		.getServiceRoot();
+ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
+		.serviceRoot(serviceRoot);
+return EntityProvider.writeEntry(contentType, entitySet,
+		data, propertiesBuilder.build());
+}else if(ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())){
+	int tenantId = getKeyValue (uriInfo.getKeyPredicates().get(0));
+	
+IBLModel blModel =bmf.getInstance(ENTITY_KEY_TENANTS);
+TenantPK pk  = new TenantPK();
+pk.setId((tenantId));
+Map<String, Object> data = blModel.getData(pk);
+
+URI serviceRoot = getContext().getPathInfo()
+		.getServiceRoot();
+ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
+		.serviceRoot(serviceRoot);
+return EntityProvider.writeEntry(contentType, entitySet,
+		data, propertiesBuilder.build());
+}else if(ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())){
+	int tenantId = getKeyValue (uriInfo.getKeyPredicates().get(0));
+	
+IBLModel blModel =bmf.getInstance(ENTITY_KEY_TENANTS);
+TenantPK pk  = new TenantPK();
+pk.setId((tenantId));
+Map<String, Object> data = blModel.getData(pk);
+
+URI serviceRoot = getContext().getPathInfo()
+		.getServiceRoot();
+ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
+		.serviceRoot(serviceRoot);
+return EntityProvider.writeEntry(contentType, entitySet,
+		data, propertiesBuilder.build());
+}
 		}  else if (uriInfo.getNavigationSegments().size() == 1) {
 			EdmEntitySet entitySet = uriInfo.getTargetEntitySet();
 			
@@ -217,18 +371,120 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 						EntityProviderWriteProperties.serviceRoot(
 								getContext().getPathInfo().getServiceRoot())
 								.build());
-			}  else if (ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())) {
-				IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
-				List<Map<String, Object>> data =blModel.getDataSet();
-				return EntityProvider.writeFeed(
-						contentType,
-						entitySet,
-						data,
-						EntityProviderWriteProperties.serviceRoot(
-								getContext().getPathInfo().getServiceRoot())
-								.build());
-			}
-			
+			}  
+			 else if (ENTITY_SET_NAME_HRHIER.equals(entitySet.getName())) {
+					IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRHIER);
+					List<Map<String, Object>> data =blModel.getDataSet();
+					return EntityProvider.writeFeed(
+							contentType,
+							entitySet,
+							data,
+							EntityProviderWriteProperties.serviceRoot(
+									getContext().getPathInfo().getServiceRoot())
+									.build());
+				}
+				
+			 else if (ENTITY_SET_NAME_HRHIERMAP.equals(entitySet.getName())) {
+					IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRHIERMAP);
+					List<Map<String, Object>> data =blModel.getDataSet();
+					return EntityProvider.writeFeed(
+							contentType,
+							entitySet,
+							data,
+							EntityProviderWriteProperties.serviceRoot(
+									getContext().getPathInfo().getServiceRoot())
+									.build());
+				}
+			 else if (ENTITY_SET_NAME_HROBJECTREL.equals(entitySet.getName())) {
+					IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTSREL );
+					List<Map<String, Object>> data =blModel.getDataSet();
+					return EntityProvider.writeFeed(
+							contentType,
+							entitySet,
+							data,
+							EntityProviderWriteProperties.serviceRoot(
+									getContext().getPathInfo().getServiceRoot())
+									.build());
+				}
+			 else if (ENTITY_SET_NAME_HROBJECTS.equals(entitySet.getName())) {
+					IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTS );
+					List<Map<String, Object>> data =blModel.getDataSet();
+					return EntityProvider.writeFeed(
+							contentType,
+							entitySet,
+							data,
+							EntityProviderWriteProperties.serviceRoot(
+									getContext().getPathInfo().getServiceRoot())
+									.build());
+				}
+			 else if (ENTITY_SET_NAME_HROBJECTSCONSTRAINTS.equals(entitySet.getName())) {
+					IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTSCONSTRAINTS );
+					List<Map<String, Object>> data =blModel.getDataSet();
+					return EntityProvider.writeFeed(
+							contentType,
+							entitySet,
+							data,
+							EntityProviderWriteProperties.serviceRoot(
+									getContext().getPathInfo().getServiceRoot())
+									.build());
+				}
+			 else if (ENTITY_SET_NAME_HROBJECTSSTATUS.equals(entitySet.getName())) {
+					IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTSSTATUS );
+					List<Map<String, Object>> data =blModel.getDataSet();
+					return EntityProvider.writeFeed(
+							contentType,
+							entitySet,
+							data,
+							EntityProviderWriteProperties.serviceRoot(
+									getContext().getPathInfo().getServiceRoot())
+									.build());
+				}
+				
+			 else if (ENTITY_SET_NAME_HRP1000.equals(entitySet.getName())) {
+					IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRP1000 );
+					List<Map<String, Object>> data =blModel.getDataSet();
+					return EntityProvider.writeFeed(
+							contentType,
+							entitySet,
+							data,
+							EntityProviderWriteProperties.serviceRoot(
+									getContext().getPathInfo().getServiceRoot())
+									.build());
+				}
+			 else if (ENTITY_SET_NAME_HRP1001.equals(entitySet.getName())) {
+					IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRP1001 );
+					List<Map<String, Object>> data =blModel.getDataSet();
+					return EntityProvider.writeFeed(
+							contentType,
+							entitySet,
+							data,
+							EntityProviderWriteProperties.serviceRoot(
+									getContext().getPathInfo().getServiceRoot())
+									.build());
+				}
+				
+			 else if (ENTITY_SET_NAME_HRRELATIONS.equals(entitySet.getName())) {
+					IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRRELATIONS );
+					List<Map<String, Object>> data =blModel.getDataSet();
+					return EntityProvider.writeFeed(
+							contentType,
+							entitySet,
+							data,
+							EntityProviderWriteProperties.serviceRoot(
+									getContext().getPathInfo().getServiceRoot())
+									.build());
+				}else if (ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())) {
+					IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
+					List<Map<String, Object>> data =blModel.getDataSet();
+					return EntityProvider.writeFeed(
+							contentType,
+							entitySet,
+							data,
+							EntityProviderWriteProperties.serviceRoot(
+									getContext().getPathInfo().getServiceRoot())
+									.build());
+				}
+				
 
 
 			throw new ODataNotFoundException(ODataNotFoundException.ENTITY);

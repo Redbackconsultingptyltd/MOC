@@ -25,6 +25,7 @@ public abstract class BasicDAO <T extends IDBEntity, PK extends IPkModel >     {
 
 	    protected EntityManagerProvider emProvider;
 	    protected Class<T> entityClass;
+	    
 
 	    @SuppressWarnings("unchecked")
 		public BasicDAO(EntityManagerProvider emProvider) {
@@ -52,9 +53,19 @@ public abstract class BasicDAO <T extends IDBEntity, PK extends IPkModel >     {
 	    public List<T> getAll() {
 	        final List<T> result = new ArrayList<T>();
 	        final EntityManager em = emProvider.get();
-	        result.addAll((Collection<? extends T>) em.createQuery("select t from " + getTableName() + " t",
-	                this.getClass().getGenericSuperclass().getClass()).getResultList());
+	        
+	        
+	        
+	
+//	        result.addAll((Collection<? extends T>) em.createQuery("select t from " + getTableName() + " t",
+//	                this.getClass().getGenericSuperclass().getClass()).getResultList());
+//	        return result;
+//	        
+	        
+	        
+	      result.addAll((Collection<? extends T>)  em.createQuery(" select t from " +entityClass.getName()+ " t").getResultList());
 	        return result;
+	        
 	    }
 
 	    public T save(T entity) {

@@ -29,6 +29,7 @@ public class Tenant implements IDBEntity {
 
 	private String name;
 
+	@Column(name="tenantsCode")
 	private String tenantsCode;
 
 	//bi-directional many-to-one association to Casystem

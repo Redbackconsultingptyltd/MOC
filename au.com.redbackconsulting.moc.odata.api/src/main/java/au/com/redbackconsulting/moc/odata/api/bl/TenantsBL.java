@@ -34,7 +34,7 @@ public class TenantsBL extends BaseBL {
 		result.add(map);
 		}
 		} catch (Exception e) {
-			
+			int i=8;
 		}
 		return result;
 		

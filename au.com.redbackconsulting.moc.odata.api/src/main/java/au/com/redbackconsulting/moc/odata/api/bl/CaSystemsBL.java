@@ -31,7 +31,7 @@ public class CaSystemsBL extends BaseBL   {
 		result.add(map);
 		}
 		} catch (Exception e) {
-			
+			int i =0;
 		}
 		return result;
 	}

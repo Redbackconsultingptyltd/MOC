@@ -352,35 +352,35 @@ public class MyEdmProvider extends EdmProvider implements IMyEdmProvider {
 				EntitySet entitySet = entityFactory.getEDM(ENTITY_KEY_HRHIER)
 						.getEntitySet();
 				return entitySet;
-			}else if (ENTITY_SET_NAME_HRHIER.equals(name)) {
+			}else if (ENTITY_SET_NAME_HRHIERMAP.equals(name)) {
 				EntitySet entitySet = entityFactory.getEDM(ENTITY_KEY_HRHIERMAP)
 						.getEntitySet();
 				return entitySet;
-			} else if (ENTITY_SET_NAME_HRHIER.equals(name)) {
+			} else if (ENTITY_SET_NAME_HROBJECTREL.equals(name)) {
 				EntitySet entitySet = entityFactory.getEDM(ENTITY_KEY_HROBJECTSREL)
 						.getEntitySet();
 				return entitySet;
-			} else if (ENTITY_SET_NAME_HRHIER.equals(name)) {
+			} else if (ENTITY_SET_NAME_HROBJECTS.equals(name)) {
 				EntitySet entitySet = entityFactory.getEDM(ENTITY_KEY_HROBJECTS)
 						.getEntitySet();
 				return entitySet;
-			} else if (ENTITY_SET_NAME_HRHIER.equals(name)) {
+			} else if (ENTITY_SET_NAME_HROBJECTSCONSTRAINTS.equals(name)) {
 				EntitySet entitySet = entityFactory.getEDM(ENTITY_KEY_HROBJECTSCONSTRAINTS)
 						.getEntitySet();
 				return entitySet;
-			} else if (ENTITY_SET_NAME_HRHIER.equals(name)) {
+			} else if (ENTITY_SET_NAME_HROBJECTSSTATUS.equals(name)) {
 				EntitySet entitySet = entityFactory.getEDM(ENTITY_KEY_HROBJECTSSTATUS)
 						.getEntitySet();
 				return entitySet;
-			} else if (ENTITY_SET_NAME_HRHIER.equals(name)) {
+			} else if (ENTITY_SET_NAME_HRP1000.equals(name)) {
 				EntitySet entitySet = entityFactory.getEDM(ENTITY_KEY_HRP1000)
 						.getEntitySet();
 				return entitySet;
-			} else if (ENTITY_SET_NAME_HRHIER.equals(name)) {
+			} else if (ENTITY_SET_NAME_HRP1001.equals(name)) {
 				EntitySet entitySet = entityFactory.getEDM(ENTITY_KEY_HRP1001)
 						.getEntitySet();
 				return entitySet;
-			} else if (ENTITY_SET_NAME_HRHIER.equals(name)) {
+			} else if (ENTITY_SET_NAME_HRRELATIONS.equals(name)) {
 				EntitySet entitySet = entityFactory.getEDM(ENTITY_KEY_HRRELATIONS)
 						.getEntitySet();
 				return entitySet;

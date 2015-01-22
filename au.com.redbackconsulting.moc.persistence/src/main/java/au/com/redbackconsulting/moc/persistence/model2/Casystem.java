@@ -11,7 +11,7 @@ import java.util.List;
  */
 @Entity
 @Table(name="casystems")
-@NamedQuery(name="Casystem.findAll", query="SELECT c FROM Casystem c")
+@NamedQuery(name="casystems.findAll", query="SELECT c FROM Casystem c")
 public class Casystem implements IDBEntity, Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -22,6 +22,7 @@ public class Casystem implements IDBEntity, Serializable {
 
 	//bi-directional many-to-one association to Tenant
 	@ManyToOne
+	
 	@JoinColumns({
 	@JoinColumn(name="Tenants_idTenants", referencedColumnName="id")
 	})
@@ -29,6 +30,7 @@ public class Casystem implements IDBEntity, Serializable {
 
 	//bi-directional many-to-one association to Hrobject
 	@OneToMany(mappedBy="casystem")
+	
 	private List<Hrobject> hrobjects;
 
 	public Casystem() {
