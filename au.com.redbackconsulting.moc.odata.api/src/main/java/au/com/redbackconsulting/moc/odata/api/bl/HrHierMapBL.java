@@ -101,5 +101,11 @@ private Map<String, Object> convertData( Hrhiermap dataModel){
 			return null;
 		}
 	}
+
+@Override
+public boolean deleteData(IPkModel primaryKey) {
+	// TODO Auto-generated method stub
+	return false;
+}
  
 }

@@ -97,5 +97,11 @@ private Map<String, Object> convertData( Hrobjectrel dataModel){
 			return null;
 		}
 	}
+
+@Override
+public boolean deleteData(IPkModel primaryKey) {
+	// TODO Auto-generated method stub
+	return false;
+}
  
 }

@@ -24,9 +24,6 @@
 		<class>au.com.redbackconsulting.moc.persistence.model2.HrrelationPK</class>
 		<class>au.com.redbackconsulting.moc.persistence.model2.Tenant</class>
 		<class>au.com.redbackconsulting.moc.persistence.model2.TenantPK</class>
-		<properties>
-			<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
-		</properties>
 		 
 		
 	</persistence-unit>

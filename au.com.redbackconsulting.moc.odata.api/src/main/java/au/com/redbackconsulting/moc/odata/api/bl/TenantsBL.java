@@ -130,6 +130,12 @@ public class TenantsBL extends BaseBL {
 		map.put(CaSystemEDM.TENANTID, caSystems.getId().getTenants_idTenants());
 		return map;
 	}
+
+	@Override
+	public boolean deleteData(IPkModel primaryKey) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 	
 		

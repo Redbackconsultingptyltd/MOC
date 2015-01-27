@@ -23,11 +23,13 @@ import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_H
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRRELATIONS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_TENANTS;
 
+import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.olingo.odata2.api.commons.HttpStatusCodes;
 import org.apache.olingo.odata2.api.edm.EdmEntitySet;
 import org.apache.olingo.odata2.api.edm.EdmLiteralKind;
 import org.apache.olingo.odata2.api.edm.EdmProperty;
@@ -41,8 +43,10 @@ import org.apache.olingo.odata2.api.exception.ODataNotImplementedException;
 import org.apache.olingo.odata2.api.processor.ODataResponse;
 import org.apache.olingo.odata2.api.processor.ODataSingleProcessor;
 import org.apache.olingo.odata2.api.uri.KeyPredicate;
+import org.apache.olingo.odata2.api.uri.info.DeleteUriInfo;
 import org.apache.olingo.odata2.api.uri.info.GetEntitySetUriInfo;
 import org.apache.olingo.odata2.api.uri.info.GetEntityUriInfo;
+import org.apache.olingo.odata2.api.uri.info.PostUriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.bl.BLModelFactory;
 import au.com.redbackconsulting.moc.odata.api.bl.IBLModel;
@@ -53,6 +57,8 @@ import au.com.redbackconsulting.moc.persistence.model2.HrhiermapPK;
 import au.com.redbackconsulting.moc.persistence.model2.TenantPK;
 
 public class MyODataSingleProcessor extends ODataSingleProcessor {
+
+	
 
 	// private DataStore dataStore = new DataStore();
 	private BLModelFactory bmf = BLModelFactory.getInstance();
@@ -539,5 +545,147 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 		EdmSimpleType type = (EdmSimpleType) property.getType();
 		return type.valueOfString(key.getLiteral(), EdmLiteralKind.DEFAULT,
 				property.getFacets(), String.class);
+	}
+	
+	
+	
+	@Override
+	public ODataResponse createEntity(PostUriInfo uriInfo, InputStream content,
+			String requestContentType, String contentType)
+			throws ODataException {
+		// TODO Auto-generated method stub
+		return super.createEntity(uriInfo, content, requestContentType, contentType);
+	}
+
+	@Override
+	public ODataResponse deleteEntity(DeleteUriInfo uriInfo, String contentType)
+			throws ODataException {
+		if (uriInfo.getNavigationSegments().size() == 0) {
+			EdmEntitySet entitySet = uriInfo.getStartEntitySet();
+			if (ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
+				int sysId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
+
+				IBLModel blModel = bmf.getInstance(ENTITY_KEY_CASYSTEM);
+				CasystemPK pk = new CasystemPK();
+				pk.setIdsys(sysId);
+				pk.setTenants_idTenants((tenantId));
+				boolean status = blModel.deleteData(pk);
+				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
+				ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
+			} else if (ENTITY_SET_NAME_HRHIER.equals(entitySet.getName())) {
+				int id = getKeyValue(uriInfo.getKeyPredicates().get(0));
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
+				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRHIER);
+				HrhierPK pk = new HrhierPK();
+				pk.setIdHrHier(id);
+				pk.setTenants_idTenants(tenantId);
+				boolean status = blModel.deleteData(pk);
+				
+
+				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
+				ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
+			} else if (ENTITY_SET_NAME_HRHIERMAP.equals(entitySet.getName())) {
+				int id = getKeyValue(uriInfo.getKeyPredicates().get(0));
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
+				int seqNo = getKeyValue(uriInfo.getKeyPredicates().get(2));
+
+				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRHIERMAP);
+				HrhiermapPK pk = new HrhiermapPK();
+			
+				pk.setHrHierId((id));
+				pk.setTenants_idTenants(tenantId);
+				pk.setSeqNo(seqNo);
+				
+				boolean status = blModel.deleteData(pk);
+						URI serviceRoot = getContext().getPathInfo().getServiceRoot();
+						ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
+			} else if (ENTITY_SET_NAME_HROBJECTREL.equals(entitySet.getName())) {
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+
+				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTSREL);
+				TenantPK pk = new TenantPK();
+				pk.setId((tenantId));
+				boolean status = blModel.deleteData(pk);
+				
+				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
+				ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
+			} else if (ENTITY_SET_NAME_HROBJECTS.equals(entitySet.getName())) {
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+
+				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTS);
+				TenantPK pk = new TenantPK();
+				pk.setId((tenantId));
+				boolean status = blModel.deleteData(pk);
+				
+				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
+				ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
+			} else if (ENTITY_SET_NAME_HROBJECTSCONSTRAINTS.equals(entitySet
+					.getName())) {
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+
+				IBLModel blModel = bmf
+						.getInstance(ENTITY_KEY_HROBJECTSCONSTRAINTS);
+				TenantPK pk = new TenantPK();
+				pk.setId((tenantId));
+				boolean status = blModel.deleteData(pk);
+				
+				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
+				ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
+			} else if (ENTITY_SET_NAME_HROBJECTSSTATUS.equals(entitySet
+					.getName())) {
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+
+				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTSSTATUS);
+				TenantPK pk = new TenantPK();
+				pk.setId((tenantId));
+				boolean status = blModel.deleteData(pk);
+				
+				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
+				ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
+			} else if (ENTITY_SET_NAME_HRP1000.equals(entitySet.getName())) {
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+
+				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRP1001);
+				TenantPK pk = new TenantPK();
+				pk.setId((tenantId));
+				boolean status = blModel.deleteData(pk);
+				
+				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
+				ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
+			} else if (ENTITY_SET_NAME_HRP1001.equals(entitySet.getName())) {
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+
+				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRP1001);
+				TenantPK pk = new TenantPK();
+				pk.setId((tenantId));
+				boolean status = blModel.deleteData(pk);
+				
+				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
+				ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
+			} else if (ENTITY_SET_NAME_HRRELATIONS.equals(entitySet.getName())) {
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+
+				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRRELATIONS);
+				TenantPK pk = new TenantPK();
+				pk.setId((tenantId));
+				boolean status = blModel.deleteData(pk);
+					URI serviceRoot = getContext().getPathInfo().getServiceRoot();
+					ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
+			}
+			else if (ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())) {
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+
+				IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
+				TenantPK pk = new TenantPK();
+				pk.setId((tenantId));
+				boolean status = blModel.deleteData(pk);
+				
+				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
+				ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
+			}
+			
+		}
+		return null;
 	}
 }

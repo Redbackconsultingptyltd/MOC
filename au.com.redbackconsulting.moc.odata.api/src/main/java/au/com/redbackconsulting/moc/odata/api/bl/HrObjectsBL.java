@@ -83,6 +83,12 @@ private Map<String, Object> convertData( Hrobject dataModel){
 		} catch (Exception e) {
 			return null;
 		}
-	} 
+	}
+
+@Override
+public boolean deleteData(IPkModel primaryKey) {
+	// TODO Auto-generated method stub
+	return false;
+} 
 
 }

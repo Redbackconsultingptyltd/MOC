@@ -49,4 +49,12 @@ public class HRP1001BL extends BaseBL {
 		return null;
 	}
 
+	@Override
+	public boolean deleteData(IPkModel primaryKey) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	
+
 }

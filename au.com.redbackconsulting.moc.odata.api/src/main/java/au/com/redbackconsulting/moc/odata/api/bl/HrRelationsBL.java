@@ -19,12 +19,13 @@ public class HrRelationsBL extends BaseBL {
 		// TODO Auto-generated constructor stub
 	}
 
+
 	
 private Map<String, Object> convertData( Hrrelation dataModel){
 		
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			//map.put(HrRelationsEDM.tenantId, dataModel.getSystId());
+			//map.put(HrRelationsEDM.tenantId, dataModel.getId().getTenants_idTenants());
 			map.put(HrRelationsEDM.relatType, dataModel.getId().getRelatType());
 			map.put(HrRelationsEDM.relatTypeT, dataModel.getRelatTypeT());
 		
@@ -95,6 +96,14 @@ private Map<String, Object> convertData( Hrrelation dataModel){
 	public List<Map<String, Object>> getRelatedData(IPkModel primaryKey) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+
+	@Override
+	public boolean deleteData(IPkModel primaryKey) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

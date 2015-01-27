@@ -20,22 +20,6 @@ public class CaSystemsBL extends BaseBL   {
 	}
 
 
-	public List<Map<String, Object>> getDataSet() {
-		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
-		try {
-			CaSystemsDAO dao = new CaSystemsDAO();
-		List<Casystem> collectin =	dao.getAll();
-		for (Iterator iterator = collectin.iterator(); iterator.hasNext();) {
-			Casystem caSystems = (Casystem) iterator.next();
-			Map<String, Object> map = convertData(caSystems);
-		result.add(map);
-		}
-		} catch (Exception e) {
-			int i =0;
-		}
-		return result;
-	}
-
  
 	public Map<String, Object> getData(IPkModel primaryKeyModel) {
 		CasystemPK pk = (CasystemPK) primaryKeyModel;
@@ -56,10 +40,7 @@ public class CaSystemsBL extends BaseBL   {
 	}
 
  
-	public boolean deleteData(Map<String, Object> keyMap) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
  
 	public Map<String, Object> updateData(Map<String, Object> valueMap,
@@ -95,6 +76,41 @@ public class CaSystemsBL extends BaseBL   {
 		
 		return null;
 	}
+
+
+
+	public List<Map<String, Object>> getDataSet() {
+		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+		try {
+			CaSystemsDAO dao = new CaSystemsDAO();
+		List<Casystem> collectin =	dao.getAll();
+		for (Iterator iterator = collectin.iterator(); iterator.hasNext();) {
+			Casystem caSystems = (Casystem) iterator.next();
+			Map<String, Object> map = convertData(caSystems);
+		result.add(map);
+		}
+		} catch (Exception e) {
+			int i =0;
+		}
+		return result;
+	}
+
+
+
+	@Override
+	public boolean deleteData(Map<String, Object> keyMap) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
+
+	@Override
+	public boolean deleteData(IPkModel primaryKey) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	
 
 }
