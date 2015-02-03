@@ -22,10 +22,11 @@ public class Casystem implements IDBEntity, Serializable {
 	private String sysdesc;
 
 	//bi-directional many-to-one association to Tenant
-	@ManyToOne
 	
+
+	@ManyToOne
 	@JoinColumns({
-	@JoinColumn(name="Tenants_idTenants", referencedColumnName="id")
+	@JoinColumn(name="Tenants_idTenants", referencedColumnName="id",insertable=false, updatable=false, nullable=false)
 	})
 	private Tenant tenant;
 
