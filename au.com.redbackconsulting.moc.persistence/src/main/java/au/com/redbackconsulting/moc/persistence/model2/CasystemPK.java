@@ -1,6 +1,7 @@
 package au.com.redbackconsulting.moc.persistence.model2;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 /**
@@ -32,25 +33,28 @@ public class CasystemPK implements IPkModel, Serializable {
 		this.tenants_idTenants = tenants_idTenants;
 	}
 
-	public boolean equals(Object other) {
-		if (this == other) {
-			return true;
-		}
-		if (!(other instanceof CasystemPK)) {
-			return false;
-		}
-		CasystemPK castOther = (CasystemPK)other;
-		return 
-			(this.idsys == castOther.idsys)
-			&& (this.tenants_idTenants == castOther.tenants_idTenants);
-	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		CasystemPK other = (CasystemPK) obj;
+		if (idsys != other.idsys)
+			return false;
+		if (tenants_idTenants != other.tenants_idTenants)
+			return false;
+		return true;
+	}
+	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int hash = 17;
-		hash = hash * prime + this.idsys;
-		hash = hash * prime + this.tenants_idTenants;
-		
-		return hash;
+		int result = 1;
+		result = prime * result + idsys;
+		result = prime * result + tenants_idTenants;
+		return result;
 	}
 }

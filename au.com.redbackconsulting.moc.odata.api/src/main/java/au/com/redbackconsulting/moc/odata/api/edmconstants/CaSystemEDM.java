@@ -56,7 +56,7 @@ public class CaSystemEDM extends BaseEDM {
 	@Override
 	public List<Property> getProperties() {
 		List<Property> properties = new ArrayList<Property>();
-		  properties.add(new SimpleProperty().setName(CaSystemEDM.SYSID).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(CaSystemEDM.SYSID).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
 		  properties.add(new SimpleProperty().setName(CaSystemEDM.TENANTID).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
 		  properties.add(new SimpleProperty().setName(CaSystemEDM.SYSDESC).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
 		  return properties;

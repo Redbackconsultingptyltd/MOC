@@ -107,8 +107,10 @@ public class CaSystemsBL extends BaseBL   {
 
 	@Override
 	public boolean deleteData(IPkModel primaryKey) {
-		// TODO Auto-generated method stub
-		return false;
+		CaSystemsDAO dao = new CaSystemsDAO();
+		Casystem entity =dao.getByPK((CasystemPK)primaryKey);
+		dao.delete(entity);
+		return true;
 	}
 
 	

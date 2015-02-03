@@ -45,7 +45,14 @@ public abstract class BasicDAO <T extends IDBEntity, PK extends IPkModel >     {
 	    
 	    public T getByPK(PK value){
 	    	final EntityManager em = emProvider.get();
-	    	  return em.find(entityClass,  value);
+	    	T t=null;
+	    	try {
+				t=em.find(entityClass,  value);
+			} catch (Exception e) {
+				int i=0;
+			}
+	    	
+	    	  return t;
 	    	 
 	    }
 

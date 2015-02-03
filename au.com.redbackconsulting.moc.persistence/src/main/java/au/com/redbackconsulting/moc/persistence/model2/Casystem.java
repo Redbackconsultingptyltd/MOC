@@ -18,6 +18,7 @@ public class Casystem implements IDBEntity, Serializable {
 	@EmbeddedId
 	private CasystemPK id;
 
+	@Column
 	private String sysdesc;
 
 	//bi-directional many-to-one association to Tenant
