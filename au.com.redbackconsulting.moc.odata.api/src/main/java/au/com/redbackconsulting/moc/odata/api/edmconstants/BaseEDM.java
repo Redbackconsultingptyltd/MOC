@@ -71,7 +71,7 @@ public String getEntitySetName(){
 			  
 			  return new EntityType().setName(fqn.getName())
 					  .setProperties(properties)
-					  .setHasStream(true)
+					  .setHasStream(false)
 					  .setKey(key).setNavigationProperties(navigationProperties);
 			  
 		}
