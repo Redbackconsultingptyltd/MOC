@@ -12,6 +12,7 @@ public class HrrelationPK implements IPkModel {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
+	@Column(unique=true)
 	private String relatType;
 
 	private int tenants_idTenants;

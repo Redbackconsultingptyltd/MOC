@@ -10,9 +10,11 @@ import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
 import au.com.redbackconsulting.moc.persistence.CaSystemsDAO;
 import au.com.redbackconsulting.moc.persistence.model2.Casystem;
 import au.com.redbackconsulting.moc.persistence.model2.CasystemPK;
+import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
 import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
 public class CaSystemsBL extends BaseBL   {
 
+	private CaSystemsDAO dao = new CaSystemsDAO();
  
 	public CaSystemsBL(IBLModelFactory bmf) {
 		super(bmf);
@@ -25,7 +27,7 @@ public class CaSystemsBL extends BaseBL   {
 		CasystemPK pk = (CasystemPK) primaryKeyModel;
 		 Map<String, Object>  result = new HashMap<String, Object>();
 		try {
-			CaSystemsDAO dao = new CaSystemsDAO();
+	 
 		Casystem entity =	dao.getByPK(pk);
 		result= convertData(entity);
 		return result;
@@ -39,21 +41,7 @@ public class CaSystemsBL extends BaseBL   {
 		return null;
 	}
 
- 
-	
-
- 
-	public Map<String, Object> updateData(Map<String, Object> valueMap,
-			Map<String, Object> keyMap) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
- 
-	public Map<String, Object> createData(Map<String, Object> valueMap) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+  
 
 	private Map<String, Object> convertData( Casystem dataModel){
 		
@@ -82,7 +70,7 @@ public class CaSystemsBL extends BaseBL   {
 	public List<Map<String, Object>> getDataSet() {
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		try {
-			CaSystemsDAO dao = new CaSystemsDAO();
+			
 		List<Casystem> collectin =	dao.getAll();
 		for (Iterator iterator = collectin.iterator(); iterator.hasNext();) {
 			Casystem caSystems = (Casystem) iterator.next();
@@ -107,10 +95,43 @@ public class CaSystemsBL extends BaseBL   {
 
 	@Override
 	public boolean deleteData(IPkModel primaryKey) {
-		CaSystemsDAO dao = new CaSystemsDAO();
+	 
 		Casystem entity =dao.getByPK((CasystemPK)primaryKey);
 		dao.delete(entity);
 		return true;
+	}
+
+
+
+	@Override
+	public IDBEntity createData(IDBEntity data) {
+		try {
+			Casystem entity = (Casystem) data;
+			CasystemPK pk= new CasystemPK();
+			pk.setTenants_idTenants(entity.getTenant().getTenantPK().getId());
+			entity.setId(pk);
+			entity =dao.save(entity);
+		return entity;
+		} catch (Exception e) {
+			return null;
+		}
+		
+	}
+
+
+
+	@Override
+	public IDBEntity updateData(IPkModel pk, IDBEntity entity) {
+		try {
+			Casystem founddEntity =dao.getByPK((CasystemPK) pk);
+			Casystem newEntity= (Casystem) entity;
+			founddEntity.setSysdesc(newEntity.getSysdesc());
+			founddEntity = dao.save(founddEntity);
+			return founddEntity;
+		} catch (Exception e) {
+		return entity;
+		}
+ 
 	}
 
 	

@@ -24,6 +24,10 @@
 		<class>au.com.redbackconsulting.moc.persistence.model2.HrrelationPK</class>
 		<class>au.com.redbackconsulting.moc.persistence.model2.Tenant</class>
 		<class>au.com.redbackconsulting.moc.persistence.model2.TenantPK</class>
+		<class>au.com.redbackconsulting.moc.persistence.model2.Sequence</class>
+		<properties>
+			<property name="eclipselink.ddl-generation" value="create-tables"/>
+		</properties>
 		 
 		
 	</persistence-unit>

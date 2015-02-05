@@ -10,6 +10,7 @@ import au.com.redbackconsulting.moc.odata.api.edmconstants.HrHierEDM;
 import au.com.redbackconsulting.moc.persistence.HrHierDAO;
 import au.com.redbackconsulting.moc.persistence.model2.Hrhier;
 import au.com.redbackconsulting.moc.persistence.model2.HrhierPK;
+import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
 import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
  
 
@@ -64,19 +65,7 @@ public class HrHierBL extends BaseBL{
 	}
 
 	
-
-	@Override
-	public Map<String, Object> updateData(Map<String, Object> valueMap,
-			Map<String, Object> keyMap) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Map<String, Object> createData(Map<String, Object> valueMap) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+ 
 
 	@Override
 	public List<Map<String, Object>> getRelatedData(IPkModel primaryKey) {
@@ -109,6 +98,18 @@ public boolean deleteData(Map<String, Object> keyMap) {
 public boolean deleteData(IPkModel primaryKey) {
 	// TODO Auto-generated method stub
 	return false;
+}
+
+@Override
+public IDBEntity createData(IDBEntity entity) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public IDBEntity updateData(IPkModel pk, IDBEntity entity) {
+	// TODO Auto-generated method stub
+	return null;
 }
 
 }

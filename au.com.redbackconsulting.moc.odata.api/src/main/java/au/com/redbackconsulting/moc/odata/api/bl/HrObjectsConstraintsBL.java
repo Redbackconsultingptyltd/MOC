@@ -13,6 +13,7 @@ import au.com.redbackconsulting.moc.persistence.model2.Hrhiermap;
 import au.com.redbackconsulting.moc.persistence.model2.HrhiermapPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrobjectsconstraint;
 import au.com.redbackconsulting.moc.persistence.model2.HrobjectsconstraintPK;
+import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
 import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
 
 public class HrObjectsConstraintsBL extends BaseBL{
@@ -69,18 +70,8 @@ public class HrObjectsConstraintsBL extends BaseBL{
 		return false;
 	}
 
-	@Override
-	public Map<String, Object> updateData(Map<String, Object> valueMap,
-			Map<String, Object> keyMap) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Map<String, Object> createData(Map<String, Object> valueMap) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+ 
+ 
 
 	@Override
 	public List<Map<String, Object>> getRelatedData(IPkModel primaryKey) {
@@ -109,5 +100,17 @@ public class HrObjectsConstraintsBL extends BaseBL{
 	public boolean deleteData(IPkModel primaryKey) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public IDBEntity createData(IDBEntity entity) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public IDBEntity updateData(IPkModel pk, IDBEntity entity) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

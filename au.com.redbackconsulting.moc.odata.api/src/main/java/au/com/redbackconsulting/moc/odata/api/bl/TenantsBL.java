@@ -11,12 +11,14 @@ import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.TenantsEDM;
 import au.com.redbackconsulting.moc.persistence.TenantsDAO;
 import au.com.redbackconsulting.moc.persistence.model2.Casystem;
+import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
 import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
 import au.com.redbackconsulting.moc.persistence.model2.Tenant;
 import au.com.redbackconsulting.moc.persistence.model2.TenantPK;
 
 public class TenantsBL extends BaseBL {
 
+	private TenantsDAO dao = new TenantsDAO();
 	public TenantsBL(IBLModelFactory bmf) {
 		super(bmf);
 		// TODO Auto-generated constructor stub
@@ -50,7 +52,7 @@ public class TenantsBL extends BaseBL {
 		TenantPK pk = (TenantPK) primaryKeyModel;
 		 Map<String, Object>  result = new HashMap<String, Object>();
 		try {
-			TenantsDAO dao = new TenantsDAO();
+		 
 		Tenant  entity =	dao.getByPK(pk);
 		result= convertData(entity);
 		return result;
@@ -69,21 +71,7 @@ public class TenantsBL extends BaseBL {
 		// TODO Auto-generated method stub
 		return false;
 	}
-
-	@Override
-	public Map<String, Object> updateData(Map<String, Object> valueMap,
-			Map<String, Object> keyMap) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public Map<String, Object> createData(Map<String, Object> valueMap) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	
+ 
 	private Map<String, Object> convertData(Tenant entity) {
 		 	
 			try {
@@ -135,6 +123,18 @@ public class TenantsBL extends BaseBL {
 	public boolean deleteData(IPkModel primaryKey) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public IDBEntity createData(IDBEntity entity) {
+		
+		return null;
+	}
+
+	@Override
+	public IDBEntity updateData(IPkModel pk, IDBEntity entity) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	

@@ -12,7 +12,9 @@ import javax.persistence.*;
 public class CasystemPK implements IPkModel, Serializable {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
-@Column
+
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column
 	private int idsys;
 
 	@Column 

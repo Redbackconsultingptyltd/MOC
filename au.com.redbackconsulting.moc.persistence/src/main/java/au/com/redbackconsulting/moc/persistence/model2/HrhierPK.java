@@ -1,6 +1,7 @@
 package au.com.redbackconsulting.moc.persistence.model2;
 
 import java.io.Serializable;
+
 import javax.persistence.*;
 
 /**
@@ -12,6 +13,8 @@ public class HrhierPK implements IPkModel {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column
 	private int idHrHier;
 
 	@Column(insertable=false, updatable=false)

@@ -10,6 +10,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.NonUniqueResultException;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -60,17 +61,23 @@ public abstract class BasicDAO <T extends IDBEntity, PK extends IPkModel >     {
 	    public List<T> getAll() {
 	        final List<T> result = new ArrayList<T>();
 	        final EntityManager em = emProvider.get();
+	        TypedQuery<? extends T > query = (TypedQuery<? extends T>) em.createQuery("select t from " + getTableName() + " t",
+	                this.getClass().getGenericSuperclass().getClass());
 	        
-	        
-	        
+	        List<? extends T> resultdata= query.getResultList();
+//	        List<? extends T> resultdata=  (List<? extends T>) em.createQuery("select t from " + getTableName() + " t",
+//	                this.getClass().getGenericSuperclass().getClass()).getResultList();
 	
-//	        result.addAll((Collection<? extends T>) em.createQuery("select t from " + getTableName() + " t",
-//	                this.getClass().getGenericSuperclass().getClass()).getResultList());
+	        result.addAll(resultdata);
 //	        return result;
 //	        
-	        
-	        
-	      result.addAll((Collection<? extends T>)  em.createQuery(" select t from " +entityClass.getName()+ " t").getResultList());
+//	        em.createQuery(" select t from " +entityClass.getName()+ " t").getResultList();
+//	        
+//	        
+//	        Collection<? extends T> resultdata = em.createQuery(" select t from " +entityClass.getName()+ " t").getResultList();
+//	        
+//	        
+//	      result.addAll((Collection<? extends T>)  em.createQuery(" select t from " +entityClass.getName()+ " t").getResultList());
 	        return result;
 	        
 	    }

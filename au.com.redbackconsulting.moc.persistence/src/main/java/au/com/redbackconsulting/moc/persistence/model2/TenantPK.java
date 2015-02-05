@@ -1,12 +1,17 @@
 package au.com.redbackconsulting.moc.persistence.model2;
 
+import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 
 @Embeddable
 public class TenantPK implements IPkModel {
 	
 	private static final long serialVersionUID = 1L;
 
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column
 	private int id;
 	public TenantPK(){
 		
