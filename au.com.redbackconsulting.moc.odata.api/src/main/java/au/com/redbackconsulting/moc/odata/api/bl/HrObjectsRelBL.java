@@ -8,6 +8,8 @@ import java.util.Map;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectRelEDM;
 import au.com.redbackconsulting.moc.persistence.HrObjectRelDAO;
+import au.com.redbackconsulting.moc.persistence.model2.Hrobject;
+import au.com.redbackconsulting.moc.persistence.model2.HrobjectPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrobjectrel;
 import au.com.redbackconsulting.moc.persistence.model2.HrobjectrelPK;
 import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
@@ -16,7 +18,7 @@ import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
  
 
 public class HrObjectsRelBL extends BaseBL{
-
+private HrObjectRelDAO dao=new HrObjectRelDAO();
 	public HrObjectsRelBL(IBLModelFactory bmf) {
 		super(bmf);
 		// TODO Auto-generated constructor stub
@@ -57,11 +59,7 @@ public class HrObjectsRelBL extends BaseBL{
 		
 		return null;
 	}
-	@Override
-	public boolean deleteData(Map<String, Object> keyMap) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
  
 
 	@Override
@@ -89,20 +87,54 @@ private Map<String, Object> convertData( Hrobjectrel dataModel){
 
 @Override
 public boolean deleteData(IPkModel primaryKey) {
-	// TODO Auto-generated method stub
-	return false;
+
+Hrobjectrel entity=dao.getByPK((HrobjectrelPK)primaryKey);
+dao.delete(entity);
+return true;
+	
 }
 
 @Override
-public IDBEntity createData(IDBEntity entity) {
-	// TODO Auto-generated method stub
-	return null;
+public IDBEntity createData(IDBEntity data) {
+	try {
+		Hrobjectrel entity = (Hrobjectrel) data;
+		HrobjectrelPK pk= new HrobjectrelPK();
+		//pk.setTenants_idTenants(entity.getTenant().getTenantPK().getId());
+	pk.setTenants_idTenants(entity.getId().getTenants_idTenants());
+	pk.setIdsobjectype(entity.getId().getIdobjectype());
+	pk.setIdrelatType(entity.getId().getIdrelatType());
+	pk.setIdsobjectype(entity.getId().getIdsobjectype());
+	pk.setTimeConstraints(entity.getId().getTimeConstraints());
+		entity.setId(pk);
+		entity =dao.saveNew(entity);
+	return entity;
+	} catch (Exception e) {
+		return null;
+	}
+	
 }
 
 @Override
 public IDBEntity updateData(IPkModel pk, IDBEntity entity) {
-	// TODO Auto-generated method stub
-	return null;
+	try {
+		Hrobjectrel founddEntity =dao.getByPK((HrobjectrelPK) pk);
+		Hrobjectrel newEntity= (Hrobjectrel) entity;
+		
+	
+		founddEntity.setTableId(newEntity.getTableId());
+		founddEntity.setId(newEntity.getId());
+		founddEntity.setHrObjectsId(newEntity.getHrObjectsId());
+		founddEntity.setHrobject1(newEntity.getHrobject1());
+		founddEntity.setHrobject2(newEntity.getHrobject2());
+		
+		founddEntity = dao.save(founddEntity);
+		
+		return founddEntity;
+	} catch (Exception e) {
+	
+		
+		return entity;
+	}
 }
  
 }

@@ -142,22 +142,18 @@ public class HrObjectRelEDM  extends BaseEDM{
 	}
 	@Override
 	public Association getAssociation(FullQualifiedName relatedEntity) {
-		if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_TENANTS)){
+		if(relatedEntity.getName().equals(ASSOCIATION_FQN_HROBJECTREL_TENANTS.getName() )){
 		    return new Association().setName( ASSOCIATION_FQN_HROBJECTREL_TENANTS.getName())
 		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole(ROLE_HROBJECTREL_TENANTS).setMultiplicity(EdmMultiplicity.MANY))
 		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole(ROLE_TENANTS_HROBJECTREL).setMultiplicity(EdmMultiplicity.ONE));
-	} else if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_HRHIERMAP)){
-		    return new Association().setName( ASSOCIATION_FQN_HRHIERMAP_HROBJECTREL.getName())
-		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole(ROLE_HROBJECTREL_HRHIERMAP).setMultiplicity(EdmMultiplicity.ONE))
-		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole(ROLE_HRHIERMAP_HROBJECTREL).setMultiplicity(EdmMultiplicity.MANY));
-	}else if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_HRRELATIONS)){
-		    return new Association().setName( ASSOCIATION_FQN_HROBJECTREL_HRRELATIONS.getName())
-		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole(ROLE_HROBJECTREL_HRRELATIONS).setMultiplicity(EdmMultiplicity.MANY))
-		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole(ROLE_HRRELATIONS_HROBJECTREL).setMultiplicity(EdmMultiplicity.ONE));
-	}else if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_HROBJECTS)){
+	}else if(relatedEntity.getName().equals( ASSOCIATION_FQN_HROBJECTREL_HROBJECTS.getName())){
 		    return new Association().setName( ASSOCIATION_FQN_HROBJECTREL_HROBJECTS.getName())
 		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole(ROLE_HROBJECTREL_HROBJECTS).setMultiplicity(EdmMultiplicity.MANY))
 		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole(ROLE_HROBJECTS_HROBJECTREL).setMultiplicity(EdmMultiplicity.ONE));
+	} else if(relatedEntity.getName().equals( ASSOCIATION_FQN_HROBJECTREL_HRRELATIONS.getName())){
+		    return new Association().setName( ASSOCIATION_FQN_HROBJECTREL_HRRELATIONS.getName())
+		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole(ROLE_HROBJECTREL_HRRELATIONS).setMultiplicity(EdmMultiplicity.ONE))
+		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole(ROLE_HRRELATIONS_HROBJECTREL).setMultiplicity(EdmMultiplicity.MANY));
 	}
 	return null;
  
@@ -166,7 +162,7 @@ public class HrObjectRelEDM  extends BaseEDM{
 	public AssociationSet getAssociationSet(String entityContainer,
 			FullQualifiedName association ) {
 		if (ENTITY_CONTAINER.equals(entityContainer)) {
-			if (ASSOCIATION_FQN_HROBJECTREL_TENANTS.equals(association)) {
+			if (ASSOCIATION_FQN_HROBJECTREL_TENANTS.getName().equals(association.getName())) {
 				return new AssociationSet()
 						.setName(ASSOCIATION_SET_HROBJECTREL_TENANTS)
 						.setAssociation(ASSOCIATION_FQN_HROBJECTREL_TENANTS)
@@ -178,43 +174,45 @@ public class HrObjectRelEDM  extends BaseEDM{
 								new AssociationSetEnd().setRole(
 										ROLE_TENANTS_HROBJECTREL)
 										.setEntitySet(ENTITY_SET_NAME_TENANTS));
-			} else if (ASSOCIATION_FQN_HRHIERMAP_HROBJECTREL.equals(association)) {
+			}else if (ASSOCIATION_FQN_HROBJECTREL_HROBJECTS.equals(association)) {
 				return new AssociationSet()
-				.setName(ASSOCIATION_SET_HROBJECTREL_HRHIERMAP)
-				.setAssociation(ASSOCIATION_FQN_HRHIERMAP_HROBJECTREL)
+				.setName(ASSOCIATION_SET_HROBJECTREL_HROBJECTS)
+				.setAssociation(ASSOCIATION_FQN_HROBJECTREL_HROBJECTS)
 				.setEnd1(
 						new AssociationSetEnd().setRole(
-								ROLE_HROBJECTREL_HRHIERMAP)
+								ROLE_HROBJECTREL_HROBJECTS)
 								.setEntitySet(ENTITY_SET_NAME_HROBJECTREL ))
 				.setEnd2(
 						new AssociationSetEnd().setRole(
-								ROLE_HRHIERMAP_HROBJECTREL)
-								.setEntitySet(ENTITY_SET_NAME_HRHIERMAP));
-	} else if (ASSOCIATION_FQN_HROBJECTREL_HRRELATIONS.equals(association)) {
-		return new AssociationSet()
-		.setName(ASSOCIATION_SET_HROBJECTREL_HRRELATIONS)
-		.setAssociation(ASSOCIATION_FQN_HROBJECTREL_HRRELATIONS)
-		.setEnd1(
-				new AssociationSetEnd().setRole(
-						ROLE_HROBJECTREL_HRRELATIONS)
-						.setEntitySet(ENTITY_SET_NAME_HROBJECTREL ))
-		.setEnd2(
-				new AssociationSetEnd().setRole(
-						ROLE_HRRELATIONS_HROBJECTREL)
-						.setEntitySet(ENTITY_SET_NAME_HRRELATIONS));
-} else if (ASSOCIATION_FQN_HROBJECTREL_HROBJECTS.equals(association)) {
-	return new AssociationSet()
-	.setName(ASSOCIATION_SET_HROBJECTREL_HROBJECTS)
-	.setAssociation(ASSOCIATION_FQN_HROBJECTREL_HROBJECTS)
-	.setEnd1(
-			new AssociationSetEnd().setRole(
-					ROLE_HROBJECTREL_HROBJECTS)
-					.setEntitySet(ENTITY_SET_NAME_HROBJECTREL ))
-	.setEnd2(
-			new AssociationSetEnd().setRole(
-					ROLE_HROBJECTS_HROBJECTREL)
-					.setEntitySet(ENTITY_SET_NAME_HROBJECTS));
-} 
+								ROLE_HROBJECTS_HROBJECTREL)
+								.setEntitySet(ENTITY_SET_NAME_HROBJECTS));
+			}  else if (ASSOCIATION_FQN_HROBJECTREL_HRRELATIONS.getName().equals(association.getName())) {
+				return new AssociationSet()
+				.setName(ASSOCIATION_SET_HROBJECTREL_HRRELATIONS)
+				.setAssociation(ASSOCIATION_FQN_HROBJECTREL_HRRELATIONS)
+				.setEnd1(
+						new AssociationSetEnd().setRole(
+								ROLE_HROBJECTREL_HRRELATIONS)
+								.setEntitySet(ENTITY_SET_NAME_HROBJECTREL ))
+				.setEnd2(
+						new AssociationSetEnd().setRole(
+								ROLE_HRRELATIONS_HROBJECTREL)
+								.setEntitySet(ENTITY_SET_NAME_HRRELATIONS));
+	} 
+			
+//			else if (ASSOCIATION_FQN_HROBJECTREL_HRRELATIONS.equals(association)) {
+//		return new AssociationSet()
+//		.setName(ASSOCIATION_SET_HROBJECTREL_HRRELATIONS)
+//		.setAssociation(ASSOCIATION_FQN_HROBJECTREL_HRRELATIONS)
+//		.setEnd1(
+//				new AssociationSetEnd().setRole(
+//						ROLE_HROBJECTREL_HRRELATIONS)
+//						.setEntitySet(ENTITY_SET_NAME_HROBJECTREL ))
+//		.setEnd2(
+//				new AssociationSetEnd().setRole(
+//						ROLE_HRRELATIONS_HROBJECTREL)
+//						.setEntitySet(ENTITY_SET_NAME_HRRELATIONS));
+//} 
 		}
 		return null;
 

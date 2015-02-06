@@ -7,7 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrHierEDM;
+import au.com.redbackconsulting.moc.persistence.CaSystemsDAO;
 import au.com.redbackconsulting.moc.persistence.HrHierDAO;
+import au.com.redbackconsulting.moc.persistence.model2.Casystem;
+import au.com.redbackconsulting.moc.persistence.model2.CasystemPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrhier;
 import au.com.redbackconsulting.moc.persistence.model2.HrhierPK;
 import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
@@ -17,7 +20,7 @@ import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
  
 
 public class HrHierBL extends BaseBL{
-
+	private HrHierDAO dao = new HrHierDAO();
 	public HrHierBL(IBLModelFactory bmf) {
 		super(bmf);
 		// TODO Auto-generated constructor stub
@@ -89,27 +92,45 @@ private Map<String, Object> convertData( Hrhier dataModel){
 	}
 
 @Override
-public boolean deleteData(Map<String, Object> keyMap) {
-	// TODO Auto-generated method stub
-	return false;
-}
-
-@Override
 public boolean deleteData(IPkModel primaryKey) {
-	// TODO Auto-generated method stub
-	return false;
+
+	Hrhier entity = dao.getByPK((HrhierPK) primaryKey);
+	dao.delete(entity);
+	return true;
 }
 
 @Override
-public IDBEntity createData(IDBEntity entity) {
-	// TODO Auto-generated method stub
-	return null;
+public IDBEntity createData(IDBEntity data) {
+	try {
+		Hrhier entity = (Hrhier) data;
+		HrhierPK pk= new HrhierPK();
+		pk.setTenants_idTenants(entity.getTenant().getTenantPK().getId());
+		//pk.setIdHrHier(entity.getTenant().getTenantPK().get);
+		entity.setId(pk);
+		entity =dao.saveNew(entity);
+	return entity;
+	} catch (Exception e) {
+		return null;
+	}
+	
 }
-
 @Override
 public IDBEntity updateData(IPkModel pk, IDBEntity entity) {
 	// TODO Auto-generated method stub
-	return null;
+
+
+	try {
+		Hrhier founddEntity =dao.getByPK((HrhierPK) pk);
+		Hrhier newEntity= (Hrhier) entity;
+		founddEntity.setHierdesc(newEntity.getHierdesc());
+		founddEntity.setHiershortdesc(newEntity.getHiershortdesc());
+		founddEntity.setTenant(newEntity.getTenant());
+		founddEntity = dao.save(founddEntity);
+		return founddEntity;
+	} catch (Exception e) {
+	return entity;
+	}
+
 }
 
 }

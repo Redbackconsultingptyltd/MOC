@@ -15,7 +15,7 @@ public interface IBLModel {
 	public boolean deleteData(IPkModel primaryKey);
 
 	public List<Map<String, Object>> getRelatedData(IPkModel primaryKey);
-	public boolean deleteData(Map<String, Object> keyMap);
+	
 	public IDBEntity updateData(IPkModel pk, IDBEntity entity);
 	public IDBEntity createData(  IDBEntity entity);
 

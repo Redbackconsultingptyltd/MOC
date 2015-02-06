@@ -4,13 +4,12 @@ package au.com.redbackconsulting.moc.odata.api.edmconstants;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_CASYSTEM_TENANT;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_CASYSTEM_TENANT;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_HROBJECTSCONSTRAINTS_TENANTS;
-
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_HROBJECTSCONSTRAINTS_HROBJECTS;
-
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_HROBJECTS_HROBJECTSCONSTRAINTS;
 
 
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_CONTAINER;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HROBJECTSCONSTRAINTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_HROBJECTSCONSTRAINT_TENANT;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTCONSTRAINTS;
@@ -21,7 +20,6 @@ import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_NAME_
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_NAME_HROBJECTSCONSTRAINT_HROBJECTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_TENANTS;
-
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HROBJECTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_TENANTS;
@@ -81,14 +79,15 @@ public class HrObjectsConstraintsEDM extends BaseEDM {
 	}
 	@Override
 	public Association getAssociation(FullQualifiedName relatedEntity) {
-		if(relatedEntity.getName().equals(ENTITY_TYPE_NAME_TENANTS)){
-		    return new Association().setName(ASSOCIATION_NAME_HROBJECTSCONSTRAINT_TENANT)
-		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HROBJECTCONSTRAINTS_TENANTS).setMultiplicity(EdmMultiplicity.MANY))
+		if(relatedEntity.getName().equals(ASSOCIATION_FQN_HROBJECTSCONSTRAINT_TENANT.getName())){
+		    return new Association().setName(ASSOCIATION_FQN_HROBJECTSCONSTRAINT_TENANT.getName())
+		        .setEnd1(new AssociationEnd().setType(getFactory().getEDM(ENTITY_KEY_HROBJECTSCONSTRAINTS).getFullQualifiedName()).setRole( ROLE_HROBJECTCONSTRAINTS_TENANTS).setMultiplicity(EdmMultiplicity.MANY))
 		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole(ROLE_TENANTS_HROBJECTCONSTRAINTS).setMultiplicity(EdmMultiplicity.ONE));
-	} else if(relatedEntity.getName().equals(ENTITY_TYPE_NAME_TENANTS)){
-		    return new Association().setName(ASSOCIATION_NAME_HROBJECTSCONSTRAINT_TENANT)
-		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HROBJECTCONSTRAINTS_TENANTS).setMultiplicity(EdmMultiplicity.MANY))
-		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole(ROLE_TENANTS_HROBJECTCONSTRAINTS).setMultiplicity(EdmMultiplicity.ONE));
+	} 
+		else if(relatedEntity.getName().equals(ASSOCIATION_FQN_HROBJECTSCONSTRAINT_HROBJECTS.getName())){
+		    return new Association().setName(ASSOCIATION_NAME_HROBJECTSCONSTRAINT_HROBJECTS)
+		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HROBJECTCONSTRAINTS_HROBJECTS).setMultiplicity(EdmMultiplicity.MANY))
+		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole(ROLE_HROBJECTS_HROBJECTCONSTRAINTS).setMultiplicity(EdmMultiplicity.ONE));
 	}
 	return null;
  
@@ -97,12 +96,13 @@ public class HrObjectsConstraintsEDM extends BaseEDM {
 	public AssociationSet getAssociationSet(String entityContainer,
 			FullQualifiedName association ) {
 		 if (ENTITY_CONTAINER.equals(entityContainer)) {
-			    if (ASSOCIATION_FQN_HROBJECTSCONSTRAINT_TENANT.equals(association)) {
+			    if (ASSOCIATION_FQN_HROBJECTSCONSTRAINT_TENANT.getName().equals(association.getName())) {
 			      return new AssociationSet().setName(ASSOCIATION_SET_HROBJECTSCONSTRAINTS_TENANTS)
 			          .setAssociation(ASSOCIATION_FQN_HROBJECTSCONSTRAINT_TENANT)
 			          .setEnd1(new AssociationSetEnd().setRole(ROLE_HROBJECTCONSTRAINTS_TENANTS).setEntitySet(ENTITY_SET_NAME_HROBJECTSCONSTRAINTS))
 			          .setEnd2(new AssociationSetEnd().setRole(ROLE_TENANTS_HROBJECTCONSTRAINTS).setEntitySet(ENTITY_SET_NAME_TENANTS));
-			    } else  if (ASSOCIATION_FQN_HROBJECTSCONSTRAINT_HROBJECTS.equals(association)) {
+			    } 
+			    else  if (ASSOCIATION_FQN_HROBJECTSCONSTRAINT_HROBJECTS.getName().equals(association.getName())) {
 				      return new AssociationSet().setName(ASSOCIATION_SET_HROBJECTSCONSTRAINTS_HROBJECTS)
 					          .setAssociation(ASSOCIATION_FQN_HROBJECTSCONSTRAINT_HROBJECTS)
 					          .setEnd1(new AssociationSetEnd().setRole(ROLE_HROBJECTCONSTRAINTS_HROBJECTS).setEntitySet(ENTITY_SET_NAME_HROBJECTSCONSTRAINTS))

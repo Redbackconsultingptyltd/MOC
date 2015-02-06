@@ -153,24 +153,86 @@ public class MyEdmProvider extends EdmProvider implements IMyEdmProvider {
 		List<EntityContainer> entityContainers = new ArrayList<EntityContainer>();
 		EntityContainer entityContainer = new EntityContainer();
 		
-			 
+// 		TENANTS
+		entityTypes.add(getEntityType(ENTITY_FQN_TENANTS));
+		
+		
+//		CaSystem	 
 		entityTypes.add(getEntityType(ENTITY_FQN_CASYSTEM));
 		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_CASYSTEM));
 		associations.add(getAssociation(ASSOCIATION_FQN_CASYSTEM_TENANT));
 		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_CASYSTEM_TENANT, null, null));
  		
 		
-		
-		entityTypes.add(getEntityType(ENTITY_FQN_TENANTS));
-		
+//		HRHier
+		entityTypes.add(getEntityType(ENTITY_FQN_HRHIER));
+		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_HRHIER));
+		associations.add(getAssociation(ASSOCIATION_FQN_HRHIER_TENANT));
+		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HRHIER_TENANT, null, null));
 	
-//		entityTypes.add(getEntityType(ENTITY_FQN_HRHIER));
-//		entityTypes.add(getEntityType(ENTITY_FQN_HRHIERMAP));
-//	 	entityTypes.add(getEntityType(ENTITY_FQN_HROBJECTSREL));
-//		entityTypes.add(getEntityType(ENTITY_FQN_HROBJECTS));		 
-//		entityTypes.add(getEntityType(ENTITY_FQN_HROBJECTSCONSTRAINT));
-//	 	entityTypes.add(getEntityType(ENTITY_FQN_HROBJECTSSTATUS));
-//	 	entityTypes.add(getEntityType(ENTITY_FQN_HRP1000));
+		associations.add(getAssociation(ASSOCIATION_FQN_HRHIER_HRHIERMAP));
+		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HRHIER_HRHIERMAP, null, null));
+	
+
+//		HRHIERMAP
+ 		entityTypes.add(getEntityType(ENTITY_FQN_HRHIERMAP));
+ 		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_HRHIERMAP));
+ 		associations.add(getAssociation(ASSOCIATION_FQN_HRHIERMAP_TENANTS)); 		
+		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HRHIERMAP_TENANTS, null, null)); 
+		
+		associations.add(getAssociation(ASSOCIATION_FQN_HRHIERMAP_HROBJECTREL));
+		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HRHIERMAP_HROBJECTREL, null, null));
+		
+//		HROBJECTSREL
+	 	entityTypes.add(getEntityType(ENTITY_FQN_HROBJECTSREL));
+ 		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_HROBJECTREL));
+		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTREL_TENANTS));
+		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTREL_TENANTS, null, null));	
+
+		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTREL_HROBJECTS));
+		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTREL_HROBJECTS, null, null));
+	 	
+		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTREL_HRRELATIONS));
+		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTREL_HRRELATIONS, null, null));
+	 	
+//		HROBJECTS
+		entityTypes.add(getEntityType(ENTITY_FQN_HROBJECTS));	
+ 		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_HROBJECTS));
+ 		
+ 		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTS_TENANTS));
+		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTS_TENANTS, null, null));
+		
+		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTS_CASYSTEM));
+		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTS_CASYSTEM, null, null));
+		
+		
+		
+//		HROBJECTSCONSTRAINT
+		entityTypes.add(getEntityType(ENTITY_FQN_HROBJECTSCONSTRAINT));
+ 		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_HROBJECTSCONSTRAINTS));
+ 		
+ 		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTSCONSTRAINT_TENANT));
+		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTSCONSTRAINT_TENANT, null, null));
+ 		
+ 		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTSCONSTRAINT_HROBJECTS));
+		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTSCONSTRAINT_HROBJECTS, null, null));
+		
+//		HROBJECTSSTATUS		
+	 	entityTypes.add(getEntityType(ENTITY_FQN_HROBJECTSSTATUS));
+ 		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_HROBJECTSSTATUS));
+ 		
+		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTSSTATUS_TENANTS));
+		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTSSTATUS_TENANTS, null, null));
+	 	
+		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTS));
+		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTS, null, null));
+	 	
+		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTCONSTRAINTS));
+		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTCONSTRAINTS, null, null));
+
+		
+		
+		//	 	entityTypes.add(getEntityType(ENTITY_FQN_HRP1000));
 //	 	entityTypes.add(getEntityType(ENTITY_FQN_HRP1001));
 //		entityTypes.add(getEntityType(ENTITY_FQN_HRRELATIONS));
 		
@@ -185,24 +247,8 @@ public class MyEdmProvider extends EdmProvider implements IMyEdmProvider {
 		
 	 	
 	
-//		associations.add(getAssociation(ASSOCIATION_FQN_HRHIER_HRHIERMAP));
-//		associations.add(getAssociation(ASSOCIATION_FQN_HRHIER_TENANT));
-//		associations.add(getAssociation(ASSOCIATION_FQN_HRHIERMAP_HROBJECTREL));
-//		associations.add(getAssociation(ASSOCIATION_FQN_HRHIERMAP_TENANTS));
-//
-//		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTREL_HROBJECTS));
-//		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTREL_HRRELATIONS));
-//		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTREL_TENANTS));
 //		
-//		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTS_CASYSTEM));
-//		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTS_TENANTS));
 //		
-//		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTSCONSTRAINT_HROBJECTS));
-//		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTSCONSTRAINT_TENANT));
-//		
-//		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTCONSTRAINTS));
-//		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTS));
-//		associations.add(getAssociation(ASSOCIATION_FQN_HROBJECTSSTATUS_TENANTS));
 //		
 //		associations.add(getAssociation(ASSOCIATION_FQN_HRP1000_HROBJECTS));
 //		associations.add(getAssociation(ASSOCIATION_FQN_HRP1000_HROBJECTSSTATUS));
@@ -227,38 +273,21 @@ public class MyEdmProvider extends EdmProvider implements IMyEdmProvider {
 //		entityContainer.
 	
 		 
-// 		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_HRHIER));
-// 		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_HRHIERMAP));
-// 		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_HROBJECTREL));
-// 		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_HROBJECTS));
-// 		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_HROBJECTSCONSTRAINTS));
-// 		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_HROBJECTSSTATUS));
 //		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_HRP1000));
-//		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_HRP1001));
 //		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_HRP1001));
 //		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_TENANTS));
 		
 
 	
-//		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HRHIER_HRHIERMAP, null, null));
-//		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HRHIER_TENANT, null, null));
-//
-//		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HRHIERMAP_HROBJECTREL, null, null));
-//		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HRHIERMAP_TENANTS, null, null));
 //		
-//		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTREL_HROBJECTS, null, null));
-//		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTREL_HRRELATIONS, null, null));
-//		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTREL_TENANTS, null, null));
+
 //
-//		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTS_CASYSTEM, null, null));
-//		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTS_TENANTS, null, null));
+//		
+// 
 //
 //		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTSCONSTRAINT_HROBJECTS, null, null));
-//		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTSCONSTRAINT_TENANT, null, null));
 //
-//		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTCONSTRAINTS, null, null));
-//		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTS, null, null));
-//		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HROBJECTSSTATUS_TENANTS, null, null));
+//		
 //
 //		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HRP1000_HROBJECTS, null, null));
 //		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HRP1000_HROBJECTSSTATUS, null, null));

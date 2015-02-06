@@ -39,6 +39,12 @@ public class Constants {
  
  	public static final String ASSOCIATION_NAME_HRHIER_TENANT="HrHier_Tenants_Tenants_HrHier";
  	public static final String ASSOCIATION_NAME_HRHIER_HRHIERMAP="HrHier_HrHierMap_HrHierMap_HrHier"; 	
+ 	
+ 	public static final String ASSOCIATION_NAME_HRHIERMAP_TENANTS="HrHierMap_Tenants_HrHierMap_Tenants";
+	public static final String ASSOCIATION_NAME_HRHIERMAP_HROBJECTREL="HrHierMap_HrObjectRel_HrHierMap_HrObjectRel";
+
+	public static final String ASSOCIATION_NAME_HRHIERMAP_HRHIER="HrHierMap_HrHier_HrHier_HrHierMap";
+	 	
 	public static final String ASSOCIATION_NAME_HROBJECTSCONSTRAINT_TENANT="HrObjectsConstraint_Tenants_HrObjectsConstraint_Tenants";
 	public static final String ASSOCIATION_NAME_HROBJECTSSTATUS_HROBJECTCONSTRAINTS="HrObjectsStatus_HrObjectsConstraint_HrObjectsStatus_HrObjectsConstraint";
 	public static final String ASSOCIATION_NAME_HROBJECTSCONSTRAINT_HROBJECTS="HrObjectsConstraint_HrObjects_HrObjectsConstraint_HrObjects";
@@ -58,8 +64,6 @@ public class Constants {
 	public static final String ASSOCIATION_NAME_HRP1001_HROBJECTS="Hrp1001_HrObjects_Hrp1001_HrObjects";
 	public static final String ASSOCIATION_NAME_HRP1001_HRP1000="Hrp1001_Hrp1000_Hrp1001_Hrp1000";
 	public static final String ASSOCIATION_NAME_HRP1000_TENANTS="Hrp1000_Tenants_Hrp1000_Tenants";
-	public static final String ASSOCIATION_NAME_HRHIERMAP_TENANTS="HrHierMap_Tenants_HrHierMap_Tenants";
-	public static final String ASSOCIATION_NAME_HRHIERMAP_HROBJECTREL="HrHierMap_HrObjectRel_HrHierMap_HrObjectRel";
 	
 	public static final String ASSOCIATION_NAME_HROBJECTREL_TENANTS="HrObjectRel_Tenants_HrObjectRel_Tenants";
 	public static final String ASSOCIATION_NAME_HROBJECTREL_HROBJECTS="HrObjectRel_HrObjects_HrObjectRel_HrObjects";
@@ -80,6 +84,8 @@ public class Constants {
  	public static final FullQualifiedName ASSOCIATION_FQN_HRHIER_TENANT=new FullQualifiedName(NAMESPACE, ASSOCIATION_NAME_HRHIER_TENANT);
  	public static final FullQualifiedName ASSOCIATION_FQN_HRHIER_HRHIERMAP=new FullQualifiedName(NAMESPACE, ASSOCIATION_NAME_HRHIER_HRHIERMAP);
  	
+
+ 	public static final FullQualifiedName ASSOCIATION_FQN_HRHIERMAP_HRHIER=new FullQualifiedName(NAMESPACE, ASSOCIATION_NAME_HRHIERMAP_HRHIER);
  	
 	public static final FullQualifiedName ASSOCIATION_FQN_HROBJECTSCONSTRAINT_TENANT=new FullQualifiedName(NAMESPACE, ASSOCIATION_NAME_HROBJECTSCONSTRAINT_TENANT);
 	public static final FullQualifiedName ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTCONSTRAINTS=new FullQualifiedName(NAMESPACE, ASSOCIATION_NAME_HROBJECTSSTATUS_HROBJECTCONSTRAINTS);
@@ -114,8 +120,19 @@ public class Constants {
 	public static final FullQualifiedName ASSOCIATION_FQN_HRRELATIONS_HRP1001=new FullQualifiedName(NAMESPACE, ASSOCIATION_NAME_HRELATIONS_HRP1001);
 	
 	 
+	public static final String ASSOCIATION_SET_CASYSTEM_TENANT="CaSystems_Tenants";
 
-public static final String ASSOCIATION_SET_CASYSTEM_TENANT="CaSystems_Tenants";
+	public static final String ASSOCIATION_SET_HRHIER_TENANT="HRHIERs_Tenants";
+	public static final String ASSOCIATION_SET_HRHIER_HRHIERMAP="HRHIERs_HrHierMap";
+	
+	public static final String ASSOCIATION_SET_HRHIERMAP_TENANT="HrHierMap_Tenant";
+	public static final String ASSOCIATION_SET_HROBJECTSTATUS_TENANT="SEt_HrObjectStatus_Tenant";
+	public static final String ASSOCIATION_SET_HROBJECTSTATUS_HROBJECTS="SEt_HrObjectStatus_HRObjects";
+
+	public static final String ASSOCIATION_SET_HROBJECTSTATUS_HROBJECTSCONSTRAINS="SEt_HrObjectStatus_HRObjectsConstraints";
+	
+	
+	
 public  static   String ASSOCIATION_SET_HRRELATIONS_TENANTS = "ASSOSET_HRRELATIONS_TENANTS";
 public  static   String ASSOCIATION_SET_HRRELATIONS_HROBJECTREL = "ASSOSET_HRRELATIONS_HROBJECTREL";
 public  static   String ASSOCIATION_SET_HRRELATIONS_HRP1001 = "ASSOSET_HRRELATIONS_HRP1001";
@@ -165,6 +182,7 @@ public static String ENTITY_SET_NAME_HROBJECTREL="HrObhectRelSet";
 
 public static String ENTITY_TYPE_NAME_HROBJECTSCONSTRAINTS="HrObjectsConstraints";
 public static String ENTITY_SET_NAME_HROBJECTSCONSTRAINTS="HrObjectsConstraintsSet";
+
 public static String ENTITY_TYPE_NAME_HROBJECTS="HrObjects";
 public static String ENTITY_SET_NAME_HROBJECTS="HrObjectsSet";
 

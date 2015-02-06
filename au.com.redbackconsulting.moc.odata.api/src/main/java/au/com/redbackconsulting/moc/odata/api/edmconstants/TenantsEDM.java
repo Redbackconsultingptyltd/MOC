@@ -2,6 +2,8 @@ package au.com.redbackconsulting.moc.odata.api.edmconstants;
 
  
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_CASYSTEM_TENANT;
+
+import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_HRHIERMAP_TENANTS;
   
  
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_CASYSTEM_TENANT;
@@ -9,6 +11,7 @@ import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_CONTAINER;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_TENANTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_CASYSTEM;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRHIERMAP;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,10 @@ import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 
 import static au.com.redbackconsulting.moc.odata.api.Constants.ROLE_CASYSTEMS_TENANTS_1_1;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ROLE_TENANTS_CASYSTEMS_1_2;
+
+
+import static au.com.redbackconsulting.moc.odata.api.Constants.ROLE_TENANTS_HRHIERMAP;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ROLE_HRHIERMAP_TENANTS;
 
 public class TenantsEDM extends BaseEDM {
 	 
@@ -92,8 +99,9 @@ public class TenantsEDM extends BaseEDM {
 List<NavigationProperty> navigationProperties = new ArrayList<NavigationProperty>();
 		
 		  navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_CASYSTEM).setRelationship(ASSOCIATION_FQN_CASYSTEM_TENANT).setFromRole(ROLE_CASYSTEMS_TENANTS_1_1).setToRole(ROLE_TENANTS_CASYSTEMS_1_2));
-  
-	return navigationProperties;	 
+		  navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_HRHIERMAP).setRelationship(ASSOCIATION_FQN_HRHIERMAP_TENANTS).setFromRole(ROLE_HRHIERMAP_TENANTS).setToRole(ROLE_TENANTS_HRHIERMAP));
+
+	return  navigationProperties;
  
 	}
 	 

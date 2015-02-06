@@ -8,106 +8,117 @@ import java.util.Map;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrRelationsEDM;
 import au.com.redbackconsulting.moc.persistence.HrRelationsDAO;
+import au.com.redbackconsulting.moc.persistence.model2.Hrp1000;
+import au.com.redbackconsulting.moc.persistence.model2.Hrp1000PK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrrelation;
 import au.com.redbackconsulting.moc.persistence.model2.HrrelationPK;
 import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
 import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
 
 public class HrRelationsBL extends BaseBL {
+	private HrRelationsDAO dao = new HrRelationsDAO();
 
 	public HrRelationsBL(IBLModelFactory bmf) {
 		super(bmf);
 		// TODO Auto-generated constructor stub
 	}
 
+	private Map<String, Object> convertData(Hrrelation dataModel) {
 
-	
-private Map<String, Object> convertData( Hrrelation dataModel){
-		
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			//map.put(HrRelationsEDM.tenantId, dataModel.getId().getTenants_idTenants());
+			// map.put(HrRelationsEDM.tenantId,
+			// dataModel.getId().getTenants_idTenants());
 			map.put(HrRelationsEDM.relatType, dataModel.getId().getRelatType());
 			map.put(HrRelationsEDM.relatTypeT, dataModel.getRelatTypeT());
-		
-			
+
 			return map;
-			
+
 		} catch (Exception e) {
 			return null;
 		}
 	}
+
 	@Override
 	public List<Map<String, Object>> getDataSet() {
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		try {
 			HrRelationsDAO dao = new HrRelationsDAO();
-		List<Hrrelation> collectin =	dao.getAll();
-		for (Iterator iterator = collectin.iterator(); iterator.hasNext();) {
-			Hrrelation hrRelations = (Hrrelation) iterator.next();
-			Map<String, Object> map = convertData(hrRelations);
-		result.add(map);
-		}
+			List<Hrrelation> collectin = dao.getAll();
+			for (Iterator iterator = collectin.iterator(); iterator.hasNext();) {
+				Hrrelation hrRelations = (Hrrelation) iterator.next();
+				Map<String, Object> map = convertData(hrRelations);
+				result.add(map);
+			}
 		} catch (Exception e) {
-			
+
 		}
 		return result;
 	}
 
 	@Override
 	public Map<String, Object> getData(IPkModel primaryKeyModel) {
- 
+
 		HrrelationPK pk = (HrrelationPK) primaryKeyModel;
-		 Map<String, Object>  result = new HashMap<String, Object>();
+		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 			HrRelationsDAO dao = new HrRelationsDAO();
-			Hrrelation entity =	dao.getByPK(pk);
-		result= convertData(entity);
-		return result;
+			Hrrelation entity = dao.getByPK(pk);
+			result = convertData(entity);
+			return result;
 		} catch (Exception e) {
-			int i =0;
-			i=i+1;
+			int i = 0;
+			i = i + 1;
 		}
-		
-		
-		 
+
 		return null;
 	}
 
-	@Override
-	public boolean deleteData(Map<String, Object> keyMap) {
-		// TODO Auto-generated method stub
-		return false;
-	}
- 
 	@Override
 	public List<Map<String, Object>> getRelatedData(IPkModel primaryKey) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-
-
 	@Override
 	public boolean deleteData(IPkModel primaryKey) {
-		// TODO Auto-generated method stub
-		return false;
+		Hrrelation entity = dao.getByPK((HrrelationPK) primaryKey);
+		dao.delete(entity);
+		return true;
 	}
-
-
 
 	@Override
-	public IDBEntity createData(IDBEntity entity) {
-		// TODO Auto-generated method stub
-		return null;
+	public IDBEntity createData(IDBEntity data) {
+		try {
+			Hrrelation entity = (Hrrelation) data;
+			HrrelationPK pk = new HrrelationPK();
+			pk.setTenants_idTenants(entity.getId().getTenants_idTenants());
+			pk.setRelatType(entity.getRelatTypeT());
+
+			entity.setId(pk);
+			entity = dao.saveNew(entity);
+			return entity;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
 	}
-
-
 
 	@Override
 	public IDBEntity updateData(IPkModel pk, IDBEntity entity) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			Hrrelation founddEntity = dao.getByPK((HrrelationPK) pk);
+			Hrrelation newEntity = (Hrrelation) entity;
+
+			founddEntity.setId(newEntity.getId());
+			founddEntity.setRelatTypeT(newEntity.getRelatTypeT());
+
+			founddEntity = dao.save(founddEntity);
+
+			return founddEntity;
+		} catch (Exception e) {
+			return entity;
+		}
 	}
 
 }

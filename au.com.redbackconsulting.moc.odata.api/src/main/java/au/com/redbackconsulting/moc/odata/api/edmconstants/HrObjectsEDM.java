@@ -92,39 +92,44 @@ public class HrObjectsEDM  extends BaseEDM{
 	}
 	@Override
 	public Association getAssociation(FullQualifiedName relatedEntity) {
-		if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_TENANTS)){
+		if(relatedEntity.getName().equals( ASSOCIATION_FQN_HROBJECTS_TENANTS.getName())){
 		    return new Association().setName( ASSOCIATION_FQN_HROBJECTS_TENANTS.getName())
 		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HROBJECTS_TENANTS).setMultiplicity(EdmMultiplicity.MANY))
 		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_TENANTS_HROBJECTS).setMultiplicity(EdmMultiplicity.ONE));
-	} else if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_HROBJECTSCONSTRAINTS)){
-		    return new Association().setName( ASSOCIATION_FQN_HROBJECTSCONSTRAINT_HROBJECTS.getName())
-		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HROBJECTS_HROBJECTCONSTRAINTS).setMultiplicity(EdmMultiplicity.MANY))
-		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_HROBJECTCONSTRAINTS_HROBJECTS).setMultiplicity(EdmMultiplicity.ONE));
-	}   else if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_HROBJECTSSTATUS)){
-		    return new Association().setName( ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTS.getName())
-		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HROBJECTS_HROBJECTSSTATUS).setMultiplicity(EdmMultiplicity.MANY))
-		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_HROBJECTSSTATUS_HROBJECTS).setMultiplicity(EdmMultiplicity.ONE));
-	} else if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_HROBJECTSCONSTRAINTS)){
-		    return new Association().setName( ASSOCIATION_FQN_HROBJECTSCONSTRAINT_HROBJECTS.getName())
-		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HROBJECTS_HROBJECTCONSTRAINTS).setMultiplicity(EdmMultiplicity.MANY))
-		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_HROBJECTCONSTRAINTS_HROBJECTS).setMultiplicity(EdmMultiplicity.ONE));
-	}else if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_CASYSTEM)){
+	} else if(relatedEntity.getName().equals( ASSOCIATION_FQN_HROBJECTS_CASYSTEM.getName())){
 		    return new Association().setName( ASSOCIATION_FQN_HROBJECTS_CASYSTEM.getName())
 		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HROBJECTS_CASYSTEMS).setMultiplicity(EdmMultiplicity.MANY))
 		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_CASYSTEMS_HROBJECTS).setMultiplicity(EdmMultiplicity.ONE));
-	}else if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_HROBJECTREL)){
-		    return new Association().setName( ASSOCIATION_FQN_HROBJECTREL_HROBJECTS.getName())
-		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HROBJECTS_HROBJECTREL).setMultiplicity(EdmMultiplicity.MANY))
-		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_HROBJECTREL_HROBJECTS).setMultiplicity(EdmMultiplicity.ONE));
-	} else if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_HRP1001)){
-		    return new Association().setName( ASSOCIATION_FQN_HRP1001_HROBJECTS.getName())
-		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HROBJECTS_HRP1001).setMultiplicity(EdmMultiplicity.MANY))
-		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_HRP1001_HROBJECTS).setMultiplicity(EdmMultiplicity.ONE));
-	} else if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_HRP1000)){
-		    return new Association().setName( ASSOCIATION_FQN_HRP1000_HROBJECTS.getName())
-		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HROBJECTS_HRP1000).setMultiplicity(EdmMultiplicity.MANY))
-		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_HRP1000_HROBJECTS).setMultiplicity(EdmMultiplicity.ONE));
-	}
+	} 
+//		else if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_HROBJECTSCONSTRAINTS)){
+//		    return new Association().setName( ASSOCIATION_FQN_HROBJECTSCONSTRAINT_HROBJECTS.getName())
+//		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HROBJECTS_HROBJECTCONSTRAINTS).setMultiplicity(EdmMultiplicity.MANY))
+//		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_HROBJECTCONSTRAINTS_HROBJECTS).setMultiplicity(EdmMultiplicity.ONE));
+//	}   else if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_HROBJECTSSTATUS)){
+//		    return new Association().setName( ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTS.getName())
+//		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HROBJECTS_HROBJECTSSTATUS).setMultiplicity(EdmMultiplicity.MANY))
+//		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_HROBJECTSSTATUS_HROBJECTS).setMultiplicity(EdmMultiplicity.ONE));
+//	} else if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_HROBJECTSCONSTRAINTS)){
+//		    return new Association().setName( ASSOCIATION_FQN_HROBJECTSCONSTRAINT_HROBJECTS.getName())
+//		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HROBJECTS_HROBJECTCONSTRAINTS).setMultiplicity(EdmMultiplicity.MANY))
+//		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_HROBJECTCONSTRAINTS_HROBJECTS).setMultiplicity(EdmMultiplicity.ONE));
+//	}else if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_CASYSTEM)){
+//		    return new Association().setName( ASSOCIATION_FQN_HROBJECTS_CASYSTEM.getName())
+//		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HROBJECTS_CASYSTEMS).setMultiplicity(EdmMultiplicity.MANY))
+//		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_CASYSTEMS_HROBJECTS).setMultiplicity(EdmMultiplicity.ONE));
+//	}else if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_HROBJECTREL)){
+//		    return new Association().setName( ASSOCIATION_FQN_HROBJECTREL_HROBJECTS.getName())
+//		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HROBJECTS_HROBJECTREL).setMultiplicity(EdmMultiplicity.MANY))
+//		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_HROBJECTREL_HROBJECTS).setMultiplicity(EdmMultiplicity.ONE));
+//	} else if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_HRP1001)){
+//		    return new Association().setName( ASSOCIATION_FQN_HRP1001_HROBJECTS.getName())
+//		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HROBJECTS_HRP1001).setMultiplicity(EdmMultiplicity.MANY))
+//		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_HRP1001_HROBJECTS).setMultiplicity(EdmMultiplicity.ONE));
+//	} else if(relatedEntity.getName().equals( ENTITY_TYPE_NAME_HRP1000)){
+//		    return new Association().setName( ASSOCIATION_FQN_HRP1000_HROBJECTS.getName())
+//		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HROBJECTS_HRP1000).setMultiplicity(EdmMultiplicity.MANY))
+//		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_HRP1000_HROBJECTS).setMultiplicity(EdmMultiplicity.ONE));
+//	}
 	return null;
  
 	}
@@ -132,42 +137,44 @@ public class HrObjectsEDM  extends BaseEDM{
 	public AssociationSet getAssociationSet(String entityContainer,
 			FullQualifiedName association ) {
 		 if (ENTITY_CONTAINER.equals(entityContainer)) {
-			    if (ASSOCIATION_FQN_HROBJECTS_TENANTS.equals(association)) {
+			    if (ASSOCIATION_FQN_HROBJECTS_TENANTS.getName().equals(association.getName())) {
 			      return new AssociationSet().setName(ASSOCIATION_SET_HROBJECTS_TENANTS)
 			          .setAssociation(ASSOCIATION_FQN_HROBJECTS_TENANTS)
 			          .setEnd1(new AssociationSetEnd().setRole(ROLE_HROBJECTS_TENANTS).setEntitySet(ENTITY_SET_NAME_HROBJECTS))
 			          .setEnd2(new AssociationSetEnd().setRole(ROLE_TENANTS_HROBJECTS).setEntitySet(ENTITY_SET_NAME_TENANTS));
-			    } else  if (ASSOCIATION_FQN_HROBJECTSCONSTRAINT_HROBJECTS.equals(association)) {
-				      return new AssociationSet().setName(ASSOCIATION_SET_HROBJECTS_HROBJECTSCONSTRAINTS)
-					          .setAssociation(ASSOCIATION_FQN_HROBJECTSCONSTRAINT_HROBJECTS)
-					          .setEnd1(new AssociationSetEnd().setRole(ROLE_HROBJECTCONSTRAINTS_HROBJECTS).setEntitySet(ENTITY_SET_NAME_HROBJECTSCONSTRAINTS))
-					          .setEnd2(new AssociationSetEnd().setRole(ROLE_HROBJECTS_HROBJECTCONSTRAINTS).setEntitySet(ENTITY_SET_NAME_HROBJECTS));
-					    }else  if (ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTS.equals(association)) {
-						      return new AssociationSet().setName(ASSOCIATION_SET_HROBJECTS_HROBJECTSTATUS)
-							          .setAssociation(ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTS)
-							          .setEnd1(new AssociationSetEnd().setRole(ROLE_HROBJECTS_HROBJECTSSTATUS).setEntitySet(ENTITY_SET_NAME_HROBJECTS))
-							          .setEnd2(new AssociationSetEnd().setRole(ROLE_HROBJECTSSTATUS_HROBJECTS).setEntitySet(ENTITY_SET_NAME_HROBJECTSSTATUS));
-							    }else  if (ASSOCIATION_FQN_HROBJECTS_CASYSTEM.equals(association)) {
-								      return new AssociationSet().setName(ASSOCIATION_SET_HROBJECTS_CASYSTEMS)
-									          .setAssociation(ASSOCIATION_FQN_HROBJECTS_CASYSTEM)
-									          .setEnd1(new AssociationSetEnd().setRole(ROLE_HROBJECTS_CASYSTEMS).setEntitySet(ENTITY_SET_NAME_HROBJECTS))
-									          .setEnd2(new AssociationSetEnd().setRole(ROLE_CASYSTEMS_HROBJECTS).setEntitySet(ENTITY_SET_NAME_CASYSTEM));
-									    }else  if (ASSOCIATION_FQN_HROBJECTREL_HROBJECTS.equals(association)) {
-										      return new AssociationSet().setName(ASSOCIATION_SET_HROBJECTS_HROBJECTREL)
-											          .setAssociation(ASSOCIATION_FQN_HROBJECTREL_HROBJECTS)
-											          .setEnd1(new AssociationSetEnd().setRole(ROLE_HROBJECTS_HROBJECTREL).setEntitySet(ENTITY_SET_NAME_HROBJECTS))
-											          .setEnd2(new AssociationSetEnd().setRole(ROLE_HROBJECTREL_HROBJECTS).setEntitySet(ENTITY_SET_NAME_HROBJECTREL));
-											    }else  if (ASSOCIATION_FQN_HRP1001_HROBJECTS.equals(association)) {
-												      return new AssociationSet().setName(ASSOCIATION_SET_HROBJECTS_HRP1001)
-													          .setAssociation(ASSOCIATION_FQN_HRP1001_HROBJECTS)
-													          .setEnd1(new AssociationSetEnd().setRole(ROLE_HROBJECTS_HRP1001).setEntitySet(ENTITY_SET_NAME_HROBJECTS))
-													          .setEnd2(new AssociationSetEnd().setRole(ROLE_HRP1001_HROBJECTS).setEntitySet(ENTITY_SET_NAME_HRP1001));
-													    }else  if (ASSOCIATION_FQN_HRP1000_HROBJECTS.equals(association)) {
-														      return new AssociationSet().setName(ASSOCIATION_SET_HROBJECTS_HRP1000)
-															          .setAssociation(ASSOCIATION_FQN_HRP1000_HROBJECTS)
-															          .setEnd1(new AssociationSetEnd().setRole(ROLE_HROBJECTS_HRP1000).setEntitySet(ENTITY_SET_NAME_HROBJECTS))
-															          .setEnd2(new AssociationSetEnd().setRole(ROLE_HRP1000_HROBJECTS).setEntitySet(ENTITY_SET_NAME_HRP1000));
-															    }
+			    } 
+			    else  if (ASSOCIATION_FQN_HROBJECTS_CASYSTEM.equals(association)) {
+				      return new AssociationSet().setName(ASSOCIATION_SET_HROBJECTS_CASYSTEMS)
+					          .setAssociation(ASSOCIATION_FQN_HROBJECTS_CASYSTEM)
+					          .setEnd1(new AssociationSetEnd().setRole(ROLE_HROBJECTS_CASYSTEMS).setEntitySet(ENTITY_SET_NAME_HROBJECTS))
+					          .setEnd2(new AssociationSetEnd().setRole(ROLE_CASYSTEMS_HROBJECTS).setEntitySet(ENTITY_SET_NAME_CASYSTEM));
+					    }
+//			    else  if (ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTS.equals(association)) {
+//						      return new AssociationSet().setName(ASSOCIATION_SET_HROBJECTS_HROBJECTSTATUS)
+//							          .setAssociation(ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTS)
+//							          .setEnd1(new AssociationSetEnd().setRole(ROLE_HROBJECTS_HROBJECTSSTATUS).setEntitySet(ENTITY_SET_NAME_HROBJECTS))
+//							          .setEnd2(new AssociationSetEnd().setRole(ROLE_HROBJECTSSTATUS_HROBJECTS).setEntitySet(ENTITY_SET_NAME_HROBJECTSSTATUS));
+//							    }else  if (ASSOCIATION_FQN_HROBJECTS_CASYSTEM.equals(association)) {
+//								      return new AssociationSet().setName(ASSOCIATION_SET_HROBJECTS_CASYSTEMS)
+//									          .setAssociation(ASSOCIATION_FQN_HROBJECTS_CASYSTEM)
+//									          .setEnd1(new AssociationSetEnd().setRole(ROLE_HROBJECTS_CASYSTEMS).setEntitySet(ENTITY_SET_NAME_HROBJECTS))
+//									          .setEnd2(new AssociationSetEnd().setRole(ROLE_CASYSTEMS_HROBJECTS).setEntitySet(ENTITY_SET_NAME_CASYSTEM));
+//									    }else  if (ASSOCIATION_FQN_HROBJECTREL_HROBJECTS.equals(association)) {
+//										      return new AssociationSet().setName(ASSOCIATION_SET_HROBJECTS_HROBJECTREL)
+//											          .setAssociation(ASSOCIATION_FQN_HROBJECTREL_HROBJECTS)
+//											          .setEnd1(new AssociationSetEnd().setRole(ROLE_HROBJECTS_HROBJECTREL).setEntitySet(ENTITY_SET_NAME_HROBJECTS))
+//											          .setEnd2(new AssociationSetEnd().setRole(ROLE_HROBJECTREL_HROBJECTS).setEntitySet(ENTITY_SET_NAME_HROBJECTREL));
+//											    }else  if (ASSOCIATION_FQN_HRP1001_HROBJECTS.equals(association)) {
+//												      return new AssociationSet().setName(ASSOCIATION_SET_HROBJECTS_HRP1001)
+//													          .setAssociation(ASSOCIATION_FQN_HRP1001_HROBJECTS)
+//													          .setEnd1(new AssociationSetEnd().setRole(ROLE_HROBJECTS_HRP1001).setEntitySet(ENTITY_SET_NAME_HROBJECTS))
+//													          .setEnd2(new AssociationSetEnd().setRole(ROLE_HRP1001_HROBJECTS).setEntitySet(ENTITY_SET_NAME_HRP1001));
+//													    }else  if (ASSOCIATION_FQN_HRP1000_HROBJECTS.equals(association)) {
+//														      return new AssociationSet().setName(ASSOCIATION_SET_HROBJECTS_HRP1000)
+//															          .setAssociation(ASSOCIATION_FQN_HRP1000_HROBJECTS)
+//															          .setEnd1(new AssociationSetEnd().setRole(ROLE_HROBJECTS_HRP1000).setEntitySet(ENTITY_SET_NAME_HROBJECTS))
+//															          .setEnd2(new AssociationSetEnd().setRole(ROLE_HRP1000_HROBJECTS).setEntitySet(ENTITY_SET_NAME_HRP1000));
+//															    }
 			  }
 		return null;
 	}

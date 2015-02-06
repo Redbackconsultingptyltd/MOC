@@ -8,13 +8,16 @@ import java.util.Map;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsEDM;
 import au.com.redbackconsulting.moc.persistence.HrObjectsDAO;
+import au.com.redbackconsulting.moc.persistence.model2.Hrhier;
+import au.com.redbackconsulting.moc.persistence.model2.HrhierPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrobject;
+import au.com.redbackconsulting.moc.persistence.model2.HrobjectPK;
 import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
 import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
 
  
 public class HrObjectsBL extends BaseBL {
-
+private HrObjectsDAO dao=new HrObjectsDAO();
 	public HrObjectsBL(IBLModelFactory bmf) {
 		super(bmf);
 		// TODO Auto-generated constructor stub
@@ -44,11 +47,7 @@ public class HrObjectsBL extends BaseBL {
  		return null;
 	}
 
-	@Override
-	public boolean deleteData(Map<String, Object> keyMap) {
-		// TODO Auto-generated method stub
-		return false;
-	}
+	
 
  
  
@@ -79,19 +78,47 @@ private Map<String, Object> convertData( Hrobject dataModel){
 @Override
 public boolean deleteData(IPkModel primaryKey) {
 	// TODO Auto-generated method stub
-	return false;
+	
+
+	Hrobject entity = dao.getByPK((HrobjectPK) primaryKey);
+	dao.delete(entity);
+	return true;
+	
 }
 
 @Override
-public IDBEntity createData(IDBEntity entity) {
-	// TODO Auto-generated method stub
-	return null;
+public IDBEntity createData(IDBEntity data) {
+	try {
+		Hrobject entity = (Hrobject) data;
+		HrobjectPK pk= new HrobjectPK();
+		pk.setTenants_idTenants(entity.getTenant().getTenantPK().getId());
+		
+		entity.setId(pk);
+		entity =dao.saveNew(entity);
+	return entity;
+	} catch (Exception e) {
+		return null;
+	}
+	
 }
 
 @Override
 public IDBEntity updateData(IPkModel pk, IDBEntity entity) {
-	// TODO Auto-generated method stub
-	return null;
+	try {
+		Hrobject founddEntity =dao.getByPK((HrobjectPK) pk);
+		Hrobject newEntity= (Hrobject) entity;
+		founddEntity.setCasystem(newEntity.getCasystem());
+		founddEntity.setHrobjectsconstraint(newEntity.getHrobjectsconstraint());
+		founddEntity.setId(newEntity.getId());
+		founddEntity.setTenant(newEntity.getTenant());
+		founddEntity = dao.save(founddEntity);
+		
+		return founddEntity;
+	} catch (Exception e) {
+		// TODO: handle exception
+	
+	return entity;
+	}
 } 
 
 }

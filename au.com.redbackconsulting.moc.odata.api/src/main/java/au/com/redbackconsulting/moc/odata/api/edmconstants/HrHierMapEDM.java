@@ -22,7 +22,7 @@ import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_H
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_HRHIERMAP_TENANTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_HRHIERMAP_HROBJECTREL;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_HRHIER_TENANT;
-import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_CASYSTEM_TENANT;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_HRHIERMAP_TENANT;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_HRHIERMAP_HRHIER;
 
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_HRHIERMAP_HROBJECTREL;
@@ -79,10 +79,10 @@ public class HrHierMapEDM extends BaseEDM {
 	public static String hierId = "hierId";
 	public static String tenantId = "tenantId";
 	public static String seqNo = "seqno";
-	public static String objectType;
-	public static String relatType;
-	public static String sObjType;
-	public static String skip;
+	public static String objectType="objectType";
+	public static String relatType="relatType";
+	public static String sObjType="sObjType";
+	public static String skip="skip";
 
 	@Override
 	public List<Property> getProperties() {
@@ -121,29 +121,30 @@ public class HrHierMapEDM extends BaseEDM {
 
 	@Override
 	public Association getAssociation(FullQualifiedName relatedEntity) {
-		if (relatedEntity.getName().equals(ENTITY_TYPE_NAME_TENANTS)) {
+		if (relatedEntity.getName().equals(ASSOCIATION_FQN_HRHIERMAP_TENANTS.getName())) {
 			return new Association()
 					.setName(ASSOCIATION_FQN_HRHIERMAP_TENANTS.getName())
 					.setEnd1(
 							new AssociationEnd()
-									.setType(getFullQualifiedName())
+									.setType(getFactory().getEDM(ENTITY_KEY_HRHIERMAP).getFullQualifiedName())
 									.setRole(ROLE_HRHIERMAP_TENANTS)
 									.setMultiplicity(EdmMultiplicity.MANY))
 					.setEnd2(
-							new AssociationEnd().setType(relatedEntity)
+							new AssociationEnd().setType(getFactory().getEDM(ENTITY_KEY_TENANTS).getFullQualifiedName())
 									.setRole(ROLE_TENANTS_HRHIERMAP)
 									.setMultiplicity(EdmMultiplicity.ONE));
-		} else if (relatedEntity.getName().equals(ENTITY_TYPE_NAME_HRHIER)) {
+		} 
+		else if (relatedEntity.getName().equals(ASSOCIATION_FQN_HRHIERMAP_HROBJECTREL.getName())) {
 			return new Association()
-					.setName(ASSOCIATION_FQN_HRHIER_HRHIERMAP.getName())
+					.setName(ASSOCIATION_FQN_HRHIERMAP_HROBJECTREL.getName())
 					.setEnd1(
 							new AssociationEnd()
 									.setType(getFullQualifiedName())
-									.setRole(ROLE_HRHIERMAP_HRHIER)
+									.setRole(ROLE_HRHIERMAP_HROBJECTREL)
 									.setMultiplicity(EdmMultiplicity.MANY))
 					.setEnd2(
 							new AssociationEnd().setType(relatedEntity)
-									.setRole(ROLE_HRHIER_HRHIERMAP)
+									.setRole(ROLE_HROBJECTREL_HRHIERMAP)
 									.setMultiplicity(EdmMultiplicity.ONE));
 		}
 		return null;
@@ -154,19 +155,8 @@ public class HrHierMapEDM extends BaseEDM {
 	public AssociationSet getAssociationSet(String entityContainer,
 			FullQualifiedName association) {
 		if (ENTITY_CONTAINER.equals(entityContainer)) {
-			if (ASSOCIATION_FQN_CASYSTEM_TENANT.equals(association)) {
-				return new AssociationSet()
-						.setName(ASSOCIATION_SET_CASYSTEM_TENANT)
-						.setAssociation(ASSOCIATION_FQN_CASYSTEM_TENANT)
-						.setEnd1(
-								new AssociationSetEnd().setRole(
-										ROLE_CASYSTEMS_TENANTS_1_1)
-										.setEntitySet(ENTITY_SET_NAME_CASYSTEM))
-						.setEnd2(
-								new AssociationSetEnd().setRole(
-										ROLE_TENANTS_CASYSTEMS_1_2)
-										.setEntitySet(ENTITY_SET_NAME_TENANTS));
-			} else if (ASSOCIATION_FQN_HRHIER_HRHIERMAP.equals(association)) {
+ 
+				if (ASSOCIATION_FQN_HRHIER_HRHIERMAP.getName().equals(association.getName())) {
 				return new AssociationSet()
 						.setName(ASSOCIATION_SET_HRHIERMAP_HRHIER)
 						.setAssociation(ASSOCIATION_FQN_HRHIER_HRHIERMAP)
@@ -178,8 +168,8 @@ public class HrHierMapEDM extends BaseEDM {
 								new AssociationSetEnd().setRole(
 										ROLE_HRHIER_HRHIERMAP).setEntitySet(
 										ENTITY_SET_NAME_HRHIER));
-			} else if (ASSOCIATION_FQN_HRHIERMAP_HROBJECTREL
-					.equals(association)) {
+			} else if (ASSOCIATION_FQN_HRHIERMAP_HROBJECTREL.getName()
+					.equals(association.getName())) {
 				return new AssociationSet()
 						.setName(ASSOCIATION_SET_HRHIERMAP_HROBJECTREL)
 						.setAssociation(ASSOCIATION_FQN_HRHIERMAP_HROBJECTREL)
@@ -193,6 +183,21 @@ public class HrHierMapEDM extends BaseEDM {
 										.setEntitySet(
 												ENTITY_SET_NAME_HROBJECTREL));
 			}
+			else if (ASSOCIATION_FQN_HRHIERMAP_TENANTS.getName()
+					.equals(association.getName())) {
+				return new AssociationSet()
+						.setName(ASSOCIATION_SET_HRHIERMAP_TENANT)
+						.setAssociation(ASSOCIATION_FQN_HRHIERMAP_TENANTS)
+						.setEnd1(
+								new AssociationSetEnd()
+										.setRole(ROLE_HRHIERMAP_TENANTS)
+										.setEntitySet(ENTITY_SET_NAME_HRHIERMAP))
+						.setEnd2(
+								new AssociationSetEnd().setRole(
+										ROLE_TENANTS_HRHIERMAP)
+										.setEntitySet(
+												ENTITY_SET_NAME_TENANTS));
+			}
 		}
 		return null;
 
@@ -202,20 +207,20 @@ public class HrHierMapEDM extends BaseEDM {
 	public List<NavigationProperty> getNavigations() {
 		List<NavigationProperty> navigationProperties = new ArrayList<NavigationProperty>();
 		navigationProperties.add(new NavigationProperty()
-				.setName(ENTITY_TYPE_NAME_TENANTS)
+				.setName(ENTITY_TYPE_NAME_TENANTS+"1")
 				.setRelationship(ASSOCIATION_FQN_HRHIERMAP_TENANTS)
 				.setFromRole(ROLE_HRHIERMAP_TENANTS)
 				.setToRole(ROLE_TENANTS_HRHIERMAP));
-		navigationProperties.add(new NavigationProperty()
-				.setName(ENTITY_TYPE_NAME_HRHIER)
-				.setRelationship(ASSOCIATION_FQN_HRHIER_HRHIERMAP)
-				.setFromRole(ROLE_HRHIERMAP_HRHIER)
-				.setToRole(ROLE_HRHIER_HRHIERMAP));
-		navigationProperties.add(new NavigationProperty()
-				.setName(ENTITY_TYPE_NAME_HROBJECTREL)
-				.setRelationship(ASSOCIATION_FQN_HRHIERMAP_HROBJECTREL)
-				.setFromRole(ROLE_HRHIERMAP_HROBJECTREL)
-				.setToRole(ROLE_HROBJECTREL_HRHIERMAP));
+//		navigationProperties.add(new NavigationProperty()
+//				.setName(ENTITY_TYPE_NAME_HRHIER)
+//				.setRelationship(ASSOCIATION_FQN_HRHIER_HRHIERMAP)
+//				.setFromRole(ROLE_HRHIERMAP_HRHIER)
+//				.setToRole(ROLE_HRHIER_HRHIERMAP));
+//		navigationProperties.add(new NavigationProperty()
+//				.setName(ENTITY_TYPE_NAME_HROBJECTREL)
+//				.setRelationship(ASSOCIATION_FQN_HRHIERMAP_HROBJECTREL)
+//				.setFromRole(ROLE_HRHIERMAP_HROBJECTREL)
+//				.setToRole(ROLE_HROBJECTREL_HRHIERMAP));
 
 		return navigationProperties;
 	}
