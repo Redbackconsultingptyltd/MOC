@@ -6,6 +6,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.olingo.odata2.api.edm.EdmLiteralKind;
+import org.apache.olingo.odata2.api.edm.EdmProperty;
+import org.apache.olingo.odata2.api.edm.EdmSimpleType;
+import org.apache.olingo.odata2.api.exception.ODataException;
+import org.apache.olingo.odata2.api.uri.KeyPredicate;
+import org.apache.olingo.odata2.api.uri.UriInfo;
+
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsConstraintsEDM;
 import au.com.redbackconsulting.moc.persistence.HrHierMapDAO;
 import au.com.redbackconsulting.moc.persistence.HrObjectsConstraintsDAO;
@@ -17,6 +24,7 @@ import au.com.redbackconsulting.moc.persistence.model2.Hrobjectsconstraint;
 import au.com.redbackconsulting.moc.persistence.model2.HrobjectsconstraintPK;
 import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
 import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
+import au.com.redbackconsulting.moc.persistence.model2.TenantPK;
 
 public class HrObjectsConstraintsBL extends BaseBL{
 
@@ -27,19 +35,17 @@ public class HrObjectsConstraintsBL extends BaseBL{
 	}
 
 	@Override
-	public List<Map<String, Object>> getDataSet() {
+	public List<IDBEntity> getDataSet() {
 
 
 		
-		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+		List<IDBEntity> result = new ArrayList<IDBEntity>();
 		try {
 			HrObjectsConstraintsDAO dao = new HrObjectsConstraintsDAO();
-		List<Hrobjectsconstraint> collectin =	dao.getAll();
-		for (Iterator iterator = collectin.iterator(); iterator.hasNext();) {
-			Hrobjectsconstraint hrobjectscon = (Hrobjectsconstraint) iterator.next();
-			Map<String, Object> map = convertData(hrobjectscon);
-		result.add(map);
-		}
+		List<Hrobjectsconstraint> entities =	dao.getAll();
+		List<IDBEntity> idbEntities = new ArrayList<IDBEntity>();
+		idbEntities.addAll(entities);
+		return idbEntities;
 		} catch (Exception e) {
 			
 		}
@@ -48,7 +54,7 @@ public class HrObjectsConstraintsBL extends BaseBL{
 	}
 
 	@Override
-	public Map<String, Object> getData(IPkModel primaryKeyModel) {
+	public IDBEntity getData(IPkModel primaryKeyModel) {
 
 
 		HrobjectsconstraintPK pk = (HrobjectsconstraintPK) primaryKeyModel;
@@ -57,7 +63,7 @@ public class HrObjectsConstraintsBL extends BaseBL{
 			HrObjectsConstraintsDAO dao = new HrObjectsConstraintsDAO();
 			Hrobjectsconstraint entity =	dao.getByPK(pk);
 		result= convertData(entity);
-		return result;
+		return (IDBEntity) result;
 		} catch (Exception e) {
 			int i =0;
 			i=i+1;
@@ -138,4 +144,64 @@ public class HrObjectsConstraintsBL extends BaseBL{
 			return entity;
 		}
 	}
+
+
+	private int getKeyValue(KeyPredicate key) throws ODataException {
+		EdmProperty property = key.getProperty();
+		EdmSimpleType type = (EdmSimpleType) property.getType();
+		return type.valueOfString(key.getLiteral(), EdmLiteralKind.DEFAULT,
+				property.getFacets(), Integer.class);
+	}
+
+	private String getKeyValueString(KeyPredicate key) throws ODataException {
+		EdmProperty property = key.getProperty();
+		EdmSimpleType type = (EdmSimpleType) property.getType();
+		return type.valueOfString(key.getLiteral(), EdmLiteralKind.DEFAULT,
+				property.getFacets(), String.class);
+	}
+
+	public IPkModel EdmToPK(UriInfo uri) {
+
+		try {
+			TenantPK tenantPk = new TenantPK();
+			int id = getKeyValue(uri.getKeyPredicates().get(0));
+			String idstr = getKeyValueString(uri.getKeyPredicates().get(1));
+
+			tenantPk.setId(id);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return null;
+	}
+
+
+	
+
+
+@Override
+public List<Map<String, Object>> convertModelToEDMCollection(
+		List<IDBEntity> entities) {
+	 List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
+	try {
+		 for (Iterator iterator = entities.iterator(); iterator.hasNext();) {
+			Hrobjectsconstraint idbEntity = (Hrobjectsconstraint) iterator.next();
+			result.add(convertData(idbEntity));
+		}
+		return result;
+	} catch (Exception e) {
+		return result;
+	}
+	
+}
+
+public Map<String, Object>  convertModelToEDM(IDBEntity entity){
+
+	return convertData((Hrobjectsconstraint) entity);
+	
+	 
+}
+ 
+
 }

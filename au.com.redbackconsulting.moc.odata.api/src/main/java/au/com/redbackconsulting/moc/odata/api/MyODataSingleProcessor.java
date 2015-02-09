@@ -59,6 +59,7 @@ import au.com.redbackconsulting.moc.persistence.model2.CasystemPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrhier;
 import au.com.redbackconsulting.moc.persistence.model2.HrhierPK;
 import au.com.redbackconsulting.moc.persistence.model2.HrhiermapPK;
+import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
 import au.com.redbackconsulting.moc.persistence.model2.Tenant;
 import au.com.redbackconsulting.moc.persistence.model2.TenantPK;
 
@@ -83,7 +84,10 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				CasystemPK pk = new CasystemPK();
 				pk.setIdsys(sysId);
 				pk.setTenants_idTenants((tenantId));
-				Map<String, Object> data = blModel.getData(pk);
+				
+			//	Map<String, Object> data = blModel.getData(pk);
+				IDBEntity  entity =blModel.getData(pk);
+				 	Map<String, Object> data  = blModel.convertModelToEDM(entity);
 				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
 				ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
 						.serviceRoot(serviceRoot);
@@ -96,8 +100,10 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				HrhierPK pk = new HrhierPK();
 				pk.setIdHrHier(id);
 				pk.setTenants_idTenants(tenantId);
-				Map<String, Object> data = blModel.getData(pk);
-
+//				Map<String, Object> data = blModel.getData(pk);
+				IDBEntity  entity =blModel.getData(pk);
+			 	Map<String, Object> data  = blModel.convertModelToEDM(entity);
+		
 				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
 				ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
 						.serviceRoot(serviceRoot);
@@ -115,7 +121,10 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				pk.setTenants_idTenants(tenantId);
 				pk.setSeqNo(seqNo);
 				
-				Map<String, Object> data = blModel.getData(pk);
+//				Map<String, Object> data = blModel.getData(pk);
+				IDBEntity  entity =blModel.getData(pk);
+			 	Map<String, Object> data  = blModel.convertModelToEDM(entity);
+		
 				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
 				ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
 						.serviceRoot(serviceRoot);
@@ -127,8 +136,10 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTSREL);
 				TenantPK pk = new TenantPK();
 				pk.setId((tenantId));
-				Map<String, Object> data = blModel.getData(pk);
-
+//				Map<String, Object> data = blModel.getData(pk);
+				IDBEntity  entity =blModel.getData(pk);
+			 	Map<String, Object> data  = blModel.convertModelToEDM(entity);
+		
 				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
 				ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
 						.serviceRoot(serviceRoot);
@@ -140,8 +151,10 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTS);
 				TenantPK pk = new TenantPK();
 				pk.setId((tenantId));
-				Map<String, Object> data = blModel.getData(pk);
-
+//				Map<String, Object> data = blModel.getData(pk);
+				IDBEntity  entity =blModel.getData(pk);
+			 	Map<String, Object> data  = blModel.convertModelToEDM(entity);
+		
 				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
 				ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
 						.serviceRoot(serviceRoot);
@@ -155,8 +168,10 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 						.getInstance(ENTITY_KEY_HROBJECTSCONSTRAINTS);
 				TenantPK pk = new TenantPK();
 				pk.setId((tenantId));
-				Map<String, Object> data = blModel.getData(pk);
-
+//				Map<String, Object> data = blModel.getData(pk);
+				IDBEntity  entity =blModel.getData(pk);
+			 	Map<String, Object> data  = blModel.convertModelToEDM(entity);
+		
 				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
 				ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
 						.serviceRoot(serviceRoot);
@@ -169,8 +184,10 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTSSTATUS);
 				TenantPK pk = new TenantPK();
 				pk.setId((tenantId));
-				Map<String, Object> data = blModel.getData(pk);
-
+//				Map<String, Object> data = blModel.getData(pk);
+				IDBEntity  entity =blModel.getData(pk);
+			 	Map<String, Object> data  = blModel.convertModelToEDM(entity);
+		
 				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
 				ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
 						.serviceRoot(serviceRoot);
@@ -182,8 +199,10 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRP1001);
 				TenantPK pk = new TenantPK();
 				pk.setId((tenantId));
-				Map<String, Object> data = blModel.getData(pk);
-
+//				Map<String, Object> data = blModel.getData(pk);
+				IDBEntity  entity =blModel.getData(pk);
+			 	Map<String, Object> data  = blModel.convertModelToEDM(entity);
+		
 				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
 				ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
 						.serviceRoot(serviceRoot);
@@ -195,8 +214,10 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRP1001);
 				TenantPK pk = new TenantPK();
 				pk.setId((tenantId));
-				Map<String, Object> data = blModel.getData(pk);
-
+//				Map<String, Object> data = blModel.getData(pk);
+				IDBEntity  entity =blModel.getData(pk);
+			 	Map<String, Object> data  = blModel.convertModelToEDM(entity);
+		
 				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
 				ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
 						.serviceRoot(serviceRoot);
@@ -208,8 +229,10 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRRELATIONS);
 				TenantPK pk = new TenantPK();
 				pk.setId((tenantId));
-				Map<String, Object> data = blModel.getData(pk);
-
+//				Map<String, Object> data = blModel.getData(pk);
+				IDBEntity  entity =blModel.getData(pk);
+			 	Map<String, Object> data  = blModel.convertModelToEDM(entity);
+		
 				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
 				ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
 						.serviceRoot(serviceRoot);
@@ -222,8 +245,10 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
 				TenantPK pk = new TenantPK();
 				pk.setId((tenantId));
-				Map<String, Object> data = blModel.getData(pk);
-
+//				Map<String, Object> data = blModel.getData(pk);
+				IDBEntity  entity =blModel.getData(pk);
+			 	Map<String, Object> data  = blModel.convertModelToEDM(entity);
+		
 				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
 				ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
 						.serviceRoot(serviceRoot);
@@ -242,7 +267,10 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				TenantPK pk = new TenantPK();
 				// pk.setSystId(sysId);
 				pk.setId((tenantId));
-				Map<String, Object> data = blModel.getData(pk);
+//				Map<String, Object> data = blModel.getData(pk);
+				IDBEntity  entity =blModel.getData(pk);
+			 	Map<String, Object> data  = blModel.convertModelToEDM(entity);
+		
 				List<Map<String, Object>> result1 = new ArrayList<Map<String, Object>>();
 				result1.add(data);
 				if (data != null) {
@@ -364,7 +392,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 
 			if (ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_CASYSTEM);
-				List<Map<String, Object>> data = blModel.getDataSet();
+			List<IDBEntity> entities = blModel.getDataSet();
+			List<Map<String, Object>> data  = blModel.convertModelToEDMCollection(entities);
 				return EntityProvider.writeFeed(
 						contentType,
 						entitySet,
@@ -374,7 +403,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 								.build());
 			} else if (ENTITY_SET_NAME_HRHIER.equals(entitySet.getName())) {
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRHIER);
-				List<Map<String, Object>> data = blModel.getDataSet();
+				List<IDBEntity> entities = blModel.getDataSet();
+				List<Map<String, Object>> data  = blModel.convertModelToEDMCollection(entities);
 				return EntityProvider.writeFeed(
 						contentType,
 						entitySet,
@@ -386,7 +416,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 
 			else if (ENTITY_SET_NAME_HRHIERMAP.equals(entitySet.getName())) {
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRHIERMAP);
-				List<Map<String, Object>> data = blModel.getDataSet();
+				List<IDBEntity> entities = blModel.getDataSet();
+				List<Map<String, Object>> data  = blModel.convertModelToEDMCollection(entities);
 				return EntityProvider.writeFeed(
 						contentType,
 						entitySet,
@@ -396,7 +427,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 								.build());
 			} else if (ENTITY_SET_NAME_HROBJECTREL.equals(entitySet.getName())) {
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTSREL);
-				List<Map<String, Object>> data = blModel.getDataSet();
+				List<IDBEntity> entities = blModel.getDataSet();
+				List<Map<String, Object>> data  = blModel.convertModelToEDMCollection(entities);
 				return EntityProvider.writeFeed(
 						contentType,
 						entitySet,
@@ -406,7 +438,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 								.build());
 			} else if (ENTITY_SET_NAME_HROBJECTS.equals(entitySet.getName())) {
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTS);
-				List<Map<String, Object>> data = blModel.getDataSet();
+				List<IDBEntity> entities = blModel.getDataSet();
+				List<Map<String, Object>> data  = blModel.convertModelToEDMCollection(entities);
 				return EntityProvider.writeFeed(
 						contentType,
 						entitySet,
@@ -418,7 +451,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 					.getName())) {
 				IBLModel blModel = bmf
 						.getInstance(ENTITY_KEY_HROBJECTSCONSTRAINTS);
-				List<Map<String, Object>> data = blModel.getDataSet();
+				List<IDBEntity> entities = blModel.getDataSet();
+				List<Map<String, Object>> data  = blModel.convertModelToEDMCollection(entities);
 				return EntityProvider.writeFeed(
 						contentType,
 						entitySet,
@@ -429,7 +463,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 			} else if (ENTITY_SET_NAME_HROBJECTSSTATUS.equals(entitySet
 					.getName())) {
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTSSTATUS);
-				List<Map<String, Object>> data = blModel.getDataSet();
+				List<IDBEntity> entities = blModel.getDataSet();
+				List<Map<String, Object>> data  = blModel.convertModelToEDMCollection(entities);
 				return EntityProvider.writeFeed(
 						contentType,
 						entitySet,
@@ -441,7 +476,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 
 			else if (ENTITY_SET_NAME_HRP1000.equals(entitySet.getName())) {
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRP1000);
-				List<Map<String, Object>> data = blModel.getDataSet();
+				List<IDBEntity> entities = blModel.getDataSet();
+				List<Map<String, Object>> data  = blModel.convertModelToEDMCollection(entities);
 				return EntityProvider.writeFeed(
 						contentType,
 						entitySet,
@@ -451,7 +487,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 								.build());
 			} else if (ENTITY_SET_NAME_HRP1001.equals(entitySet.getName())) {
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRP1001);
-				List<Map<String, Object>> data = blModel.getDataSet();
+				List<IDBEntity> entities = blModel.getDataSet();
+				List<Map<String, Object>> data  = blModel.convertModelToEDMCollection(entities);
 				return EntityProvider.writeFeed(
 						contentType,
 						entitySet,
@@ -463,7 +500,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 
 			else if (ENTITY_SET_NAME_HRRELATIONS.equals(entitySet.getName())) {
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRRELATIONS);
-				List<Map<String, Object>> data = blModel.getDataSet();
+				List<IDBEntity> entities = blModel.getDataSet();
+				List<Map<String, Object>> data  = blModel.convertModelToEDMCollection(entities);
 				return EntityProvider.writeFeed(
 						contentType,
 						entitySet,
@@ -473,7 +511,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 								.build());
 			} else if (ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())) {
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
-				List<Map<String, Object>> data = blModel.getDataSet();
+				List<IDBEntity> entities = blModel.getDataSet();
+				List<Map<String, Object>> data  = blModel.convertModelToEDMCollection(entities);
 				return EntityProvider.writeFeed(
 						contentType,
 						entitySet,

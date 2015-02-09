@@ -6,14 +6,23 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.olingo.odata2.api.edm.EdmLiteralKind;
+import org.apache.olingo.odata2.api.edm.EdmProperty;
+import org.apache.olingo.odata2.api.edm.EdmSimpleType;
+import org.apache.olingo.odata2.api.exception.ODataException;
+import org.apache.olingo.odata2.api.uri.KeyPredicate;
+import org.apache.olingo.odata2.api.uri.UriInfo;
+
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectRelEDM;
 import au.com.redbackconsulting.moc.persistence.HrObjectRelDAO;
 import au.com.redbackconsulting.moc.persistence.model2.Hrobject;
 import au.com.redbackconsulting.moc.persistence.model2.HrobjectPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrobjectrel;
 import au.com.redbackconsulting.moc.persistence.model2.HrobjectrelPK;
+import au.com.redbackconsulting.moc.persistence.model2.Hrobjectsconstraint;
 import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
 import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
+import au.com.redbackconsulting.moc.persistence.model2.TenantPK;
 
  
 
@@ -26,16 +35,14 @@ private HrObjectRelDAO dao=new HrObjectRelDAO();
 
 	@Override
  
-	public List<Map<String, Object>> getDataSet() {
-		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+	public List<IDBEntity> getDataSet() {
+		List<IDBEntity> result = new ArrayList<IDBEntity>();
 		try {
 			HrObjectRelDAO dao = new HrObjectRelDAO();
-		List<Hrobjectrel> collectin =	dao.getAll();
-		for (Iterator iterator = collectin.iterator(); iterator.hasNext();) {
-			Hrobjectrel caSystems = (Hrobjectrel) iterator.next();
-			Map<String, Object> map = convertData(caSystems);
-		result.add(map);
-		}
+		List<Hrobjectrel> entities =	dao.getAll();
+		List<IDBEntity> idbEntities = new ArrayList<IDBEntity>();
+		idbEntities.addAll(entities);
+		return idbEntities;
 		} catch (Exception e) {
 			
 		}
@@ -43,7 +50,7 @@ private HrObjectRelDAO dao=new HrObjectRelDAO();
 	}
 
 	@Override
-	public Map<String, Object> getData(IPkModel primaryKeyModel) {
+	public IDBEntity getData(IPkModel primaryKeyModel) {
 
 		HrobjectrelPK pk = (HrobjectrelPK) primaryKeyModel;
 		 Map<String, Object>  result = new HashMap<String, Object>();
@@ -51,7 +58,7 @@ private HrObjectRelDAO dao=new HrObjectRelDAO();
 			HrObjectRelDAO dao = new HrObjectRelDAO();
 			Hrobjectrel entity =	dao.getByPK(pk);
 		result= convertData(entity);
-		return result;
+		return (IDBEntity) result;
 		} catch (Exception e) {
 			int i =0;
 			i=i+1;
@@ -136,5 +143,60 @@ public IDBEntity updateData(IPkModel pk, IDBEntity entity) {
 		return entity;
 	}
 }
+private int getKeyValue(KeyPredicate key) throws ODataException {
+	EdmProperty property = key.getProperty();
+	EdmSimpleType type = (EdmSimpleType) property.getType();
+	return type.valueOfString(key.getLiteral(), EdmLiteralKind.DEFAULT,
+			property.getFacets(), Integer.class);
+}
+
+private String getKeyValueString(KeyPredicate key) throws ODataException {
+	EdmProperty property = key.getProperty();
+	EdmSimpleType type = (EdmSimpleType) property.getType();
+	return type.valueOfString(key.getLiteral(), EdmLiteralKind.DEFAULT,
+			property.getFacets(), String.class);
+}
+
+public IPkModel EdmToPK(UriInfo uri) {
+
+	try {
+		TenantPK tenantPk = new TenantPK();
+		int id = getKeyValue(uri.getKeyPredicates().get(0));
+		String idstr = getKeyValueString(uri.getKeyPredicates().get(1));
+
+		tenantPk.setId(id);
+
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
+
+	return null;
+}
+
+
+
+@Override
+public List<Map<String, Object>> convertModelToEDMCollection(
+		List<IDBEntity> entities) {
+	 List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
+	try {
+		 for (Iterator iterator = entities.iterator(); iterator.hasNext();) {
+			Hrobjectrel idbEntity = (Hrobjectrel) iterator.next();
+			result.add(convertData(idbEntity));
+		}
+		return result;
+	} catch (Exception e) {
+		return result;
+	}
+	
+}
+
+public Map<String, Object>  convertModelToEDM(IDBEntity entity){
+
+	return convertData((Hrobjectrel) entity);
+	
+	 
+}
  
+
 }

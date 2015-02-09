@@ -9,15 +9,17 @@ import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
 
 public interface IBLModel {
 	
-	public List<Map<String, Object>> getDataSet();
+	public List<IDBEntity> getDataSet();
 	
-	public Map<String, Object> getData(IPkModel primaryKey);
+	public <T extends IDBEntity> T  getData(IPkModel primaryKey);
 	public boolean deleteData(IPkModel primaryKey);
 
 	public List<Map<String, Object>> getRelatedData(IPkModel primaryKey);
 	
 	public IDBEntity updateData(IPkModel pk, IDBEntity entity);
 	public IDBEntity createData(  IDBEntity entity);
+	public List<Map<String, Object>>  convertModelToEDMCollection(List<IDBEntity> entities);
+	public Map<String, Object>  convertModelToEDM(IDBEntity entity);
 
 	
 }

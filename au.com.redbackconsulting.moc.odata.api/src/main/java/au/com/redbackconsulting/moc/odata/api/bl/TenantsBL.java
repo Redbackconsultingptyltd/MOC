@@ -7,6 +7,13 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.olingo.odata2.api.edm.EdmLiteralKind;
+import org.apache.olingo.odata2.api.edm.EdmProperty;
+import org.apache.olingo.odata2.api.edm.EdmSimpleType;
+import org.apache.olingo.odata2.api.exception.ODataException;
+import org.apache.olingo.odata2.api.uri.KeyPredicate;
+import org.apache.olingo.odata2.api.uri.UriInfo;
+
 import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.TenantsEDM;
 import au.com.redbackconsulting.moc.persistence.TenantsDAO;
@@ -28,15 +35,15 @@ public class TenantsBL extends BaseBL {
 	}
 
 	@Override
-	public List<Map<String, Object>> getDataSet() {
-		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
+	public List<IDBEntity> getDataSet() {
+		List<IDBEntity> result = new ArrayList<IDBEntity>();
 		try {
 			TenantsDAO dao = new TenantsDAO();
 			List<Tenant> collectin = dao.getAll();
 			for (Iterator iterator = collectin.iterator(); iterator.hasNext();) {
 				Tenant entity = (Tenant) iterator.next();
 				Map<String, Object> map = convertData(entity);
-				result.add(map);
+				result.add((IDBEntity) map);
 			}
 		} catch (Exception e) {
 			int i = 8;
@@ -46,7 +53,7 @@ public class TenantsBL extends BaseBL {
 	}
 
 	@Override
-	public Map<String, Object> getData(IPkModel primaryKeyModel) {
+	public IDBEntity getData(IPkModel primaryKeyModel) {
 
 		TenantPK pk = (TenantPK) primaryKeyModel;
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -54,7 +61,7 @@ public class TenantsBL extends BaseBL {
 
 			Tenant entity = dao.getByPK(pk);
 			result = convertData(entity);
-			return result;
+			return (IDBEntity) result;
 		} catch (Exception e) {
 			int i = 0;
 			i = i + 1;
@@ -151,4 +158,59 @@ public class TenantsBL extends BaseBL {
 		}
 	}
 
+	private int getKeyValue(KeyPredicate key) throws ODataException {
+		EdmProperty property = key.getProperty();
+		EdmSimpleType type = (EdmSimpleType) property.getType();
+		return type.valueOfString(key.getLiteral(), EdmLiteralKind.DEFAULT,
+				property.getFacets(), Integer.class);
+	}
+
+	private String getKeyValueString(KeyPredicate key) throws ODataException {
+		EdmProperty property = key.getProperty();
+		EdmSimpleType type = (EdmSimpleType) property.getType();
+		return type.valueOfString(key.getLiteral(), EdmLiteralKind.DEFAULT,
+				property.getFacets(), String.class);
+	}
+
+	public IPkModel EdmToPK(UriInfo uri) {
+
+		try {
+			TenantPK tenantPk = new TenantPK();
+			int id = getKeyValue(uri.getKeyPredicates().get(0));
+			String idstr = getKeyValueString(uri.getKeyPredicates().get(1));
+
+			tenantPk.setId(id);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+
+		return null;
+	}
+
+
+
+
+@Override
+public List<Map<String, Object>> convertModelToEDMCollection(
+		List<IDBEntity> entities) {
+	 List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
+	try {
+		 for (Iterator iterator = entities.iterator(); iterator.hasNext();) {
+			Tenant idbEntity = (Tenant) iterator.next();
+			result.add(convertData(idbEntity));
+		}
+		return result;
+	} catch (Exception e) {
+		return result;
+	}
+	
+}
+
+public Map<String, Object>  convertModelToEDM(IDBEntity entity){
+
+	return convertData((Tenant) entity);
+	
+	 
+}
 }
