@@ -94,7 +94,7 @@ public class HrHierMapEDM extends BaseEDM {
 				.setType(EdmSimpleTypeKind.Int32)
 				.setFacets(new Facets().setNullable(false)));
 		properties.add(new SimpleProperty().setName(HrHierMapEDM.seqNo)
-				.setType(EdmSimpleTypeKind.String)
+				.setType(EdmSimpleTypeKind.Int32)
 				.setFacets(new Facets().setNullable(true)));
 		properties.add(new SimpleProperty().setName(HrHierMapEDM.objectType)
 				.setType(EdmSimpleTypeKind.String)
@@ -115,7 +115,10 @@ public class HrHierMapEDM extends BaseEDM {
 	public List<PropertyRef> getKeys() {
 		List<PropertyRef> keyProperties = new ArrayList<PropertyRef>();
 		keyProperties.add(new PropertyRef().setName(HrHierMapEDM.hierId));
+		keyProperties.add(new PropertyRef().setName(HrHierMapEDM.seqNo));
 		keyProperties.add(new PropertyRef().setName(HrHierMapEDM.tenantId));
+
+
 		return keyProperties;
 	}
 

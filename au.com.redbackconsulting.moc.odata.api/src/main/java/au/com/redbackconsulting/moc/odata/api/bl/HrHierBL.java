@@ -14,14 +14,18 @@ import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.UriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrHierEDM;
+import au.com.redbackconsulting.moc.odata.api.edmconstants.TenantsEDM;
 import au.com.redbackconsulting.moc.persistence.CaSystemsDAO;
 import au.com.redbackconsulting.moc.persistence.HrHierDAO;
+import au.com.redbackconsulting.moc.persistence.factory.Constants;
+import au.com.redbackconsulting.moc.persistence.factory.PKFactory;
 import au.com.redbackconsulting.moc.persistence.model2.Casystem;
 import au.com.redbackconsulting.moc.persistence.model2.CasystemPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrhier;
 import au.com.redbackconsulting.moc.persistence.model2.HrhierPK;
 import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
 import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
+import au.com.redbackconsulting.moc.persistence.model2.Tenant;
 import au.com.redbackconsulting.moc.persistence.model2.TenantPK;
  
 
@@ -57,8 +61,7 @@ public class HrHierBL extends BaseBL{
 		try {
 			HrHierDAO dao = new HrHierDAO();
 		Hrhier entity =	dao.getByPK(pk);
-		result= convertData(entity);
-		return (IDBEntity) result;
+	return entity;
 		} catch (Exception e) {
 			int i =0;
 			i=i+1;
@@ -105,11 +108,10 @@ public boolean deleteData(IPkModel primaryKey) {
 public IDBEntity createData(IDBEntity data) {
 	try {
 		Hrhier entity = (Hrhier) data;
-		HrhierPK pk= new HrhierPK();
-		pk.setTenants_idTenants(entity.getTenant().getTenantPK().getId());
-		//pk.setIdHrHier(entity.getTenant().getTenantPK().get);
-		entity.setId(pk);
-		entity =dao.saveNew(entity);
+	
+	
+	
+			entity =dao.saveNew(entity);
 	return entity;
 	} catch (Exception e) {
 		return null;
@@ -190,8 +192,30 @@ public List<Map<String, Object>>  convertModelToEDMCollection(List<IDBEntity> en
 
 @Override
 public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
-	// TODO Auto-generated method stub
-	return null;
+
+
+	int tenantId = (Integer) edm.get(HrHierEDM.tenantId);
+	String hierDesc = (String) edm.get(HrHierEDM.hierDesc);
+int hierId=(Integer)edm.get(HrHierEDM.hierId);
+//int Hrhiermap=(Integer)edm.get(HrHierEDM.hrHierMap);
+HrhierPK pk = (HrhierPK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_HRHIER);
+
+	pk.setIdHrHier(hierId);
+	pk.setTenants_idTenants(tenantId);
+	TenantPK tenantPk = (TenantPK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_TENANTS);
+	Tenant tenant = new Tenant();
+	tenant.setTenantPK(tenantPk);
+	tenantPk.setId(tenantId);
+	Hrhier entity = new Hrhier();
+	
+	entity.setHierdesc(hierDesc);
+	entity.setId(pk);
+	entity.setTenant(tenant);
+	
+	
+	
+	
+	return entity;
 }
 
 

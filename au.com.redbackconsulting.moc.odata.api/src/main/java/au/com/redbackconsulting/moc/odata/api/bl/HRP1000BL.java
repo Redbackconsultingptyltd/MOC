@@ -14,10 +14,12 @@ import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.UriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HRP1000EDM;
+import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsConstraintsEDM;
 import au.com.redbackconsulting.moc.persistence.HRP1000DAO;
 import au.com.redbackconsulting.moc.persistence.HrObjectRelDAO;
 import au.com.redbackconsulting.moc.persistence.model2.Hrobjectrel;
 import au.com.redbackconsulting.moc.persistence.model2.HrobjectrelPK;
+import au.com.redbackconsulting.moc.persistence.model2.Hrobjectsconstraint;
 import au.com.redbackconsulting.moc.persistence.model2.Hrobjectsstatus;
 import au.com.redbackconsulting.moc.persistence.model2.HrobjectsstatusPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrp1000;
@@ -210,7 +212,34 @@ public Map<String, Object>  convertModelToEDM(IDBEntity entity){
 
 @Override
 public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
-	// TODO Auto-generated method stub
+
+
+	int tenantId = (Integer) edm.get(HRP1000EDM.tenantId);
+	String changedBy = (String) edm.get(HRP1000EDM.changedBy);
+	String changedOn = (String) edm.get(HRP1000EDM.changedOn);
+	String guid = (String) edm.get(HRP1000EDM.guid);
+	String hrObjectsStatus = (String) edm.get(HRP1000EDM.hrObjectsStatus);
+	String objectDesc = (String) edm.get(HRP1000EDM.objectDesc);
+	int objectId = (Integer) edm.get(HRP1000EDM.objectId);
+	String objectType = (String) edm.get(HRP1000EDM.objectType);
+	String seqNr = (String) edm.get(HRP1000EDM.seqNr);
+	String status = (String) edm.get(HRP1000EDM.status);
+	String stext = (String) edm.get(HRP1000EDM.stext);
+	String validFrom = (String) edm.get(HRP1000EDM.validFrom);
+	String validTo = (String) edm.get(HRP1000EDM.validTo);
+	
+	
+	
+	Hrp1000 entity = new Hrp1000();
+//	entity.setTimeConstraint(timeConstraint);
+	entity.setChangedBy(changedBy);
+	entity.setGuid(guid);
+	entity.setObjectDesc(objectDesc);
+	//entity.setSeqNo(seqNo);
+	entity.setStext(stext);
+	//entity.setChangedOn(changedOn);
+	//entity.setHrobject(hrobject);
+	
 	return null;
 }
  

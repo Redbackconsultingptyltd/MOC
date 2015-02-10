@@ -9,13 +9,18 @@ import java.util.Map;
 import org.apache.olingo.odata2.api.edm.EdmLiteralKind;
 import org.apache.olingo.odata2.api.edm.EdmProperty;
 import org.apache.olingo.odata2.api.edm.EdmSimpleType;
+import org.apache.olingo.odata2.api.ep.EntityProvider;
+import org.apache.olingo.odata2.api.ep.entry.ODataEntry;
 import org.apache.olingo.odata2.api.exception.ODataException;
 import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.UriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
+import au.com.redbackconsulting.moc.odata.api.edmconstants.TenantsEDM;
 import au.com.redbackconsulting.moc.persistence.CaSystemsDAO;
 import au.com.redbackconsulting.moc.persistence.HrHierDAO;
+import au.com.redbackconsulting.moc.persistence.factory.Constants;
+import au.com.redbackconsulting.moc.persistence.factory.PKFactory;
 import au.com.redbackconsulting.moc.persistence.model2.Casystem;
 import au.com.redbackconsulting.moc.persistence.model2.CasystemPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrhier;
@@ -33,43 +38,33 @@ public class CaSystemsBL extends BaseBL {
 		super(bmf);
 		// TODO Auto-generated constructor stub
 	}
-	
 
 	@Override
 	public List<IDBEntity> getDataSet() {
 		// TODO Auto-generated method stub
-		
+
 		List<IDBEntity> result = new ArrayList<IDBEntity>();
 		try {
 			CaSystemsDAO dao = new CaSystemsDAO();
-		List<Casystem> entities =	dao.getAll();
-		List<IDBEntity> idbEntities = new ArrayList<IDBEntity>();
-		idbEntities.addAll(entities);
-		return idbEntities;
-//		for (Iterator iterator = collectin.iterator(); iterator.hasNext();) {
-//			Casystem casystem = (Casystem) iterator.next();
-//			Map<String, Object> map = convertData(casystem);
-//		result.add((IDBEntity) map);
-//		}
+			List<Casystem> entities = dao.getAll();
+			List<IDBEntity> idbEntities = new ArrayList<IDBEntity>();
+			idbEntities.addAll(entities);
+			return idbEntities;
+			 
 		} catch (Exception e) {
-			
+
 		}
 		return result;
-		
-	
+
 	}
-
-	
-
-	
 
 	public IDBEntity getData(IPkModel primaryKeyModel) {
 		CasystemPK pk = (CasystemPK) primaryKeyModel;
-		
+
 		try {
 
 			Casystem entity = dao.getByPK(pk);
-		
+
 			return (IDBEntity) entity;
 		} catch (Exception e) {
 			int i = 0;
@@ -101,7 +96,6 @@ public class CaSystemsBL extends BaseBL {
 		return null;
 	}
 
-	
 	@Override
 	public boolean deleteData(IPkModel primaryKey) {
 
@@ -114,8 +108,7 @@ public class CaSystemsBL extends BaseBL {
 	public IDBEntity createData(IDBEntity data) {
 		try {
 			Casystem entity = (Casystem) data;
-			 
-			 
+
 			entity = dao.saveNew(entity);
 			return entity;
 		} catch (Exception e) {
@@ -137,7 +130,7 @@ public class CaSystemsBL extends BaseBL {
 		}
 
 	}
-	
+
 	private int getKeyValue(KeyPredicate key) throws ODataException {
 		EdmProperty property = key.getProperty();
 		EdmSimpleType type = (EdmSimpleType) property.getType();
@@ -156,9 +149,7 @@ public class CaSystemsBL extends BaseBL {
 
 		try {
 			TenantPK tenantPk = new TenantPK();
-			
-			
-			
+
 			int id = getKeyValue(uri.getKeyPredicates().get(0));
 			String idstr = getKeyValueString(uri.getKeyPredicates().get(1));
 
@@ -171,18 +162,17 @@ public class CaSystemsBL extends BaseBL {
 		return null;
 	}
 
-
-	public Map<String, Object>  convertModelToEDM(IDBEntity entity){
+	public Map<String, Object> convertModelToEDM(IDBEntity entity) {
 
 		return convertData((Casystem) entity);
-		
-		 
+
 	}
 
-	public List<Map<String, Object>>  convertModelToEDMCollection(List<IDBEntity> entities){
-		 List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
+	public List<Map<String, Object>> convertModelToEDMCollection(
+			List<IDBEntity> entities) {
+		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		try {
-			 for (Iterator iterator = entities.iterator(); iterator.hasNext();) {
+			for (Iterator iterator = entities.iterator(); iterator.hasNext();) {
 				Casystem idbEntity = (Casystem) iterator.next();
 				result.add(convertData(idbEntity));
 			}
@@ -190,23 +180,27 @@ public class CaSystemsBL extends BaseBL {
 		} catch (Exception e) {
 			return result;
 		}
-		
-		 
+
 	}
-
-
-
-
 
 	@Override
 	public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		Casystem entity=new Casystem();
+		
+		String SYSDESC = (String) edm.get(CaSystemEDM.SYSDESC);
+		Integer SYSID = (Integer) edm.get(CaSystemEDM.SYSID);
+		
+		Integer tenantid = (Integer) edm.get(CaSystemEDM.TENANTID);
+		
+		CasystemPK pk = (CasystemPK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_CASYSTEMS);
+		pk.setIdsys(SYSID);
+		pk.setTenants_idTenants(tenantid);
+		
+		entity.setId(pk);
+		entity.setSysdesc(SYSDESC);
+		//entity.setTenant(tenant);
+		
+return entity;
 
-
-	
-
-
-
+}
 }

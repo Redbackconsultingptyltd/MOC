@@ -19,6 +19,7 @@ import au.com.redbackconsulting.moc.persistence.HrObjectsStatusDAO;
 import au.com.redbackconsulting.moc.persistence.model2.Hrobject;
 import au.com.redbackconsulting.moc.persistence.model2.HrobjectPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrobjectrel;
+import au.com.redbackconsulting.moc.persistence.model2.Hrobjectsconstraint;
 import au.com.redbackconsulting.moc.persistence.model2.Hrobjectsstatus;
 import au.com.redbackconsulting.moc.persistence.model2.HrobjectsstatusPK;
 import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
@@ -194,7 +195,20 @@ public Map<String, Object>  convertModelToEDM(IDBEntity entity){
 
 @Override
 public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
-	// TODO Auto-generated method stub
+
+	int tenantId = (Integer) edm.get(HrObjectsStatusEDM.tenantId);
+	int statusId = (Integer) edm.get(HrObjectsStatusEDM.statusId);
+	String description = (String) edm.get(HrObjectsStatusEDM.description);
+
+	
+	
+	Hrobjectsstatus entity = new Hrobjectsstatus();
+//	entity.setTimeConstraint(timeConstraint);
+	entity.setDescription(description);
+	//entity.setTenant(tenantId);
+	
+	
+
 	return null;
 }
  

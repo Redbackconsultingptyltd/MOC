@@ -14,6 +14,7 @@ import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.UriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectRelEDM;
+import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsConstraintsEDM;
 import au.com.redbackconsulting.moc.persistence.HrObjectRelDAO;
 import au.com.redbackconsulting.moc.persistence.model2.Hrobject;
 import au.com.redbackconsulting.moc.persistence.model2.HrobjectPK;
@@ -202,7 +203,20 @@ public Map<String, Object>  convertModelToEDM(IDBEntity entity){
 
 @Override
 public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
-	// TODO Auto-generated method stub
+
+
+
+	int tenantId = (Integer) edm.get(HrObjectRelEDM.tenantId);
+	String objectType = (String) edm.get(HrObjectRelEDM.objectType);
+	String relatType = (String) edm.get(HrObjectRelEDM.relatType);
+	String sObjectType = (String) edm.get(HrObjectRelEDM.sObjectType);
+	String timeConstraint = (String) edm.get(HrObjectRelEDM.timeConstraint);
+	
+	Hrobjectrel entity = new Hrobjectrel();
+//	entity.setTimeConstraint(timeConstraint);
+	//entity.setTableId(tableId);
+	
+	
 	return null;
 }
  

@@ -15,8 +15,11 @@ import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.UriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
+import au.com.redbackconsulting.moc.odata.api.edmconstants.HrRelationsEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.TenantsEDM;
 import au.com.redbackconsulting.moc.persistence.TenantsDAO;
+import au.com.redbackconsulting.moc.persistence.factory.Constants;
+import au.com.redbackconsulting.moc.persistence.factory.PKFactory;
 import au.com.redbackconsulting.moc.persistence.model2.Casystem;
 import au.com.redbackconsulting.moc.persistence.model2.Hrrelation;
 import au.com.redbackconsulting.moc.persistence.model2.HrrelationPK;
@@ -39,12 +42,10 @@ public class TenantsBL extends BaseBL {
 		List<IDBEntity> result = new ArrayList<IDBEntity>();
 		try {
 			TenantsDAO dao = new TenantsDAO();
-			List<Tenant> collectin = dao.getAll();
-			for (Iterator iterator = collectin.iterator(); iterator.hasNext();) {
-				Tenant entity = (Tenant) iterator.next();
-				Map<String, Object> map = convertData(entity);
-				result.add((IDBEntity) map);
-			}
+			List<Tenant> entities = dao.getAll();
+			List<IDBEntity> idbEntities = new ArrayList<IDBEntity>();
+			idbEntities.addAll(entities);
+			return idbEntities;
 		} catch (Exception e) {
 			int i = 8;
 		}
@@ -56,12 +57,12 @@ public class TenantsBL extends BaseBL {
 	public IDBEntity getData(IPkModel primaryKeyModel) {
 
 		TenantPK pk = (TenantPK) primaryKeyModel;
-		Map<String, Object> result = new HashMap<String, Object>();
+	 
 		try {
 
 			Tenant entity = dao.getByPK(pk);
-			result = convertData(entity);
-			return (IDBEntity) result;
+		
+			return entity;
 		} catch (Exception e) {
 			int i = 0;
 			i = i + 1;
@@ -142,17 +143,18 @@ public class TenantsBL extends BaseBL {
 			Tenant founddEntity = dao.getByPK((TenantPK) pk);
 			Tenant newEntity = (Tenant) entity;
 
-			founddEntity.setCasystems(newEntity.getCasystems());
-			founddEntity.setHrhiermaps(newEntity.getHrhiermaps());
-			founddEntity.setHrhiers(newEntity.getHrhiers());
-			founddEntity.setHrobjects(newEntity.getHrobjects());
+//			founddEntity.setCasystems(newEntity.getCasystems());
+//			founddEntity.setHrhiermaps(newEntity.getHrhiermaps());
+//			founddEntity.setHrhiers(newEntity.getHrhiers());
+//			founddEntity.setHrobjects(newEntity.getHrobjects());
 			founddEntity.setName(newEntity.getName());
-
+			founddEntity.setTenantsCode(newEntity.getTenantsCode());
 			founddEntity = dao.save(founddEntity);
+			dao.refresh(founddEntity);
 
 			return founddEntity;
 		} catch (Exception e) {
-			return entity;
+			return null;
 		}
 	}
 
@@ -215,7 +217,20 @@ public Map<String, Object>  convertModelToEDM(IDBEntity entity){
 
 @Override
 public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
-	// TODO Auto-generated method stub
-	return null;
+
+	int tenantId = (Integer) edm.get(TenantsEDM.tenantId);
+	String name = (String) edm.get(TenantsEDM.name);
+	String tenantsCode = (String) edm.get(TenantsEDM.tenantCode);
+	
+	
+	TenantPK pk = (TenantPK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_TENANTS);
+	pk.setId(tenantId);
+	Tenant entity = new Tenant();
+entity.setName(name);
+entity.setTenantsCode(tenantsCode);
+entity.setTenantPK(pk);
+	
+
+	return entity;
 }
 }

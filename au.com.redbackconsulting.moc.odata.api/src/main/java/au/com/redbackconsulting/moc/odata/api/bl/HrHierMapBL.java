@@ -14,6 +14,7 @@ import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.UriInfo;
 import org.eclipse.persistence.internal.jpa.jpql.HermesParser;
 
+import au.com.redbackconsulting.moc.odata.api.edmconstants.HrHierEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrHierMapEDM;
 import au.com.redbackconsulting.moc.persistence.HrHierMapDAO;
 import au.com.redbackconsulting.moc.persistence.model2.Casystem;
@@ -213,8 +214,24 @@ public Map<String, Object>  convertModelToEDM(IDBEntity entity){
 
 @Override
 public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
-	// TODO Auto-generated method stub
+
+
+	int tenantId = (Integer) edm.get(HrHierMapEDM.tenantId);
+	String hierDesc = (String) edm.get(HrHierMapEDM.hierId);
+	String objectType = (String) edm.get(HrHierMapEDM.objectType);
+	String relatType = (String) edm.get(HrHierMapEDM.relatType);
+	String seqNo = (String) edm.get(HrHierMapEDM.seqNo);
+	String skip = (String) edm.get(HrHierMapEDM.skip);
+	String sObjType = (String) edm.get(HrHierMapEDM.sObjType);
+
+
+	
+	Hrhiermap entity = new Hrhiermap();
+	entity.setSkip(skip);
+	
+	
 	return null;
+
 }
  
 }

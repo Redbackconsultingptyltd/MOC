@@ -22,6 +22,33 @@ import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_H
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRP1001;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_HRRELATIONS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_SET_NAME_TENANTS;
+import static au.com.redbackconsulting.moc.persistence.factory.Constants.PERSISTENCE_CASYSTEMS;
+import static au.com.redbackconsulting.moc.persistence.factory.Constants.PERSISTENCE_HRHIER;
+import static au.com.redbackconsulting.moc.persistence.factory.Constants.PERSISTENCE_HRHIERMAP; 
+import static au.com.redbackconsulting.moc.persistence.factory.Constants.PERSISTENCE_HROBJECTCONSTRAINTS;
+import static au.com.redbackconsulting.moc.persistence.factory.Constants.PERSISTENCE_HROBJECTS;
+import static au.com.redbackconsulting.moc.persistence.factory.Constants.PERSISTENCE_HROBJECTSREL;
+import static au.com.redbackconsulting.moc.persistence.factory.Constants.PERSISTENCE_HROBJECTSTATUS;
+import static au.com.redbackconsulting.moc.persistence.factory.Constants.PERSISTENCE_HRP1000;
+import static au.com.redbackconsulting.moc.persistence.factory.Constants.PERSISTENCE_HRP1001;
+import static au.com.redbackconsulting.moc.persistence.factory.Constants.PERSISTENCE_HRRELATIONS;
+import static au.com.redbackconsulting.moc.persistence.factory.Constants.PERSISTENCE_TENANTS;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 import java.io.InputStream;
 import java.net.URI;
@@ -54,14 +81,30 @@ import org.apache.olingo.odata2.api.uri.info.PutMergePatchUriInfo;
 import au.com.redbackconsulting.moc.odata.api.bl.BLModelFactory;
 import au.com.redbackconsulting.moc.odata.api.bl.IBLModel;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
+import au.com.redbackconsulting.moc.odata.api.edmconstants.HRP1001EDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrHierEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrHierMapEDM;
+import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectRelEDM;
+import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsConstraintsEDM;
+import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsEDM;
+import au.com.redbackconsulting.moc.odata.api.edmconstants.HrRelationsEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.TenantsEDM;
+import au.com.redbackconsulting.moc.persistence.factory.PKFactory;
 import au.com.redbackconsulting.moc.persistence.model2.Casystem;
 import au.com.redbackconsulting.moc.persistence.model2.CasystemPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrhier;
 import au.com.redbackconsulting.moc.persistence.model2.HrhierPK;
+import au.com.redbackconsulting.moc.persistence.model2.Hrhiermap;
 import au.com.redbackconsulting.moc.persistence.model2.HrhiermapPK;
+import au.com.redbackconsulting.moc.persistence.model2.HrobjectPK;
+import au.com.redbackconsulting.moc.persistence.model2.Hrobjectrel;
+import au.com.redbackconsulting.moc.persistence.model2.HrobjectrelPK;
+import au.com.redbackconsulting.moc.persistence.model2.HrobjectsconstraintPK;
+import au.com.redbackconsulting.moc.persistence.model2.Hrobjectsstatus;
+import au.com.redbackconsulting.moc.persistence.model2.HrobjectsstatusPK;
+import au.com.redbackconsulting.moc.persistence.model2.Hrp1000;
+import au.com.redbackconsulting.moc.persistence.model2.Hrp1000PK;
+import au.com.redbackconsulting.moc.persistence.model2.HrrelationPK;
 import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
 import au.com.redbackconsulting.moc.persistence.model2.Tenant;
 import au.com.redbackconsulting.moc.persistence.model2.TenantPK;
@@ -82,11 +125,10 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
 
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_CASYSTEM);
-				CasystemPK pk = new CasystemPK();
+				CasystemPK pk = (CasystemPK) PKFactory.getInstance().getPKModel(PERSISTENCE_CASYSTEMS);
 				pk.setIdsys(sysId);
 				pk.setTenants_idTenants((tenantId));
-
-				// Map<String, Object> data = blModel.getData(pk);
+ 
 				IDBEntity entity = blModel.getData(pk);
 				Map<String, Object> data = blModel.convertModelToEDM(entity);
 				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
@@ -95,11 +137,11 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				return EntityProvider.writeEntry(contentType, entitySet, data,
 						propertiesBuilder.build());
 			} else if (ENTITY_SET_NAME_HRHIER.equals(entitySet.getName())) {
-				int id = getKeyValue(uriInfo.getKeyPredicates().get(0));
+				int hierId = getKeyValue(uriInfo.getKeyPredicates().get(0));
 				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRHIER);
-				HrhierPK pk = new HrhierPK();
-				pk.setIdHrHier(id);
+				HrhierPK pk = (HrhierPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRHIER);
+				pk.setIdHrHier(hierId);
 				pk.setTenants_idTenants(tenantId);
 				// Map<String, Object> data = blModel.getData(pk);
 				IDBEntity entity = blModel.getData(pk);
@@ -262,17 +304,15 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 			if (ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())) {
 				// String sysId =
 				// getKeyValueString(uriInfo.getKeyPredicates().get(0));
-				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
-				TenantPK pk = new TenantPK();
-				// pk.setSystId(sysId);
+				TenantPK pk =  (TenantPK) PKFactory.getInstance().getPKModel(PERSISTENCE_TENANTS);
 				pk.setId((tenantId));
-				// Map<String, Object> data = blModel.getData(pk);
 				IDBEntity entity = blModel.getData(pk);
 				Map<String, Object> data = blModel.convertModelToEDM(entity);
 
-				List<Map<String, Object>> result1 = new ArrayList<Map<String, Object>>();
-				result1.add(data);
+//				List<Map<String, Object>> result1 = new ArrayList<Map<String, Object>>();
+//				result1.add(data);
 				if (data != null) {
 					URI serviceRoot = getContext().getPathInfo()
 							.getServiceRoot();
@@ -602,8 +642,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 		// if (uriInfo.getStartEntitySet().getEntityType().hasStream()) {
 		// throw new ODataNotImplementedException();
 		// }
-		int sysId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
+//		int sysId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+//		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
 
 		EntityProviderReadProperties properties = EntityProviderReadProperties
 				.init().mergeSemantic(false).build();
@@ -624,170 +664,187 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 
 				
 				//Read Form Data
+				Tenant entity = (Tenant) blModel.convertEDMDataToModelEDM(data);
 				
-				
-				
-				String name = (String) data.get(TenantsEDM.name);
-				String tenantsCode  = (String) data.get(TenantsEDM.tenantCode);
-				Tenant entity = new Tenant();
-				entity.setTenantPK(pk);
-				entity.setTenantsCode(tenantsCode);
-			//	entity.
-				
-			
-				String sysDesc = (String) data.get(CaSystemEDM.SYSDESC);
-				int newtenantId = (Integer) data.get(CaSystemEDM.TENANTID);
-				Tenant tenant = new Tenant();
-				TenantPK tenantPk = new TenantPK();
-				tenantPk.setId(tenantId);
-				tenant.setTenantPK(tenantPk);
-//				entity.setTenant(tenant);
-//				entity.setSysdesc(sysDesc);
-//				
-			//	entity = (Casystem) blModel.updateData(pk, entity);
-
-				return super.updateEntity(uriInfo, content, requestContentType,
+		 		entity = (Tenant) blModel.updateData(pk, entity);
+		 		if(entity!=null){
+				return super.updateEntity(uriInfo, content, requestContentType
+						,
 						merge, contentType);
+		 		} else { 
+		 			///
+		 		}
 			} else if (ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
-
-				CasystemPK pk = new CasystemPK();
-				pk.setIdsys(sysId);
-				pk.setTenants_idTenants(tenantId);
-
-				Casystem entity = new Casystem();
-				String sysDesc = (String) data.get(CaSystemEDM.SYSDESC);
-				int newtenantId = (Integer) data.get(CaSystemEDM.TENANTID);
-				Tenant tenant = new Tenant();
-				TenantPK tenantPk = new TenantPK();
-				tenantPk.setId(tenantId);
-				tenant.setTenantPK(tenantPk);
-				entity.setTenant(tenant);
-				entity.setSysdesc(sysDesc);
 				IBLModel blModel = BLModelFactory.getInstance().getInstance(
 						ENTITY_KEY_CASYSTEM);
+				CasystemPK pk = (CasystemPK) PKFactory.getInstance().getPKModel(PERSISTENCE_CASYSTEMS);
+				int pksysId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+				int pkTenantId =getKeyValue(uriInfo.getKeyPredicates().get(1));
+				
+				pk.setIdsys(pksysId);
+				pk.setTenants_idTenants(pkTenantId);
+
+				Casystem entity = (Casystem) blModel.convertEDMDataToModelEDM(data);
+				
 				entity = (Casystem) blModel.updateData(pk, entity);
 
 				return super.updateEntity(uriInfo, content, requestContentType,
 						merge, contentType);
+			}else	if (ENTITY_SET_NAME_HRHIER.equals(entitySet.getName())) {
+				
+				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRHIER);
+				
+				int hierId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
+				HrhierPK pk = (HrhierPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRHIER);
+				pk.setIdHrHier(hierId);
+				pk.setTenants_idTenants(tenantId);
+			
+				 
+								
+				//Read Form Data
+				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
+				entity =  (Hrhier) blModel.updateData(pk, entity);
+				return super.updateEntity(uriInfo, content, requestContentType,
+						merge, contentType);
+			}else if (ENTITY_SET_NAME_HRHIERMAP.equals(entitySet.getName())) {
+				
+				IBLModel blModel = BLModelFactory.getInstance().getInstance(
+						ENTITY_KEY_HRHIERMAP);
+				//Read PK from URL
+				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+				PKFactory pkFactory= PKFactory.getInstance();
+				HrhiermapPK pk = (HrhiermapPK) pkFactory.getPKModel(PERSISTENCE_HRHIERMAP);
+				pk.setTenants_idTenants(pkId);
+
+				
+				//Read Form Data
+				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
+				entity =  (Hrhier) blModel.updateData(pk, entity);
+				return super.updateEntity(uriInfo, content, requestContentType,
+						merge, contentType);
+			}else if (ENTITY_SET_NAME_HROBJECTS.equals(entitySet.getName())) {
+				
+				IBLModel blModel = BLModelFactory.getInstance().getInstance(
+						ENTITY_KEY_HROBJECTS);
+				//Read PK from URL
+				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+				PKFactory pkFactory= PKFactory.getInstance();
+				HrobjectPK pk = (HrobjectPK) pkFactory.getPKModel(PERSISTENCE_HROBJECTS);
+				pk.setTenants_idTenants(pkId);
+
+				
+				//Read Form Data
+				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
+				entity =  (Hrhier) blModel.updateData(pk, entity);
+				return super.updateEntity(uriInfo, content, requestContentType,
+						merge, contentType);
+			}else if (ENTITY_SET_NAME_HROBJECTREL.equals(entitySet.getName())) {
+				
+				IBLModel blModel = BLModelFactory.getInstance().getInstance(
+						ENTITY_KEY_HROBJECTSREL);
+				//Read PK from URL
+				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+				PKFactory pkFactory= PKFactory.getInstance();
+				HrobjectrelPK  pk = (HrobjectrelPK) pkFactory.getPKModel(PERSISTENCE_HROBJECTSREL);
+				pk.setTenants_idTenants(pkId);
+
+				
+				//Read Form Data
+				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
+				entity =  (Hrhier) blModel.updateData(pk, entity);
+				return super.updateEntity(uriInfo, content, requestContentType,
+						merge, contentType);
+			}else if (ENTITY_SET_NAME_HROBJECTSCONSTRAINTS.equals(entitySet.getName())) {
+				
+				IBLModel blModel = BLModelFactory.getInstance().getInstance(
+						ENTITY_KEY_HROBJECTSCONSTRAINTS);
+				//Read PK from URL
+				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+				PKFactory pkFactory= PKFactory.getInstance();
+				HrobjectrelPK  pk = (HrobjectrelPK) pkFactory.getPKModel(PERSISTENCE_HROBJECTCONSTRAINTS);
+				pk.setTenants_idTenants(pkId);
+
+				
+				//Read Form Data
+				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
+				entity =  (Hrhier) blModel.updateData(pk, entity);
+				return super.updateEntity(uriInfo, content, requestContentType,
+						merge, contentType);
+			}else if (ENTITY_SET_NAME_HROBJECTSSTATUS.equals(entitySet.getName())) {
+				
+				IBLModel blModel = BLModelFactory.getInstance().getInstance(
+						ENTITY_KEY_HROBJECTSSTATUS);
+				//Read PK from URL
+				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+				PKFactory pkFactory= PKFactory.getInstance();
+				HrobjectrelPK  pk = (HrobjectrelPK) pkFactory.getPKModel(PERSISTENCE_HROBJECTSTATUS);
+				pk.setTenants_idTenants(pkId);
+
+				
+				//Read Form Data
+				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
+				entity =  (Hrhier) blModel.updateData(pk, entity);
+				return super.updateEntity(uriInfo, content, requestContentType,
+						merge, contentType);
+			} else if (ENTITY_SET_NAME_HRP1000.equals(entitySet.getName())) {
+				
+				IBLModel blModel = BLModelFactory.getInstance().getInstance(
+						ENTITY_KEY_HRP1000);
+				//Read PK from URL
+				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+				PKFactory pkFactory= PKFactory.getInstance();
+				HrobjectrelPK  pk = (HrobjectrelPK) pkFactory.getPKModel(PERSISTENCE_HRP1000);
+				
+				pk.setTenants_idTenants(pkId);
+
+				
+				//Read Form Data
+				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
+				entity =  (Hrhier) blModel.updateData(pk, entity);
+				return super.updateEntity(uriInfo, content, requestContentType,
+						merge, contentType);
+			} else if (ENTITY_SET_NAME_HRP1001.equals(entitySet.getName())) {
+				
+				IBLModel blModel = BLModelFactory.getInstance().getInstance(
+						ENTITY_KEY_HRP1001);
+				//Read PK from URL
+				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+				PKFactory pkFactory= PKFactory.getInstance();
+				HrobjectrelPK  pk = (HrobjectrelPK) pkFactory.getPKModel(PERSISTENCE_HRP1001);
+				
+				pk.setTenants_idTenants(pkId);
+
+				
+				//Read Form Data
+				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
+				entity =  (Hrhier) blModel.updateData(pk, entity);
+				return super.updateEntity(uriInfo, content, requestContentType,
+						merge, contentType);
+			}else if (ENTITY_SET_NAME_HRRELATIONS.equals(entitySet.getName())) {
+				
+				IBLModel blModel = BLModelFactory.getInstance().getInstance(
+						ENTITY_KEY_HRRELATIONS);
+				//Read PK from URL
+				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+				PKFactory pkFactory= PKFactory.getInstance();
+				HrobjectrelPK  pk = (HrobjectrelPK) pkFactory.getPKModel(PERSISTENCE_HRRELATIONS);
+				
+				pk.setTenants_idTenants(pkId);
+
+				
+				//Read Form Data
+				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
+				entity =  (Hrhier) blModel.updateData(pk, entity);
+				return super.updateEntity(uriInfo, content, requestContentType,
+						merge, contentType);
 			}
+
+
 
 		}
 		return null;
-		// } else if (ENTITY_SET_NAME_HRHIER.equals(entitySet.getName())) {
-		// int id = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRHIER);
-		// HrhierPK pk = new HrhierPK();
-		// pk.setIdHrHier(id);
-		// pk.setTenants_idTenants(tenantId);
-		// boolean status = blModel.deleteData(pk);
-		//
-		//
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// } else if (ENTITY_SET_NAME_HRHIERMAP.equals(entitySet.getName())) {
-		// int id = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
-		// int seqNo = getKeyValue(uriInfo.getKeyPredicates().get(2));
-		//
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRHIERMAP);
-		// HrhiermapPK pk = new HrhiermapPK();
-		//
-		// pk.setHrHierId((id));
-		// pk.setTenants_idTenants(tenantId);
-		// pk.setSeqNo(seqNo);
-		//
-		// boolean status = blModel.deleteData(pk);
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// } else if (ENTITY_SET_NAME_HROBJECTREL.equals(entitySet.getName())) {
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		//
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTSREL);
-		// TenantPK pk = new TenantPK();
-		// pk.setId((tenantId));
-		// boolean status = blModel.deleteData(pk);
-		//
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// } else if (ENTITY_SET_NAME_HROBJECTS.equals(entitySet.getName())) {
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		//
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTS);
-		// TenantPK pk = new TenantPK();
-		// pk.setId((tenantId));
-		// boolean status = blModel.deleteData(pk);
-		//
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// } else if (ENTITY_SET_NAME_HROBJECTSCONSTRAINTS.equals(entitySet
-		// .getName())) {
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		//
-		// IBLModel blModel = bmf
-		// .getInstance(ENTITY_KEY_HROBJECTSCONSTRAINTS);
-		// TenantPK pk = new TenantPK();
-		// pk.setId((tenantId));
-		// boolean status = blModel.deleteData(pk);
-		//
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// } else if (ENTITY_SET_NAME_HROBJECTSSTATUS.equals(entitySet
-		// .getName())) {
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		//
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTSSTATUS);
-		// TenantPK pk = new TenantPK();
-		// pk.setId((tenantId));
-		// boolean status = blModel.deleteData(pk);
-		//
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// } else if (ENTITY_SET_NAME_HRP1000.equals(entitySet.getName())) {
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		//
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRP1001);
-		// TenantPK pk = new TenantPK();
-		// pk.setId((tenantId));
-		// boolean status = blModel.deleteData(pk);
-		//
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// } else if (ENTITY_SET_NAME_HRP1001.equals(entitySet.getName())) {
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		//
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRP1001);
-		// TenantPK pk = new TenantPK();
-		// pk.setId((tenantId));
-		// boolean status = blModel.deleteData(pk);
-		//
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// } else if (ENTITY_SET_NAME_HRRELATIONS.equals(entitySet.getName())) {
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		//
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRRELATIONS);
-		// TenantPK pk = new TenantPK();
-		// pk.setId((tenantId));
-		// boolean status = blModel.deleteData(pk);
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// }
-		// else if (ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())) {
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		//
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
-		// TenantPK pk = new TenantPK();
-		// pk.setId((tenantId));
-		// boolean status = blModel.deleteData(pk);
-		//
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// }
-		//
-		// }
-		// return super.createEntity(uriInfo, content, requestContentType,
-		// contentType);
+		
 
 	}
 
@@ -842,13 +899,10 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				IBLModel blModel = BLModelFactory.getInstance().getInstance(
 						ENTITY_KEY_TENANTS);
 
-				int tenantId = (Integer) data.get(TenantsEDM.tenantId);
-				String tenantCode = (String) data.get(TenantsEDM.tenantCode);
-				TenantPK pk = new TenantPK();
-
-				Tenant entity = new Tenant();
-				entity.setTenantPK(pk);
-				entity.setTenantsCode(tenantCode);
+				TenantPK  pk = (TenantPK) PKFactory.getInstance().getPKModel(PERSISTENCE_TENANTS);
+				
+				Tenant entity = (Tenant) blModel.convertEDMDataToModelEDM(data);
+				
 				blModel.createData(entity);
 
 				// serialize the entry, Location header is set by OData Library
@@ -885,15 +939,17 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 						ENTITY_KEY_HRHIER);
 
 				int tenantId = (Integer) data.get(HrHierEDM.tenantId);
-				int hierId = (Integer) data.get(HrHierEDM.hierId);
+//				int hierId = (Integer) data.get(HrHierEDM.hierId);
 				String hierDesc = (String) data.get(HrHierEDM.hierDesc);
-				HrhierPK pk = new HrhierPK();
+				HrhierPK pk = (HrhierPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRHIER);
+//				HrhierPK pk = new HrhierPK();
 				pk.setTenants_idTenants(tenantId);
-				pk.setIdHrHier(hierId);
-				Hrhier entity = new Hrhier();
+//				pk.setIdHrHier(hierId);
+				Hrhier entity = (Hrhier) blModel.convertEDMDataToModelEDM(data);
 
-				entity.setId(pk);
+				
 				entity.setHierdesc(hierDesc);
+				entity.getId().setIdHrHier(0);
 				blModel.createData(entity);
 
 				// serialize the entry, Location header is set by OData Library
@@ -913,9 +969,87 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				String objectType = (String) data.get(HrHierMapEDM.objectType);
 				int relatType = (Integer) data.get(HrHierMapEDM.relatType);
 
+				HrhiermapPK pk = (HrhiermapPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRHIERMAP);
+				pk.setTenants_idTenants(tenantId);
+ 
+				Hrhiermap entity = (Hrhiermap) blModel.convertEDMDataToModelEDM(data);
+
+//				entity.setId(pk);
+				// entity.setHierdesc(hierDesc);
+				blModel.createData(entity);
+
+				// serialize the entry, Location header is set by OData Library
+				return EntityProvider.writeEntry(
+						contentType,
+						uriInfo.getStartEntitySet(),
+						entry.getProperties(),
+						EntityProviderWriteProperties.serviceRoot(
+								getContext().getPathInfo().getServiceRoot())
+								.build());
+			}else if (ENTITY_SET_NAME_HROBJECTS.equals(entitySet.getName())) {
+				IBLModel blModel = BLModelFactory.getInstance().getInstance(
+						ENTITY_KEY_HROBJECTS);
+
+				int tenantId = (Integer) data.get(HrObjectsEDM.tenantId);
+//				int hierId = (Integer) data.get(HrObjectsEDM.hierId);
+//				String objectType = (String) data.get(HrObjectsEDM.objectType);
+//				int relatType = (Integer) data.get(HrObjectsEDM.relatType);
+
+				HrobjectPK pk = (HrobjectPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HROBJECTS);
+				pk.setTenants_idTenants(tenantId);
+			 
+				Hrhier entity = new Hrhier();
+
+				//entity.setId(pk);
+				// entity.setHierdesc(hierDesc);
+				blModel.createData(entity);
+
+				// serialize the entry, Location header is set by OData Library
+				return EntityProvider.writeEntry(
+						contentType,
+						uriInfo.getStartEntitySet(),
+						entry.getProperties(),
+						EntityProviderWriteProperties.serviceRoot(
+								getContext().getPathInfo().getServiceRoot())
+								.build());
+			}else if (ENTITY_SET_NAME_HROBJECTREL.equals(entitySet.getName())) {
+				IBLModel blModel = BLModelFactory.getInstance().getInstance(
+						ENTITY_KEY_HROBJECTSREL);
+
+				int tenantId = (Integer) data.get(HrObjectRelEDM.tenantId);
+			//	int hierId = (Integer) data.get(HrObjectRelEDM.hierId);
+				String objectType = (String) data.get(HrObjectRelEDM.objectType);
+				int relatType = (Integer) data.get(HrObjectRelEDM.relatType);
+
+				HrobjectrelPK  pk = (HrobjectrelPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HROBJECTSREL);
+				Hrobjectrel entity = (Hrobjectrel) blModel.convertEDMDataToModelEDM(data);
+
+				pk.setTenants_idTenants(tenantId);
+				
+				entity.setId(pk);
+				// entity.setHierdesc(hierDesc);
+				blModel.createData(entity);
+
+				// serialize the entry, Location header is set by OData Library
+				return EntityProvider.writeEntry(
+						contentType,
+						uriInfo.getStartEntitySet(),
+						entry.getProperties(),
+						EntityProviderWriteProperties.serviceRoot(
+								getContext().getPathInfo().getServiceRoot())
+								.build());
+			} else if (ENTITY_SET_NAME_HROBJECTSCONSTRAINTS.equals(entitySet.getName())) {
+				IBLModel blModel = BLModelFactory.getInstance().getInstance(
+						ENTITY_KEY_HROBJECTSCONSTRAINTS);
+
+				int tenantId = (Integer) data.get(HrObjectRelEDM.tenantId);
+			//	int hierId = (Integer) data.get(HrObjectsConstraintsEDM.hierId);
+				String objectType = (String) data.get(HrObjectsConstraintsEDM.objectType);
+			//	int relatType = (Integer) data.get(HrObjectsConstraintsEDM.relatType);
+
 				HrhierPK pk = new HrhierPK();
 				pk.setTenants_idTenants(tenantId);
-				pk.setIdHrHier(hierId);
+		//		pk.setIdHrHier(hierId);
 				Hrhier entity = new Hrhier();
 
 				entity.setId(pk);
@@ -931,162 +1065,113 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 								getContext().getPathInfo().getServiceRoot())
 								.build());
 			}
+			 else if (ENTITY_SET_NAME_HROBJECTSSTATUS.equals(entitySet.getName())) {
+					IBLModel blModel = BLModelFactory.getInstance().getInstance(
+							ENTITY_KEY_HROBJECTSSTATUS);
+
+					int tenantId = (Integer) data.get(HrObjectRelEDM.tenantId);
+				//	int hierId = (Integer) data.get(HrObjectsConstraintsEDM.hierId);
+					String objectType = (String) data.get(HrObjectsConstraintsEDM.objectType);
+			//		int relatType = (Integer) data.get(HrObjectsConstraintsEDM.relatType);
+
+					HrobjectsstatusPK  pk = (HrobjectsstatusPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HROBJECTSREL);
+					Hrobjectsstatus entity = (Hrobjectsstatus) blModel.convertEDMDataToModelEDM(data);
+
+				 
+					entity.setId(pk);
+					// entity.setHierdesc(hierDesc);
+					blModel.createData(entity);
+
+					// serialize the entry, Location header is set by OData Library
+					return EntityProvider.writeEntry(
+							contentType,
+							uriInfo.getStartEntitySet(),
+							entry.getProperties(),
+							EntityProviderWriteProperties.serviceRoot(
+									getContext().getPathInfo().getServiceRoot())
+									.build());
+				}
+			 else if (ENTITY_SET_NAME_HRP1000.equals(entitySet.getName())) {
+					IBLModel blModel = BLModelFactory.getInstance().getInstance(
+							ENTITY_KEY_HRP1000);
+
+					int tenantId = (Integer) data.get(HrObjectRelEDM.tenantId);
+				//	int hierId = (Integer) data.get(HrObjectsConstraintsEDM.hierId);
+					String objectType = (String) data.get(HrObjectsConstraintsEDM.objectType);
+				//	int relatType = (Integer) data.get(HrObjectsConstraintsEDM.relatType);
+
+					Hrp1000PK  pk = (Hrp1000PK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRP1000);
+					Hrp1000 entity = (Hrp1000) blModel.convertEDMDataToModelEDM(data);
+
+				 
+					entity.setId(pk);
+					// entity.setHierdesc(hierDesc);
+					blModel.createData(entity);
+
+					// serialize the entry, Location header is set by OData Library
+					return EntityProvider.writeEntry(
+							contentType,
+							uriInfo.getStartEntitySet(),
+							entry.getProperties(),
+							EntityProviderWriteProperties.serviceRoot(
+									getContext().getPathInfo().getServiceRoot())
+									.build());
+				}
+			 else if (ENTITY_SET_NAME_HRP1001.equals(entitySet.getName())) {
+					IBLModel blModel = BLModelFactory.getInstance().getInstance(
+							ENTITY_KEY_HRP1001);
+
+					int tenantId = (Integer) data.get(HrObjectRelEDM.tenantId);
+				//	int hierId = (Integer) data.get(HrObjectsConstraintsEDM.hierId);
+					String objectType = (String) data.get(HrObjectsConstraintsEDM.objectType);
+//					int relatType = (Integer) data.get(HrObjectsConstraintsEDM.relatType);
+
+					//Hrp1001PK  pk = (Hrp1000PK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRP1001);
+//					HRP1001EDM entity = (Hrp1001) blModel.convertEDMDataToModelEDM(data);
+
+				 
+//					entity.setId(pk);
+//					// entity.setHierdesc(hierDesc);
+//					blModel.createData(entity);
+
+					// serialize the entry, Location header is set by OData Library
+					return EntityProvider.writeEntry(
+							contentType,
+							uriInfo.getStartEntitySet(),
+							entry.getProperties(),
+							EntityProviderWriteProperties.serviceRoot(
+									getContext().getPathInfo().getServiceRoot())
+									.build());
+				}
+			 else if (ENTITY_SET_NAME_HRRELATIONS.equals(entitySet.getName())) {
+					IBLModel blModel = BLModelFactory.getInstance().getInstance(
+							ENTITY_KEY_HRRELATIONS);
+
+					int tenantId = (Integer) data.get(HrObjectRelEDM.tenantId);
+//					int hierId = (Integer) data.get(HrObjectsConstraintsEDM.hierId);
+					String objectType = (String) data.get(HrObjectsConstraintsEDM.objectType);
+//					int relatType = (Integer) data.get(HrObjectsConstraintsEDM.relatType);
+
+					HrrelationPK  pk = (HrrelationPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRRELATIONS);
+					HrRelationsEDM  entity = (HrRelationsEDM) blModel.convertEDMDataToModelEDM(data);
+
+				 
+//					entity.setId(pk);
+//					// entity.setHierdesc(hierDesc);
+//					blModel.createData(entity);
+
+					// serialize the entry, Location header is set by OData Library
+					return EntityProvider.writeEntry(
+							contentType,
+							uriInfo.getStartEntitySet(),
+							entry.getProperties(),
+							EntityProviderWriteProperties.serviceRoot(
+									getContext().getPathInfo().getServiceRoot())
+									.build());
+				}
 		}
 		return null;
-		// if (uriInfo.getNavigationSegments().size() == 0) {
-		// EdmEntitySet entitySet = uriInfo.getStartEntitySet();
-		// if (ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
-		// // int sysId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		// // int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
-		//
-		// // throw new ODataNotImplementedException();
-		//
-		//
-		// //No support for media resources
-		// // if (uriInfo.getStartEntitySet().getEntityType().hasStream()) {
-		// // throw new ODataNotImplementedException();
-		// // }
-		//
-		// EntityProviderReadProperties properties =
-		// EntityProviderReadProperties.init().mergeSemantic(false).build();
-		//
-		// ODataEntry entry = EntityProvider.readEntry(requestContentType,
-		// uriInfo.getStartEntitySet(), content, properties);
-		// //if something goes wrong in deserialization this is managed via the
-		// ExceptionMapper
-		// //no need for an application to do exception handling here an convert
-		// the exceptions in HTTP exceptions
-		//
-		// Map<String, Object> data = entry.getProperties();
-		// //now one can use the data to create the entry in the backend ...
-		// //retrieve the key value after creation, if the key is generated by
-		// the server
-		//
-		// //update the data accordingly
-		// data.put("Id", Integer.valueOf(887788675));
-		//
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_CASYSTEM);
-		// // CasystemPK pk = new CasystemPK();
-		// // pk.setIdsys(sysId);
-		// // pk.setTenants_idTenants((tenantId));
-		// // boolean status = blModel.deleteData(pk);
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// } else if (ENTITY_SET_NAME_HRHIER.equals(entitySet.getName())) {
-		// int id = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRHIER);
-		// HrhierPK pk = new HrhierPK();
-		// pk.setIdHrHier(id);
-		// pk.setTenants_idTenants(tenantId);
-		// boolean status = blModel.deleteData(pk);
-		//
-		//
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// } else if (ENTITY_SET_NAME_HRHIERMAP.equals(entitySet.getName())) {
-		// int id = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
-		// int seqNo = getKeyValue(uriInfo.getKeyPredicates().get(2));
-		//
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRHIERMAP);
-		// HrhiermapPK pk = new HrhiermapPK();
-		//
-		// pk.setHrHierId((id));
-		// pk.setTenants_idTenants(tenantId);
-		// pk.setSeqNo(seqNo);
-		//
-		// boolean status = blModel.deleteData(pk);
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// } else if (ENTITY_SET_NAME_HROBJECTREL.equals(entitySet.getName())) {
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		//
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTSREL);
-		// TenantPK pk = new TenantPK();
-		// pk.setId((tenantId));
-		// boolean status = blModel.deleteData(pk);
-		//
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// } else if (ENTITY_SET_NAME_HROBJECTS.equals(entitySet.getName())) {
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		//
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTS);
-		// TenantPK pk = new TenantPK();
-		// pk.setId((tenantId));
-		// boolean status = blModel.deleteData(pk);
-		//
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// } else if (ENTITY_SET_NAME_HROBJECTSCONSTRAINTS.equals(entitySet
-		// .getName())) {
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		//
-		// IBLModel blModel = bmf
-		// .getInstance(ENTITY_KEY_HROBJECTSCONSTRAINTS);
-		// TenantPK pk = new TenantPK();
-		// pk.setId((tenantId));
-		// boolean status = blModel.deleteData(pk);
-		//
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// } else if (ENTITY_SET_NAME_HROBJECTSSTATUS.equals(entitySet
-		// .getName())) {
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		//
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTSSTATUS);
-		// TenantPK pk = new TenantPK();
-		// pk.setId((tenantId));
-		// boolean status = blModel.deleteData(pk);
-		//
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// } else if (ENTITY_SET_NAME_HRP1000.equals(entitySet.getName())) {
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		//
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRP1001);
-		// TenantPK pk = new TenantPK();
-		// pk.setId((tenantId));
-		// boolean status = blModel.deleteData(pk);
-		//
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// } else if (ENTITY_SET_NAME_HRP1001.equals(entitySet.getName())) {
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		//
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRP1001);
-		// TenantPK pk = new TenantPK();
-		// pk.setId((tenantId));
-		// boolean status = blModel.deleteData(pk);
-		//
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// } else if (ENTITY_SET_NAME_HRRELATIONS.equals(entitySet.getName())) {
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		//
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRRELATIONS);
-		// TenantPK pk = new TenantPK();
-		// pk.setId((tenantId));
-		// boolean status = blModel.deleteData(pk);
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// }
-		// else if (ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())) {
-		// int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		//
-		// IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
-		// TenantPK pk = new TenantPK();
-		// pk.setId((tenantId));
-		// boolean status = blModel.deleteData(pk);
-		//
-		// URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-		// ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-		// }
-		//
-		// }
-		// return super.createEntity(uriInfo, content, requestContentType,
-		// contentType);
+		
 	}
 
 	@Override
@@ -1099,7 +1184,7 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
 
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_CASYSTEM);
-				CasystemPK pk = new CasystemPK();
+				CasystemPK pk =  (CasystemPK) PKFactory.getInstance().getPKModel(PERSISTENCE_CASYSTEMS);
 				pk.setIdsys(sysId);
 				pk.setTenants_idTenants((tenantId));
 				boolean status = blModel.deleteData(pk);
@@ -1109,7 +1194,7 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				int id = getKeyValue(uriInfo.getKeyPredicates().get(0));
 				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRHIER);
-				HrhierPK pk = new HrhierPK();
+				HrhierPK pk =  (HrhierPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRHIER);
 				pk.setIdHrHier(id);
 				pk.setTenants_idTenants(tenantId);
 				boolean status = blModel.deleteData(pk);
@@ -1122,7 +1207,7 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				int seqNo = getKeyValue(uriInfo.getKeyPredicates().get(2));
 
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRHIERMAP);
-				HrhiermapPK pk = new HrhiermapPK();
+				HrhiermapPK pk =  (HrhiermapPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRHIERMAP);
 
 				pk.setHrHierId((id));
 				pk.setTenants_idTenants(tenantId);
@@ -1135,8 +1220,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
 
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTSREL);
-				TenantPK pk = new TenantPK();
-				pk.setId((tenantId));
+				HrobjectrelPK pk =  (HrobjectrelPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HROBJECTSREL);
+//				pk.setId((tenantId));
 				boolean status = blModel.deleteData(pk);
 
 				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
@@ -1145,8 +1230,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
 
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTS);
-				TenantPK pk = new TenantPK();
-				pk.setId((tenantId));
+				HrobjectPK pk =  (HrobjectPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HROBJECTS);
+//				pk.setId((tenantId));
 				boolean status = blModel.deleteData(pk);
 
 				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
@@ -1157,8 +1242,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 
 				IBLModel blModel = bmf
 						.getInstance(ENTITY_KEY_HROBJECTSCONSTRAINTS);
-				TenantPK pk = new TenantPK();
-				pk.setId((tenantId));
+				HrobjectsconstraintPK pk =  (HrobjectsconstraintPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HROBJECTCONSTRAINTS);
+//				pk.setId((tenantId));
 				boolean status = blModel.deleteData(pk);
 
 				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
@@ -1168,8 +1253,8 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
 
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTSSTATUS);
-				TenantPK pk = new TenantPK();
-				pk.setId((tenantId));
+				HrobjectsstatusPK pk =  (HrobjectsstatusPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HROBJECTSTATUS);
+//				pk.setId((tenantId));
 				boolean status = blModel.deleteData(pk);
 
 				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
@@ -1178,28 +1263,30 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
 
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRP1001);
-				TenantPK pk = new TenantPK();
-				pk.setId((tenantId));
+				Hrp1000PK pk =  (Hrp1000PK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRP1000);
+//				pk.setId((tenantId));
 				boolean status = blModel.deleteData(pk);
 
 				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
 				ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-			} else if (ENTITY_SET_NAME_HRP1001.equals(entitySet.getName())) {
-				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-
-				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRP1001);
-				TenantPK pk = new TenantPK();
-				pk.setId((tenantId));
-				boolean status = blModel.deleteData(pk);
-
-				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-				ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
-			} else if (ENTITY_SET_NAME_HRRELATIONS.equals(entitySet.getName())) {
+			} 
+//			else if (ENTITY_SET_NAME_HRP1001.equals(entitySet.getName())) {
+//				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+//
+//				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRP1001);
+//				TenantPK pk =  PKFactory.getInstance().getPKModel(PERSISTENCE_HRRELATIONS);
+//				pk.setId((tenantId));
+//				boolean status = blModel.deleteData(pk);
+//
+//				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
+//				ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
+//			}
+		else if (ENTITY_SET_NAME_HRRELATIONS.equals(entitySet.getName())) {
 				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
 
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRRELATIONS);
-				TenantPK pk = new TenantPK();
-				pk.setId((tenantId));
+				HrrelationPK pk =  (HrrelationPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRRELATIONS);
+//				pk.setId((tenantId));
 				boolean status = blModel.deleteData(pk);
 				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
 				ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
@@ -1207,7 +1294,7 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
 
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
-				TenantPK pk = new TenantPK();
+				TenantPK pk =  (TenantPK) PKFactory.getInstance().getPKModel(PERSISTENCE_TENANTS);
 				pk.setId((tenantId));
 				boolean status = blModel.deleteData(pk);
 
