@@ -196,5 +196,13 @@ public Map<String, Object>  convertModelToEDM(IDBEntity entity){
 	
 	 
 }
+
+
+
+@Override
+public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
+	// TODO Auto-generated method stub
+	return null;
+}
  
 }

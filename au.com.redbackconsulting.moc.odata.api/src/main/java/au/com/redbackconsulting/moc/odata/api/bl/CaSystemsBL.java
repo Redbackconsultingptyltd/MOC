@@ -65,12 +65,12 @@ public class CaSystemsBL extends BaseBL {
 
 	public IDBEntity getData(IPkModel primaryKeyModel) {
 		CasystemPK pk = (CasystemPK) primaryKeyModel;
-		Map<String, Object> result = new HashMap<String, Object>();
+		
 		try {
 
 			Casystem entity = dao.getByPK(pk);
-			result = convertData(entity);
-			return (IDBEntity) result;
+		
+			return (IDBEntity) entity;
 		} catch (Exception e) {
 			int i = 0;
 			i = i + 1;
@@ -114,10 +114,8 @@ public class CaSystemsBL extends BaseBL {
 	public IDBEntity createData(IDBEntity data) {
 		try {
 			Casystem entity = (Casystem) data;
-			CasystemPK pk = new CasystemPK();
-			pk.setTenants_idTenants(entity.getTenant().getTenantPK().getId());
-			pk.setIdsys(entity.getId().getIdsys());
-			entity.setId(pk);
+			 
+			 
 			entity = dao.saveNew(entity);
 			return entity;
 		} catch (Exception e) {
@@ -194,6 +192,16 @@ public class CaSystemsBL extends BaseBL {
 		}
 		
 		 
+	}
+
+
+
+
+
+	@Override
+	public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

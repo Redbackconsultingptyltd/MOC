@@ -20,6 +20,10 @@ public interface IBLModel {
 	public IDBEntity createData(  IDBEntity entity);
 	public List<Map<String, Object>>  convertModelToEDMCollection(List<IDBEntity> entities);
 	public Map<String, Object>  convertModelToEDM(IDBEntity entity);
+	public IDBEntity	convertEDMDataToModelEDM(Map<String, Object>  edm);
+	
+	
+	
 
 	
 }

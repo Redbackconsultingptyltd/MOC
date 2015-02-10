@@ -46,23 +46,24 @@ public class HrObjectsStatusEDM extends BaseEDM {
 		// TODO Auto-generated constructor stub
 	}
 	public static String tenantId ="tenantId";
-	public static String status="status";
+	public static String statusId="status";
 	public static String description ="description";
-	public static String hRP1001="hRP1001;";
-	public static String hRP1000 ="hRP1000";
+//	public static String hRP1001="hRP1001;";
+//	public static String hRP1000 ="hRP1000";
 	@Override
 	public List<Property> getProperties() {
 		List<Property> properties = new ArrayList<Property>();
-		  properties.add(new SimpleProperty().setName(HrObjectsStatusEDM.tenantId).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(HrObjectsStatusEDM.status).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HrObjectsStatusEDM.tenantId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HrObjectsStatusEDM.statusId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
 		  properties.add(new SimpleProperty().setName(HrObjectsStatusEDM.description).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
-		  properties.add(new SimpleProperty().setName(HrObjectsStatusEDM.hRP1000).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
-		  properties.add(new SimpleProperty().setName(HrObjectsStatusEDM.hRP1001).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		//  properties.add(new SimpleProperty().setName(HrObjectsStatusEDM.hRP1000).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		 // properties.add(new SimpleProperty().setName(HrObjectsStatusEDM.hRP1001).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
 		  return properties;
 	}
 	@Override
 	public List<PropertyRef> getKeys() {
 		List<PropertyRef> keyProperties = new ArrayList<PropertyRef>();
+		 keyProperties.add(new PropertyRef().setName(HrObjectsStatusEDM.tenantId));
 		 keyProperties.add(new PropertyRef().setName(HrObjectsStatusEDM.tenantId));
 		
 		return keyProperties;

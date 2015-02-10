@@ -13,6 +13,7 @@ import org.apache.olingo.odata2.api.exception.ODataException;
 import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.UriInfo;
 
+import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsConstraintsEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsStatusEDM;
 import au.com.redbackconsulting.moc.persistence.HrObjectsStatusDAO;
 import au.com.redbackconsulting.moc.persistence.model2.Hrobject;
@@ -38,7 +39,7 @@ private HrObjectsStatusDAO dao=new HrObjectsStatusDAO();
 		List<IDBEntity> result = new ArrayList<IDBEntity>();
 		try {
 			HrObjectsStatusDAO dao = new HrObjectsStatusDAO();
-		//CaSystemsDAO dao = new CaSystemsDAO();
+	 
 		    List<Hrobjectsstatus> entities =	dao.getAll();
 			List<IDBEntity> idbEntities = new ArrayList<IDBEntity>();
 			idbEntities.addAll(entities);
@@ -52,11 +53,12 @@ private Map<String, Object> convertData( Hrobjectsstatus dataModel){
 		/*remark*/
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			//map.put(HrObjectsConstraintsEDM.tenantId, dataModel.get);
+			map.put(HrObjectsStatusEDM.tenantId, dataModel.getId().getTenants_idTenants());
 			map.put(HrObjectsStatusEDM.description, dataModel.getDescription());
+			
 //			map.put(HrObjectsStatusEDM.hRP1000, dataModel.getId().gHRP1000());
 		//	map.put(HrObjectsStatusEDM.hRP1001, dataModel.getHRP1001());
-			map.put(HrObjectsStatusEDM.status, dataModel.getId().getIdHrObjectsStatus());
+			map.put(HrObjectsStatusEDM.statusId, dataModel.getId().getIdHrObjectsStatus());
 		
 			return map;
 			
@@ -186,6 +188,14 @@ public Map<String, Object>  convertModelToEDM(IDBEntity entity){
 	return convertData((Hrobjectsstatus) entity);
 	
 	 
+}
+
+
+
+@Override
+public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
+	// TODO Auto-generated method stub
+	return null;
 }
  
 }

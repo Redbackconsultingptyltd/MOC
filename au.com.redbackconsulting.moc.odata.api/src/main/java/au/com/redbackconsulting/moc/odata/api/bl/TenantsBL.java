@@ -127,9 +127,7 @@ public class TenantsBL extends BaseBL {
 	public IDBEntity createData(IDBEntity data) {
 		try {
 			Tenant entity = (Tenant) data;
-			TenantPK pk = new TenantPK();
-			pk.setId(entity.getTenantPK().getId());
-
+		
 			entity = dao.saveNew(entity);
 			return entity;
 		} catch (Exception e) {
@@ -212,5 +210,12 @@ public Map<String, Object>  convertModelToEDM(IDBEntity entity){
 	return convertData((Tenant) entity);
 	
 	 
+}
+
+
+@Override
+public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
+	// TODO Auto-generated method stub
+	return null;
 }
 }

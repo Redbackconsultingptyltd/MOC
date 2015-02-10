@@ -188,5 +188,12 @@ public List<Map<String, Object>>  convertModelToEDMCollection(List<IDBEntity> en
 }
 
 
+@Override
+public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+
 
 }

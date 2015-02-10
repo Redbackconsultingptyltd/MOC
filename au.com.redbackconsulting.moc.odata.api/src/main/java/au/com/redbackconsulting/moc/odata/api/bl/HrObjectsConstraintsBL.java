@@ -88,9 +88,9 @@ public class HrObjectsConstraintsBL extends BaseBL{
 
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(HrObjectsConstraintsEDM.objectType, dataModel.getId());
+			map.put(HrObjectsConstraintsEDM.objectType, dataModel.getId().getHrObject());
 			map.put(HrObjectsConstraintsEDM.tableId, dataModel.getTableId());
-			map.put(HrObjectsConstraintsEDM.tenantId, dataModel.getTenant());
+			map.put(HrObjectsConstraintsEDM.tenantId, dataModel.getId().getTenants_idTenants());
 			map.put(HrObjectsConstraintsEDM.timeConstraint, dataModel.getTimeConstraint());
 			
 			return map;
@@ -201,6 +201,14 @@ public Map<String, Object>  convertModelToEDM(IDBEntity entity){
 	return convertData((Hrobjectsconstraint) entity);
 	
 	 
+}
+
+
+
+@Override
+public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
+	// TODO Auto-generated method stub
+	return null;
 }
  
 

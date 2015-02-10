@@ -77,7 +77,7 @@ public class HrObjectsEDM  extends BaseEDM{
 	public List<Property> getProperties() {
 		List<Property> properties = new ArrayList<Property>();
 		  properties.add(new SimpleProperty().setName(HrObjectsEDM.tenantId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(HrObjectsEDM.objectType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HrObjectsEDM.objectType).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
 		  properties.add(new SimpleProperty().setName(HrObjectsEDM.systId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(true)));
 		  properties.add(new SimpleProperty().setName(HrObjectsEDM.sObjectType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
 			
@@ -88,7 +88,9 @@ public class HrObjectsEDM  extends BaseEDM{
 		List<PropertyRef> keyProperties = new ArrayList<PropertyRef>();
 		 keyProperties.add(new PropertyRef().setName(HrObjectsEDM.tenantId));
 		 keyProperties.add(new PropertyRef().setName(HrObjectsEDM.systId));
-		return keyProperties;
+		 keyProperties.add(new PropertyRef().setName(HrObjectsEDM.systId));
+			
+		 return keyProperties;
 	}
 	@Override
 	public Association getAssociation(FullQualifiedName relatedEntity) {
@@ -183,12 +185,12 @@ public class HrObjectsEDM  extends BaseEDM{
 List<NavigationProperty> navigationProperties = new ArrayList<NavigationProperty>();
 		
 		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_TENANTS).setRelationship(ASSOCIATION_FQN_HROBJECTS_TENANTS).setFromRole(ROLE_HROBJECTS_TENANTS).setToRole(ROLE_TENANTS_HROBJECTS));
-		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_HROBJECTSCONSTRAINTS).setRelationship(ASSOCIATION_FQN_HROBJECTSCONSTRAINT_HROBJECTS).setFromRole(ROLE_HROBJECTS_HROBJECTCONSTRAINTS).setToRole(ROLE_HROBJECTCONSTRAINTS_HROBJECTS));
-		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_HROBJECTSSTATUS).setRelationship(ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTS).setFromRole(ROLE_HROBJECTS_HROBJECTSSTATUS).setToRole(ROLE_HROBJECTSSTATUS_HROBJECTS));
+//		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_HROBJECTSCONSTRAINTS).setRelationship(ASSOCIATION_FQN_HROBJECTSCONSTRAINT_HROBJECTS).setFromRole(ROLE_HROBJECTS_HROBJECTCONSTRAINTS).setToRole(ROLE_HROBJECTCONSTRAINTS_HROBJECTS));
+//		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_HROBJECTSSTATUS).setRelationship(ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTS).setFromRole(ROLE_HROBJECTS_HROBJECTSSTATUS).setToRole(ROLE_HROBJECTSSTATUS_HROBJECTS));
 		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_CASYSTEM).setRelationship(ASSOCIATION_FQN_HROBJECTS_CASYSTEM).setFromRole(ROLE_HROBJECTS_CASYSTEMS).setToRole(ROLE_CASYSTEMS_HROBJECTS));
-		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_HROBJECTREL).setRelationship(ASSOCIATION_FQN_HROBJECTREL_HROBJECTS).setFromRole(ROLE_HROBJECTS_HROBJECTREL).setToRole(ROLE_HROBJECTREL_HROBJECTS));
-		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_HRP1001).setRelationship(ASSOCIATION_FQN_HRP1001_HROBJECTS).setFromRole(ROLE_HROBJECTS_HRP1001).setToRole(ROLE_HRP1001_HROBJECTS));
-		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_HRP1000 ).setRelationship(ASSOCIATION_FQN_HRP1000_HROBJECTS ).setFromRole(ROLE_HROBJECTS_HRP1000).setToRole(ROLE_HRP1000_HROBJECTS));
+//		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_HROBJECTREL).setRelationship(ASSOCIATION_FQN_HROBJECTREL_HROBJECTS).setFromRole(ROLE_HROBJECTS_HROBJECTREL).setToRole(ROLE_HROBJECTREL_HROBJECTS));
+//		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_HRP1001).setRelationship(ASSOCIATION_FQN_HRP1001_HROBJECTS).setFromRole(ROLE_HROBJECTS_HRP1001).setToRole(ROLE_HRP1001_HROBJECTS));
+//		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_HRP1000 ).setRelationship(ASSOCIATION_FQN_HRP1000_HROBJECTS ).setFromRole(ROLE_HROBJECTS_HRP1000).setToRole(ROLE_HRP1000_HROBJECTS));
 	 
 		return navigationProperties;
 	}

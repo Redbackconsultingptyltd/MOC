@@ -57,7 +57,7 @@ public class HRP1000BL extends BaseBL {
 		Hrp1000PK pk = (Hrp1000PK) primaryKeyModel;
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
-			HRP1000DAO dao = new HRP1000DAO();
+	 
 			Hrp1000 entity = dao.getByPK(pk);
 			result = convertData(entity);
 			return (IDBEntity) result;
@@ -82,10 +82,10 @@ public class HRP1000BL extends BaseBL {
 			map.put(HRP1000EDM.changedBy, dataModel.getChangedBy());
 			map.put(HRP1000EDM.changedOn, dataModel.getChangedOn());
 			map.put(HRP1000EDM.guid, dataModel.getGuid());
-			// map.put(HRP1000EDM.tenantId, dataModel.get);
+			 map.put(HRP1000EDM.tenantId, dataModel.getId().getTenants_idTenants());
 			map.put(HRP1000EDM.hrObjectsStatus, dataModel.getHrobjectsstatus());
 			map.put(HRP1000EDM.objectDesc, dataModel.getObjectDesc());
-			map.put(HRP1000EDM.objectId, dataModel.getId());
+			map.put(HRP1000EDM.objectId, dataModel.getId().getIdobjectId());
 			map.put(HRP1000EDM.objectType, dataModel.getId().getIdobjectType());
 			map.put(HRP1000EDM.seqNr, dataModel.getSeqNo());
 			map.put(HRP1000EDM.status, dataModel.getId().getStatus());
@@ -204,6 +204,14 @@ public Map<String, Object>  convertModelToEDM(IDBEntity entity){
 	return convertData((Hrp1000) entity);
 	
 	 
+}
+
+
+
+@Override
+public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
+	// TODO Auto-generated method stub
+	return null;
 }
  
 }

@@ -38,6 +38,7 @@ public class HrRelationsBL extends BaseBL {
 			// map.put(HrRelationsEDM.tenantId,
 			// dataModel.getId().getTenants_idTenants());
 			map.put(HrRelationsEDM.relatType, dataModel.getId().getRelatType());
+			map.put(HrRelationsEDM.tenantId, dataModel.getId().getTenants_idTenants());
 			map.put(HrRelationsEDM.relatTypeT, dataModel.getRelatTypeT());
 
 			return map;
@@ -178,6 +179,14 @@ public Map<String, Object>  convertModelToEDM(IDBEntity entity){
 	return convertData((Hrrelation) entity);
 	
 	 
+}
+
+
+
+@Override
+public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
+	// TODO Auto-generated method stub
+	return null;
 }
 
 }
