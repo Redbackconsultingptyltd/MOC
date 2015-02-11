@@ -74,7 +74,9 @@ public class HrRelationsEDM extends BaseEDM {
 	@Override
 	public List<PropertyRef> getKeys() {
 		List<PropertyRef> keyProperties = new ArrayList<PropertyRef>();
-		 keyProperties.add(new PropertyRef().setName(HrRelationsEDM.tenantId));
+		 keyProperties.add(new PropertyRef().setName(HrRelationsEDM.relatType));
+			
+		keyProperties.add(new PropertyRef().setName(HrRelationsEDM.tenantId));
 		 
 		return keyProperties;
 	}

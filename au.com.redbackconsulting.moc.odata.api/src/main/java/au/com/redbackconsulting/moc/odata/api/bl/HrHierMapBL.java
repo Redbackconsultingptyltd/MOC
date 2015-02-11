@@ -12,11 +12,15 @@ import org.apache.olingo.odata2.api.edm.EdmSimpleType;
 import org.apache.olingo.odata2.api.exception.ODataException;
 import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.UriInfo;
+import org.apache.olingo.odata2.api.uri.info.PutMergePatchUriInfo;
 import org.eclipse.persistence.internal.jpa.jpql.HermesParser;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrHierEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrHierMapEDM;
+import au.com.redbackconsulting.moc.persistence.HrHierDAO;
 import au.com.redbackconsulting.moc.persistence.HrHierMapDAO;
+import au.com.redbackconsulting.moc.persistence.factory.Constants;
+import au.com.redbackconsulting.moc.persistence.factory.PKFactory;
 import au.com.redbackconsulting.moc.persistence.model2.Casystem;
 import au.com.redbackconsulting.moc.persistence.model2.Hrhier;
 import au.com.redbackconsulting.moc.persistence.model2.HrhierPK;
@@ -56,12 +60,10 @@ public class HrHierMapBL extends BaseBL {
 	public IDBEntity getData(IPkModel primaryKeyModel) {
  
 		HrhiermapPK pk = (HrhiermapPK) primaryKeyModel;
-		 Map<String, Object>  result = new HashMap<String, Object>();
 		try {
 			HrHierMapDAO dao = new HrHierMapDAO();
 			Hrhiermap entity =	dao.getByPK(pk);
-		result= convertData(entity);
-		return (IDBEntity) result;
+		return (IDBEntity) entity;
 		} catch (Exception e) {
 			int i =0;
 			i=i+1;
@@ -116,15 +118,18 @@ public IDBEntity createData(IDBEntity data) {
 	try {
 		
 		Hrhiermap entity=(Hrhiermap) data;	
-		
-		
-		HrhiermapPK pk= new HrhiermapPK();
-		pk.setTenants_idTenants(entity.getTenant().getTenantPK().getId());
-	//pk.setSeqNo(entity.getTenant().getTenantPK().get);
-		//pk.setIdHrHier(entity.getTenant().getTenantPK().get);
-	
-		entity.setId(pk);
-		entity =dao.saveNew(entity);
+		int hrHIerId =entity.getId().getHrHierId();
+		int tenantId = entity.getId().getTenants_idTenants();
+		HrHierDAO hrHierDao = new HrHierDAO();
+		HrhierPK hrhierPk = (HrhierPK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_HRHIER);
+		hrhierPk.setIdHrHier(hrHIerId);
+		hrhierPk.setTenants_idTenants(tenantId);
+		Hrhier hrHierEntity = hrHierDao.getByPK(hrhierPk);
+		 
+		if (hrHierEntity!=null){
+		 entity.setHrhier(hrHierEntity);
+			entity =dao.saveNew(entity);
+		}	
 	return entity;
 	} catch (Exception e) {
 		return null;
@@ -139,13 +144,13 @@ try {
 	
 	Hrhiermap founddEntity =dao.getByPK((HrhiermapPK) pk);
 	Hrhiermap newEntity= (Hrhiermap) entity;
-	founddEntity.setHrhier(newEntity.getHrhier());          
+	//founddEntity.setHrhier(newEntity.getHrhier());          
 	founddEntity.setObjectTypeId(newEntity.getObjectTypeId());  
-	founddEntity.setTenant(newEntity.getTenant());
-	founddEntity.setId(newEntity.getId());
+//	founddEntity.setTenant(newEntity.getTenant());
+//	founddEntity.setId(newEntity.getId());
 	founddEntity.setRelatType(newEntity.getRelatType());
 	founddEntity.setSkip(newEntity.getSkip());
-	founddEntity.setSObjectTypeId(newEntity.getSObjectTypeId());
+//	founddEntity.setSObjectTypeId(newEntity.getSObjectTypeId());
 	founddEntity = dao.save(founddEntity);
 	return founddEntity;
 } catch (Exception e) {
@@ -217,21 +222,43 @@ public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
 
 
 	int tenantId = (Integer) edm.get(HrHierMapEDM.tenantId);
-	String hierDesc = (String) edm.get(HrHierMapEDM.hierId);
+	int hierId = (Integer) edm.get(HrHierMapEDM.hierId);
 	String objectType = (String) edm.get(HrHierMapEDM.objectType);
 	String relatType = (String) edm.get(HrHierMapEDM.relatType);
-	String seqNo = (String) edm.get(HrHierMapEDM.seqNo);
+	int seqNo = (Integer) edm.get(HrHierMapEDM.seqNo);
 	String skip = (String) edm.get(HrHierMapEDM.skip);
 	String sObjType = (String) edm.get(HrHierMapEDM.sObjType);
 
 
+
 	
 	Hrhiermap entity = new Hrhiermap();
+	HrhiermapPK pk = (HrhiermapPK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_HRHIERMAP);
+	pk.setHrHierId(hierId);
+	pk.setSeqNo(seqNo);
+	pk.setTenants_idTenants(tenantId);
+	
+	
+	
+	entity.setId(pk);
 	entity.setSkip(skip);
-	
-	
-	return null;
 
+	
+	return entity;
+
+}
+
+@Override
+public Map<String, Object> createNew(Map<String, Object> data) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public Map<String, Object> update(PutMergePatchUriInfo uriinfo,
+		Map<String, Object> data) {
+	// TODO Auto-generated method stub
+	return null;
 }
  
 }

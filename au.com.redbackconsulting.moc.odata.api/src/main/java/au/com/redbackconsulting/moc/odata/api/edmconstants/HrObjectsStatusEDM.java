@@ -63,7 +63,7 @@ public class HrObjectsStatusEDM extends BaseEDM {
 	@Override
 	public List<PropertyRef> getKeys() {
 		List<PropertyRef> keyProperties = new ArrayList<PropertyRef>();
-		 keyProperties.add(new PropertyRef().setName(HrObjectsStatusEDM.tenantId));
+		 keyProperties.add(new PropertyRef().setName(HrObjectsStatusEDM.statusId));
 		 keyProperties.add(new PropertyRef().setName(HrObjectsStatusEDM.tenantId));
 		
 		return keyProperties;

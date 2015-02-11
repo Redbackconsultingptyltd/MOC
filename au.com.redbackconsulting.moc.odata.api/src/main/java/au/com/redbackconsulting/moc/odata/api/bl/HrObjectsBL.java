@@ -12,11 +12,18 @@ import org.apache.olingo.odata2.api.edm.EdmSimpleType;
 import org.apache.olingo.odata2.api.exception.ODataException;
 import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.UriInfo;
+import org.apache.olingo.odata2.api.uri.info.PutMergePatchUriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrHierMapEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsEDM;
+import au.com.redbackconsulting.moc.persistence.CaSystemsDAO;
 import au.com.redbackconsulting.moc.persistence.HRP1000DAO;
 import au.com.redbackconsulting.moc.persistence.HrObjectsDAO;
+import au.com.redbackconsulting.moc.persistence.TenantsDAO;
+import au.com.redbackconsulting.moc.persistence.factory.Constants;
+import au.com.redbackconsulting.moc.persistence.factory.PKFactory;
+import au.com.redbackconsulting.moc.persistence.model2.Casystem;
+import au.com.redbackconsulting.moc.persistence.model2.CasystemPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrhier;
 import au.com.redbackconsulting.moc.persistence.model2.HrhierPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrhiermap;
@@ -26,6 +33,7 @@ import au.com.redbackconsulting.moc.persistence.model2.Hrp1000;
 import au.com.redbackconsulting.moc.persistence.model2.Hrp1000PK;
 import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
 import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
+import au.com.redbackconsulting.moc.persistence.model2.Tenant;
 import au.com.redbackconsulting.moc.persistence.model2.TenantPK;
 
  
@@ -60,8 +68,8 @@ private HrObjectsDAO dao=new HrObjectsDAO();
 		try {
 			HrObjectsDAO dao = new HrObjectsDAO();
 			Hrobject entity = dao.getByPK(pk);
-			result = convertData(entity);
-			return (IDBEntity) result;
+		 
+			return (IDBEntity) entity;
 		} catch (Exception e) {
 			int i = 0;
 			i = i + 1;
@@ -113,10 +121,12 @@ public boolean deleteData(IPkModel primaryKey) {
 public IDBEntity createData(IDBEntity data) {
 	try {
 		Hrobject entity = (Hrobject) data;
-		HrobjectPK pk= new HrobjectPK();
-		pk.setTenants_idTenants(entity.getTenant().getTenantPK().getId());
 		
-		entity.setId(pk);
+		
+//		HrobjectPK pk= new HrobjectPK();
+//		pk.setTenants_idTenants(entity.getTenant().getTenantPK().getId());
+//		
+//		entity.setId(pk);
 		entity =dao.saveNew(entity);
 	return entity;
 	} catch (Exception e) {
@@ -130,10 +140,11 @@ public IDBEntity updateData(IPkModel pk, IDBEntity entity) {
 	try {
 		Hrobject founddEntity =dao.getByPK((HrobjectPK) pk);
 		Hrobject newEntity= (Hrobject) entity;
-		founddEntity.setCasystem(newEntity.getCasystem());
-		founddEntity.setHrobjectsconstraint(newEntity.getHrobjectsconstraint());
-		founddEntity.setId(newEntity.getId());
-		founddEntity.setTenant(newEntity.getTenant());
+//		founddEntity.setCasystem(newEntity.getCasystem());
+//		founddEntity.setHrobjectsconstraint(newEntity.getHrobjectsconstraint());
+//		founddEntity.setId(newEntity.getId());
+//		founddEntity.setTenant(newEntity.getTenant());
+		
 		founddEntity = dao.save(founddEntity);
 		
 		return founddEntity;
@@ -217,6 +228,83 @@ public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
 	
 	
 	return null;
+}
+
+@Override
+public Map<String, Object> createNew(Map<String, Object> data) {
+	PKFactory pkfactory =PKFactory.getInstance();
+	int tenantId = (Integer) data.get(HrObjectsEDM.tenantId);
+	int systId = (Integer) data.get(HrObjectsEDM.systId);
+	String sObjectType = (String) data.get(HrObjectsEDM.sObjectType);
+//	String objectType = (String) data.get(HrObjectsEDM.objectType);
+	
+	CaSystemsDAO caSystemDao = new CaSystemsDAO();
+	CasystemPK caSystemsPk = (CasystemPK)pkfactory.getPKModel(Constants.PERSISTENCE_CASYSTEMS);
+	caSystemsPk.setIdsys(systId);
+	caSystemsPk.setTenants_idTenants(tenantId);
+	Casystem caSystemEntity =caSystemDao.getByPK(caSystemsPk);
+	
+	TenantsDAO tenantDao = new TenantsDAO();
+	TenantPK tenantPK = (TenantPK) pkfactory.getPKModel(Constants.PERSISTENCE_TENANTS);
+	tenantPK.setId(tenantId);
+	Tenant tenantEntity = tenantDao.getByPK(tenantPK);	
+	
+	
+	HrobjectPK pk = (HrobjectPK) pkfactory.getPKModel(Constants.PERSISTENCE_HROBJECTS);
+	pk.setTenants_idTenants(tenantId);
+	Hrobject entity = new Hrobject();
+	entity.setId(pk);
+	entity.setCasystem(caSystemEntity);
+	entity.setSObjectType(sObjectType);
+	entity.setTenant(tenantEntity);
+	Hrobject resultEntity =dao.saveNew(entity);
+	return convertModelToEDM(resultEntity);
+	
+	
+	
+}
+
+@Override
+public Map<String, Object> update(PutMergePatchUriInfo uriInfo,
+		Map<String, Object> data) {
+	try {
+		int objectType =getKeyValue(uriInfo.getKeyPredicates().get(0));
+		int pkTenantId =getKeyValue(uriInfo.getKeyPredicates().get(1));
+		PKFactory pkFactory=   PKFactory.getInstance();
+		
+		HrobjectPK pk =(HrobjectPK) pkFactory.getPKModel(Constants.PERSISTENCE_HROBJECTS);
+		pk.setIdObjectType(objectType);
+		pk.setTenants_idTenants(pkTenantId);
+		
+		
+		int systId = (Integer) data.get(HrObjectsEDM.systId);
+		String sObjectType = (String) data.get(HrObjectsEDM.sObjectType);
+	 
+		
+		CaSystemsDAO caSystemDao = new CaSystemsDAO();
+		CasystemPK caSystemsPk = (CasystemPK)pkFactory.getPKModel(Constants.PERSISTENCE_CASYSTEMS);
+		caSystemsPk.setIdsys(systId);
+		caSystemsPk.setTenants_idTenants(pkTenantId);
+		Casystem caSystemEntity =caSystemDao.getByPK(caSystemsPk);
+		
+		TenantsDAO tenantDao = new TenantsDAO();
+		TenantPK tenantPK = (TenantPK) pkFactory.getPKModel(Constants.PERSISTENCE_TENANTS);
+		tenantPK.setId(pkTenantId);
+		Tenant tenantEntity = tenantDao.getByPK(tenantPK);	
+		
+		Hrobject entity = dao.getByPK(pk);
+		entity.setSObjectType(sObjectType);
+		entity.setTenant(tenantEntity);
+		entity.setCasystem(caSystemEntity);
+		entity =dao.save(entity);
+		dao.refresh(entity);
+		return convertModelToEDM(entity);
+			
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
+	return null;
+	
 }
  
 }

@@ -12,6 +12,7 @@ import org.apache.olingo.odata2.api.edm.EdmSimpleType;
 import org.apache.olingo.odata2.api.exception.ODataException;
 import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.UriInfo;
+import org.apache.olingo.odata2.api.uri.info.PutMergePatchUriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HRP1000EDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsConstraintsEDM;
@@ -61,8 +62,7 @@ public class HRP1000BL extends BaseBL {
 		try {
 	 
 			Hrp1000 entity = dao.getByPK(pk);
-			result = convertData(entity);
-			return (IDBEntity) result;
+			 			return (IDBEntity) entity ;
 		} catch (Exception e) {
 			int i = 0;
 			i = i + 1;
@@ -240,6 +240,19 @@ public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
 	//entity.setChangedOn(changedOn);
 	//entity.setHrobject(hrobject);
 	
+	return null;
+}
+
+@Override
+public Map<String, Object> createNew(Map<String, Object> data) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public Map<String, Object> update(PutMergePatchUriInfo uriinfo,
+		Map<String, Object> data) {
+	// TODO Auto-generated method stub
 	return null;
 }
  

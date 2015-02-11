@@ -116,6 +116,9 @@ public class HrObjectRelEDM  extends BaseEDM{
 		// TODO Auto-generated constructor stub
 	}
 
+
+	public static String hrobjectsId ="hrobjectsId";
+	public static String tableId ="tableId";
 	public static String tenantId="tenantId";
 	public static String objectType="objectType";
 	public static String relatType = "relatType";
@@ -124,12 +127,14 @@ public class HrObjectRelEDM  extends BaseEDM{
 	@Override
 	public List<Property> getProperties() {
 		List<Property> properties = new ArrayList<Property>();
-		  properties.add(new SimpleProperty().setName(HrObjectRelEDM.tenantId).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
+		 properties.add(new SimpleProperty().setName(HrObjectRelEDM.hrobjectsId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(true)));
+		 properties.add(new SimpleProperty().setName(HrObjectRelEDM.tableId).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+			
+		  properties.add(new SimpleProperty().setName(HrObjectRelEDM.tenantId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
 		  properties.add(new SimpleProperty().setName(HrObjectRelEDM.objectType).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
 		  properties.add(new SimpleProperty().setName(HrObjectRelEDM.relatType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
-		  properties.add(new SimpleProperty().setName(HrObjectRelEDM.sObjectType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
-			
-		  properties.add(new SimpleProperty().setName(HrObjectRelEDM.timeConstraint).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		  properties.add(new SimpleProperty().setName(HrObjectRelEDM.sObjectType).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HrObjectRelEDM.timeConstraint).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(true)));
 		  
 		  return properties;
 	}
@@ -137,7 +142,11 @@ public class HrObjectRelEDM  extends BaseEDM{
 	public List<PropertyRef> getKeys() {
 		List<PropertyRef> keyProperties = new ArrayList<PropertyRef>();
 		 keyProperties.add(new PropertyRef().setName(HrObjectRelEDM.tenantId));
-		 
+		 keyProperties.add(new PropertyRef().setName(HrObjectRelEDM.objectType));
+		 keyProperties.add(new PropertyRef().setName(HrObjectRelEDM.timeConstraint));
+		 keyProperties.add(new PropertyRef().setName(HrObjectRelEDM.sObjectType));
+		 keyProperties.add(new PropertyRef().setName(HrObjectRelEDM.relatType));
+		
 		return keyProperties;
 	}
 	@Override

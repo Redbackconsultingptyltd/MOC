@@ -14,6 +14,7 @@ import org.apache.olingo.odata2.api.ep.entry.ODataEntry;
 import org.apache.olingo.odata2.api.exception.ODataException;
 import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.UriInfo;
+import org.apache.olingo.odata2.api.uri.info.PutMergePatchUriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.TenantsEDM;
@@ -203,4 +204,17 @@ public class CaSystemsBL extends BaseBL {
 return entity;
 
 }
+
+	@Override
+	public Map<String, Object> createNew(Map<String, Object> data) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Map<String, Object> update(PutMergePatchUriInfo uriinfo,
+			Map<String, Object> data) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

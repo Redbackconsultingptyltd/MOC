@@ -12,11 +12,18 @@ import org.apache.olingo.odata2.api.edm.EdmSimpleType;
 import org.apache.olingo.odata2.api.exception.ODataException;
 import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.UriInfo;
+import org.apache.olingo.odata2.api.uri.info.PutMergePatchUriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsConstraintsEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsEDM;
+import au.com.redbackconsulting.moc.persistence.CaSystemsDAO;
 import au.com.redbackconsulting.moc.persistence.HrHierMapDAO;
 import au.com.redbackconsulting.moc.persistence.HrObjectsConstraintsDAO;
+import au.com.redbackconsulting.moc.persistence.TenantsDAO;
+import au.com.redbackconsulting.moc.persistence.factory.Constants;
+import au.com.redbackconsulting.moc.persistence.factory.PKFactory;
+import au.com.redbackconsulting.moc.persistence.model2.Casystem;
+import au.com.redbackconsulting.moc.persistence.model2.CasystemPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrhiermap;
 import au.com.redbackconsulting.moc.persistence.model2.HrhiermapPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrobject;
@@ -25,6 +32,7 @@ import au.com.redbackconsulting.moc.persistence.model2.Hrobjectsconstraint;
 import au.com.redbackconsulting.moc.persistence.model2.HrobjectsconstraintPK;
 import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
 import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
+import au.com.redbackconsulting.moc.persistence.model2.Tenant;
 import au.com.redbackconsulting.moc.persistence.model2.TenantPK;
 
 public class HrObjectsConstraintsBL extends BaseBL{
@@ -63,8 +71,8 @@ public class HrObjectsConstraintsBL extends BaseBL{
 		try {
 			HrObjectsConstraintsDAO dao = new HrObjectsConstraintsDAO();
 			Hrobjectsconstraint entity =	dao.getByPK(pk);
-		result= convertData(entity);
-		return (IDBEntity) result;
+	 
+		return (IDBEntity) entity;
 		} catch (Exception e) {
 			int i =0;
 			i=i+1;
@@ -115,10 +123,10 @@ public class HrObjectsConstraintsBL extends BaseBL{
 	public IDBEntity createData(IDBEntity data) {
 		try {
 			Hrobjectsconstraint entity = (Hrobjectsconstraint) data;
-			HrobjectsconstraintPK pk= new HrobjectsconstraintPK();
-			pk.setTenants_idTenants(entity.getTenant().getTenantPK().getId());
-			
-			entity.setId(pk);
+//			HrobjectsconstraintPK pk= new HrobjectsconstraintPK();
+//			pk.setTenants_idTenants(entity.getTenant().getTenantPK().getId());
+//			
+//			entity.setId(pk);
 			entity =dao.saveNew(entity);
 		return entity;
 			
@@ -133,11 +141,11 @@ public class HrObjectsConstraintsBL extends BaseBL{
 		try {
 			Hrobjectsconstraint founddEntity =dao.getByPK((HrobjectsconstraintPK) pk);
 			Hrobjectsconstraint newEntity= (Hrobjectsconstraint) entity;
-			founddEntity.setHrobject(newEntity.getHrobject());
+			//founddEntity.setHrobject(newEntity.getHrobject());
 			founddEntity.setTableId(newEntity.getTableId());
 			founddEntity.setTimeConstraint(newEntity.getTimeConstraint());
-			founddEntity.setTenant(newEntity.getTenant());
-			founddEntity.setId(newEntity.getId());
+			//founddEntity.setTenant(newEntity.getTenant());
+			//founddEntity.setId(newEntity.getId());
 			founddEntity = dao.save(founddEntity);
 			
 			return founddEntity;
@@ -224,6 +232,78 @@ public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
 	
 	return null;
 }
- 
+
+@Override
+public Map<String, Object> createNew(Map<String, Object> data) {
+	PKFactory pkfactory =PKFactory.getInstance();
+	int tenantId = (Integer) data.get(HrObjectsConstraintsEDM.tenantId);
+	String tableId = (String) data.get(HrObjectsConstraintsEDM.tableId);
+	int timeConstraints =(Integer) data.get(HrObjectsConstraintsEDM.timeConstraint);
+
+	
+	
+	TenantsDAO tenantDao = new TenantsDAO();
+	TenantPK tenantPK = (TenantPK) pkfactory.getPKModel(Constants.PERSISTENCE_TENANTS);
+	tenantPK.setId(tenantId);
+	Tenant tenantEntity = tenantDao.getByPK(tenantPK);	
+	
+	
+	HrobjectsconstraintPK pk = (HrobjectsconstraintPK) pkfactory.getPKModel(Constants.PERSISTENCE_HROBJECTCONSTRAINTS);
+	pk.setTenants_idTenants(tenantId);
+	Hrobjectsconstraint entity = new Hrobjectsconstraint();
+	entity.setId(pk);
+	entity.setTableId(tableId);
+	entity.setTimeConstraint(timeConstraints);
+entity.setTenant(tenantEntity);	 
+	Hrobjectsconstraint resultEntity =dao.saveNew(entity);
+	return convertModelToEDM(resultEntity);
+	
+	
+	
+}
+
+@Override
+public Map<String, Object> update(PutMergePatchUriInfo uriInfo,
+		Map<String, Object> data) {
+	PKFactory pkFactory=   PKFactory.getInstance();
+	try {
+		int pkobjectType =getKeyValue(uriInfo.getKeyPredicates().get(0));
+		int pkTenantId =getKeyValue(uriInfo.getKeyPredicates().get(1));
+		
+		 
+		int tenantId = (Integer) data.get(HrObjectsConstraintsEDM.tenantId);
+		String tableId = (String) data.get(HrObjectsConstraintsEDM.tableId);
+		int timeConstraints =(Integer) data.get(HrObjectsConstraintsEDM.timeConstraint);
+		int hrobjectId =(Integer) data.get(HrObjectsConstraintsEDM.objectType);
+
+		
+		
+		TenantsDAO tenantDao = new TenantsDAO();
+		TenantPK tenantPK = (TenantPK) pkFactory.getPKModel(Constants.PERSISTENCE_TENANTS);
+		tenantPK.setId(tenantId);
+		Tenant tenantEntity = tenantDao.getByPK(tenantPK);	
+		
+		
+		HrobjectsconstraintPK pk = (HrobjectsconstraintPK) pkFactory.getPKModel(Constants.PERSISTENCE_HROBJECTCONSTRAINTS);
+		pk.setHrObject(pkobjectType);
+		pk.setTenants_idTenants(pkTenantId);
+		
+		
+		Hrobjectsconstraint entity = dao.getByPK(pk);
+		
+		entity.setTableId(tableId);
+		entity.setTimeConstraint(timeConstraints);
+	 
+		Hrobjectsconstraint resultEntity =dao.save (entity);
+		return convertModelToEDM(resultEntity);
+		
+	 
+			
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
+	return null;
+	
+} 
 
 }

@@ -86,9 +86,9 @@ public class HrObjectsEDM  extends BaseEDM{
 	@Override
 	public List<PropertyRef> getKeys() {
 		List<PropertyRef> keyProperties = new ArrayList<PropertyRef>();
+
+		 keyProperties.add(new PropertyRef().setName(HrObjectsEDM.objectType)); 
 		 keyProperties.add(new PropertyRef().setName(HrObjectsEDM.tenantId));
-		 keyProperties.add(new PropertyRef().setName(HrObjectsEDM.systId));
-		 keyProperties.add(new PropertyRef().setName(HrObjectsEDM.systId));
 			
 		 return keyProperties;
 	}

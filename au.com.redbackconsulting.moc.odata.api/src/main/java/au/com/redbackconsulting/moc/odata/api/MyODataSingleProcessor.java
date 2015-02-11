@@ -50,6 +50,7 @@ import static au.com.redbackconsulting.moc.persistence.factory.Constants.PERSIST
 
 
 
+
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
@@ -89,6 +90,7 @@ import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsConstraintsE
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrRelationsEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.TenantsEDM;
+import au.com.redbackconsulting.moc.persistence.factory.Constants;
 import au.com.redbackconsulting.moc.persistence.factory.PKFactory;
 import au.com.redbackconsulting.moc.persistence.model2.Casystem;
 import au.com.redbackconsulting.moc.persistence.model2.CasystemPK;
@@ -153,12 +155,14 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				return EntityProvider.writeEntry(contentType, entitySet, data,
 						propertiesBuilder.build());
 			} else if (ENTITY_SET_NAME_HRHIERMAP.equals(entitySet.getName())) {
+
+				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRHIERMAP);
+				
 				int id = getKeyValue(uriInfo.getKeyPredicates().get(0));
 				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
 				int seqNo = getKeyValue(uriInfo.getKeyPredicates().get(2));
 
-				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRHIERMAP);
-				HrhiermapPK pk = new HrhiermapPK();
+				HrhiermapPK pk = (HrhiermapPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRHIERMAP);
 
 				pk.setHrHierId((id));
 				pk.setTenants_idTenants(tenantId);
@@ -174,11 +178,23 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				return EntityProvider.writeEntry(contentType, entitySet, data,
 						propertiesBuilder.build());
 			} else if (ENTITY_SET_NAME_HROBJECTREL.equals(entitySet.getName())) {
-				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTSREL);
-				TenantPK pk = new TenantPK();
-				pk.setId((tenantId));
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+				int objectType = getKeyValue(uriInfo.getKeyPredicates().get(1));
+				int timeConstraints = getKeyValue(uriInfo.getKeyPredicates().get(2));
+				int sObjectType = getKeyValue(uriInfo.getKeyPredicates().get(3));
+				String relatType = getKeyValueString(uriInfo.getKeyPredicates().get(4));
+				
+				
+				
+				
+
+				HrobjectrelPK pk = (HrobjectrelPK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_HROBJECTSREL);
+				pk.setIdobjectype(objectType);
+				pk.setIdrelatType(relatType);
+				pk.setIdsobjectype(sObjectType);
+				pk.setTenants_idTenants(tenantId);
+				pk.setTimeConstraints(timeConstraints);
 				// Map<String, Object> data = blModel.getData(pk);
 				IDBEntity entity = blModel.getData(pk);
 				Map<String, Object> data = blModel.convertModelToEDM(entity);
@@ -189,11 +205,12 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				return EntityProvider.writeEntry(contentType, entitySet, data,
 						propertiesBuilder.build());
 			} else if (ENTITY_SET_NAME_HROBJECTS.equals(entitySet.getName())) {
-				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-
+				int objectType  = getKeyValue(uriInfo.getKeyPredicates().get(0));
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTS);
-				TenantPK pk = new TenantPK();
-				pk.setId((tenantId));
+				HrobjectPK pk = (HrobjectPK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_HROBJECTS);
+				pk.setIdObjectType(objectType);
+				pk.setTenants_idTenants(tenantId);
 				// Map<String, Object> data = blModel.getData(pk);
 				IDBEntity entity = blModel.getData(pk);
 				Map<String, Object> data = blModel.convertModelToEDM(entity);
@@ -205,12 +222,16 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 						propertiesBuilder.build());
 			} else if (ENTITY_SET_NAME_HROBJECTSCONSTRAINTS.equals(entitySet
 					.getName())) {
-				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+				int objectType = getKeyValue(uriInfo.getKeyPredicates().get(0));
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
 
+				
 				IBLModel blModel = bmf
 						.getInstance(ENTITY_KEY_HROBJECTSCONSTRAINTS);
-				TenantPK pk = new TenantPK();
-				pk.setId((tenantId));
+				HrobjectsconstraintPK  pk = (HrobjectsconstraintPK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_HROBJECTCONSTRAINTS);
+				pk.setHrObject(objectType);
+				pk.setTenants_idTenants(tenantId);
+				
 				// Map<String, Object> data = blModel.getData(pk);
 				IDBEntity entity = blModel.getData(pk);
 				Map<String, Object> data = blModel.convertModelToEDM(entity);
@@ -222,11 +243,15 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 						propertiesBuilder.build());
 			} else if (ENTITY_SET_NAME_HROBJECTSSTATUS.equals(entitySet
 					.getName())) {
-				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+				int hrobjectStatusId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
 
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HROBJECTSSTATUS);
-				TenantPK pk = new TenantPK();
-				pk.setId((tenantId));
+				HrobjectsstatusPK pk =(HrobjectsstatusPK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_HROBJECTSTATUS);
+				pk.setIdHrObjectsStatus(hrobjectStatusId);
+				pk.setTenants_idTenants(tenantId);
+				
 				// Map<String, Object> data = blModel.getData(pk);
 				IDBEntity entity = blModel.getData(pk);
 				Map<String, Object> data = blModel.convertModelToEDM(entity);
@@ -267,11 +292,14 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				return EntityProvider.writeEntry(contentType, entitySet, data,
 						propertiesBuilder.build());
 			} else if (ENTITY_SET_NAME_HRRELATIONS.equals(entitySet.getName())) {
-				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+				String relatType = getKeyValueString(uriInfo.getKeyPredicates().get(0));
+
+				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
 
 				IBLModel blModel = bmf.getInstance(ENTITY_KEY_HRRELATIONS);
-				TenantPK pk = new TenantPK();
-				pk.setId((tenantId));
+				HrrelationPK  pk = (HrrelationPK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_HRRELATIONS);
+				pk.setRelatType(relatType);
+				pk.setTenants_idTenants(tenantId);
 				// Map<String, Object> data = blModel.getData(pk);
 				IDBEntity entity = blModel.getData(pk);
 				Map<String, Object> data = blModel.convertModelToEDM(entity);
@@ -281,22 +309,7 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 						.serviceRoot(serviceRoot);
 				return EntityProvider.writeEntry(contentType, entitySet, data,
 						propertiesBuilder.build());
-			} else if (ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())) {
-				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-
-				IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
-				TenantPK pk = new TenantPK();
-				pk.setId((tenantId));
-				// Map<String, Object> data = blModel.getData(pk);
-				IDBEntity entity = blModel.getData(pk);
-				Map<String, Object> data = blModel.convertModelToEDM(entity);
-
-				URI serviceRoot = getContext().getPathInfo().getServiceRoot();
-				ODataEntityProviderPropertiesBuilder propertiesBuilder = EntityProviderWriteProperties
-						.serviceRoot(serviceRoot);
-				return EntityProvider.writeEntry(contentType, entitySet, data,
-						propertiesBuilder.build());
-			}
+			} 
 
 		} else if (uriInfo.getNavigationSegments().size() == 1) {
 			EdmEntitySet entitySet = uriInfo.getTargetEntitySet();
@@ -323,22 +336,7 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 							data, propertiesBuilder.build());
 				}
 
-			} else if (ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
-				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
-				IBLModel blModel = bmf.getInstance(ENTITY_KEY_TENANTS);
-				TenantPK pk = new TenantPK();
-				// pk.setSystId(sysId);
-				pk.setId((tenantId));
-				List<Map<String, Object>> data = blModel.getRelatedData(pk);
-				return EntityProvider.writeFeed(
-						contentType,
-						entitySet,
-						data,
-						EntityProviderWriteProperties.serviceRoot(
-								getContext().getPathInfo().getServiceRoot())
-								.build());
-
-			}
+			} 
 
 		}
 		return null;
@@ -638,13 +636,7 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 			throw new ODataNotImplementedException();
 		}
 
-		// No support for media resources
-		// if (uriInfo.getStartEntitySet().getEntityType().hasStream()) {
-		// throw new ODataNotImplementedException();
-		// }
-//		int sysId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-//		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
-
+ 
 		EntityProviderReadProperties properties = EntityProviderReadProperties
 				.init().mergeSemantic(false).build();
 		ODataEntry entry = EntityProvider.readEntry(requestContentType,
@@ -713,129 +705,142 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 						ENTITY_KEY_HRHIERMAP);
 				//Read PK from URL
 				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+
+				int seqNo =getKeyValue(uriInfo.getKeyPredicates().get(1));
+				int pktenantId =getKeyValue(uriInfo.getKeyPredicates().get(2));
 				PKFactory pkFactory= PKFactory.getInstance();
 				HrhiermapPK pk = (HrhiermapPK) pkFactory.getPKModel(PERSISTENCE_HRHIERMAP);
-				pk.setTenants_idTenants(pkId);
-
+				pk.setTenants_idTenants(pktenantId);
+				pk.setHrHierId(pkId);
+				pk.setSeqNo(seqNo);
 				
 				//Read Form Data
-				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
-				entity =  (Hrhier) blModel.updateData(pk, entity);
+				Hrhiermap entity =   (Hrhiermap) blModel.convertEDMDataToModelEDM(data);
+			
+				
+				entity =  (Hrhiermap) blModel.updateData(pk, entity);
 				return super.updateEntity(uriInfo, content, requestContentType,
 						merge, contentType);
 			}else if (ENTITY_SET_NAME_HROBJECTS.equals(entitySet.getName())) {
 				
 				IBLModel blModel = BLModelFactory.getInstance().getInstance(
 						ENTITY_KEY_HROBJECTS);
-				//Read PK from URL
-				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
-				PKFactory pkFactory= PKFactory.getInstance();
-				HrobjectPK pk = (HrobjectPK) pkFactory.getPKModel(PERSISTENCE_HROBJECTS);
-				pk.setTenants_idTenants(pkId);
-
-				
-				//Read Form Data
-				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
-				entity =  (Hrhier) blModel.updateData(pk, entity);
+				Map<String, Object > result =blModel.update(uriInfo, data);
+//				//Read PK from URL
+//				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+//				PKFactory pkFactory= PKFactory.getInstance();
+//				HrobjectPK pk = (HrobjectPK) pkFactory.getPKModel(PERSISTENCE_HROBJECTS);
+//				pk.setTenants_idTenants(pkId);
+//
+//				
+//				//Read Form Data
+//				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
+//				entity =  (Hrhier) blModel.updateData(pk, entity);
 				return super.updateEntity(uriInfo, content, requestContentType,
 						merge, contentType);
 			}else if (ENTITY_SET_NAME_HROBJECTREL.equals(entitySet.getName())) {
 				
 				IBLModel blModel = BLModelFactory.getInstance().getInstance(
 						ENTITY_KEY_HROBJECTSREL);
+				blModel.update(uriInfo, data);
 				//Read PK from URL
-				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
-				PKFactory pkFactory= PKFactory.getInstance();
-				HrobjectrelPK  pk = (HrobjectrelPK) pkFactory.getPKModel(PERSISTENCE_HROBJECTSREL);
-				pk.setTenants_idTenants(pkId);
-
-				
-				//Read Form Data
-				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
-				entity =  (Hrhier) blModel.updateData(pk, entity);
+//				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+//				PKFactory pkFactory= PKFactory.getInstance();
+//				HrobjectrelPK  pk = (HrobjectrelPK) pkFactory.getPKModel(PERSISTENCE_HROBJECTSREL);
+//				pk.setTenants_idTenants(pkId);
+//
+//				
+//				//Read Form Data
+//				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
+//				entity =  (Hrhier) blModel.updateData(pk, entity);
 				return super.updateEntity(uriInfo, content, requestContentType,
 						merge, contentType);
 			}else if (ENTITY_SET_NAME_HROBJECTSCONSTRAINTS.equals(entitySet.getName())) {
 				
 				IBLModel blModel = BLModelFactory.getInstance().getInstance(
 						ENTITY_KEY_HROBJECTSCONSTRAINTS);
+				blModel.update(uriInfo, data);
 				//Read PK from URL
-				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
-				PKFactory pkFactory= PKFactory.getInstance();
-				HrobjectrelPK  pk = (HrobjectrelPK) pkFactory.getPKModel(PERSISTENCE_HROBJECTCONSTRAINTS);
-				pk.setTenants_idTenants(pkId);
-
-				
-				//Read Form Data
-				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
-				entity =  (Hrhier) blModel.updateData(pk, entity);
+//				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+//				PKFactory pkFactory= PKFactory.getInstance();
+//				HrobjectrelPK  pk = (HrobjectrelPK) pkFactory.getPKModel(PERSISTENCE_HROBJECTCONSTRAINTS);
+//				pk.setTenants_idTenants(pkId);
+//
+//				
+//				//Read Form Data
+//				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
+//				entity =  (Hrhier) blModel.updateData(pk, entity);
 				return super.updateEntity(uriInfo, content, requestContentType,
 						merge, contentType);
 			}else if (ENTITY_SET_NAME_HROBJECTSSTATUS.equals(entitySet.getName())) {
 				
 				IBLModel blModel = BLModelFactory.getInstance().getInstance(
 						ENTITY_KEY_HROBJECTSSTATUS);
-				//Read PK from URL
-				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
-				PKFactory pkFactory= PKFactory.getInstance();
-				HrobjectrelPK  pk = (HrobjectrelPK) pkFactory.getPKModel(PERSISTENCE_HROBJECTSTATUS);
-				pk.setTenants_idTenants(pkId);
-
-				
-				//Read Form Data
-				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
-				entity =  (Hrhier) blModel.updateData(pk, entity);
+				blModel.update(uriInfo, data);
+				//				//Read PK from URL
+//				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+//				PKFactory pkFactory= PKFactory.getInstance();
+//				HrobjectrelPK  pk = (HrobjectrelPK) pkFactory.getPKModel(PERSISTENCE_HROBJECTSTATUS);
+//				pk.setTenants_idTenants(pkId);
+//
+//				
+//				//Read Form Data
+//				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
+//				entity =  (Hrhier) blModel.updateData(pk, entity);
 				return super.updateEntity(uriInfo, content, requestContentType,
 						merge, contentType);
 			} else if (ENTITY_SET_NAME_HRP1000.equals(entitySet.getName())) {
 				
 				IBLModel blModel = BLModelFactory.getInstance().getInstance(
 						ENTITY_KEY_HRP1000);
-				//Read PK from URL
-				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
-				PKFactory pkFactory= PKFactory.getInstance();
-				HrobjectrelPK  pk = (HrobjectrelPK) pkFactory.getPKModel(PERSISTENCE_HRP1000);
-				
-				pk.setTenants_idTenants(pkId);
-
-				
-				//Read Form Data
-				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
-				entity =  (Hrhier) blModel.updateData(pk, entity);
+				blModel.update(uriInfo, data);
+//				//Read PK from URL
+//				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+//				PKFactory pkFactory= PKFactory.getInstance();
+//				HrobjectrelPK  pk = (HrobjectrelPK) pkFactory.getPKModel(PERSISTENCE_HRP1000);
+//				
+//				pk.setTenants_idTenants(pkId);
+//
+//				
+//				//Read Form Data
+//				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
+//				entity =  (Hrhier) blModel.updateData(pk, entity);
 				return super.updateEntity(uriInfo, content, requestContentType,
 						merge, contentType);
 			} else if (ENTITY_SET_NAME_HRP1001.equals(entitySet.getName())) {
 				
 				IBLModel blModel = BLModelFactory.getInstance().getInstance(
 						ENTITY_KEY_HRP1001);
-				//Read PK from URL
-				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
-				PKFactory pkFactory= PKFactory.getInstance();
-				HrobjectrelPK  pk = (HrobjectrelPK) pkFactory.getPKModel(PERSISTENCE_HRP1001);
-				
-				pk.setTenants_idTenants(pkId);
-
-				
-				//Read Form Data
-				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
-				entity =  (Hrhier) blModel.updateData(pk, entity);
+				blModel.update(uriInfo, data);
+//				//Read PK from URL
+//				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+//				PKFactory pkFactory= PKFactory.getInstance();
+//				HrobjectrelPK  pk = (HrobjectrelPK) pkFactory.getPKModel(PERSISTENCE_HRP1001);
+//				
+//				pk.setTenants_idTenants(pkId);
+//
+//				
+//				//Read Form Data
+//				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
+//				entity =  (Hrhier) blModel.updateData(pk, entity);
 				return super.updateEntity(uriInfo, content, requestContentType,
 						merge, contentType);
 			}else if (ENTITY_SET_NAME_HRRELATIONS.equals(entitySet.getName())) {
 				
 				IBLModel blModel = BLModelFactory.getInstance().getInstance(
 						ENTITY_KEY_HRRELATIONS);
-				//Read PK from URL
-				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
-				PKFactory pkFactory= PKFactory.getInstance();
-				HrobjectrelPK  pk = (HrobjectrelPK) pkFactory.getPKModel(PERSISTENCE_HRRELATIONS);
-				
-				pk.setTenants_idTenants(pkId);
-
-				
-				//Read Form Data
-				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
-				entity =  (Hrhier) blModel.updateData(pk, entity);
+				blModel.update(uriInfo, data);
+//				//Read PK from URL
+//				int pkId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+//				PKFactory pkFactory= PKFactory.getInstance();
+//				HrobjectrelPK  pk = (HrobjectrelPK) pkFactory.getPKModel(PERSISTENCE_HRRELATIONS);
+//				
+//				pk.setTenants_idTenants(pkId);
+//
+//				
+//				//Read Form Data
+//				Hrhier entity =   (Hrhier) blModel.convertEDMDataToModelEDM(data);
+//				entity =  (Hrhier) blModel.updateData(pk, entity);
 				return super.updateEntity(uriInfo, content, requestContentType,
 						merge, contentType);
 			}
@@ -964,13 +969,13 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				IBLModel blModel = BLModelFactory.getInstance().getInstance(
 						ENTITY_KEY_HRHIERMAP);
 
-				int tenantId = (Integer) data.get(HrHierMapEDM.tenantId);
-				int hierId = (Integer) data.get(HrHierMapEDM.hierId);
-				String objectType = (String) data.get(HrHierMapEDM.objectType);
-				int relatType = (Integer) data.get(HrHierMapEDM.relatType);
+//				int tenantId = (Integer) data.get(HrHierMapEDM.tenantId);
+//				int hierId = (Integer) data.get(HrHierMapEDM.hierId);
+//				String objectType = (String) data.get(HrHierMapEDM.objectType);
+//				int relatType = (Integer) data.get(HrHierMapEDM.relatType);
 
-				HrhiermapPK pk = (HrhiermapPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRHIERMAP);
-				pk.setTenants_idTenants(tenantId);
+//				HrhiermapPK pk = (HrhiermapPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRHIERMAP);
+//				pk.setTenants_idTenants(tenantId);
  
 				Hrhiermap entity = (Hrhiermap) blModel.convertEDMDataToModelEDM(data);
 
@@ -989,6 +994,7 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 			}else if (ENTITY_SET_NAME_HROBJECTS.equals(entitySet.getName())) {
 				IBLModel blModel = BLModelFactory.getInstance().getInstance(
 						ENTITY_KEY_HROBJECTS);
+				Map<String, Object> result = blModel.createNew(data);
 
 				int tenantId = (Integer) data.get(HrObjectsEDM.tenantId);
 //				int hierId = (Integer) data.get(HrObjectsEDM.hierId);
@@ -1008,33 +1014,36 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				return EntityProvider.writeEntry(
 						contentType,
 						uriInfo.getStartEntitySet(),
-						entry.getProperties(),
+						result,
+					//	entry.getProperties(),
 						EntityProviderWriteProperties.serviceRoot(
 								getContext().getPathInfo().getServiceRoot())
 								.build());
 			}else if (ENTITY_SET_NAME_HROBJECTREL.equals(entitySet.getName())) {
 				IBLModel blModel = BLModelFactory.getInstance().getInstance(
 						ENTITY_KEY_HROBJECTSREL);
+				Map<String, Object> result =blModel.createNew(data);
 
-				int tenantId = (Integer) data.get(HrObjectRelEDM.tenantId);
-			//	int hierId = (Integer) data.get(HrObjectRelEDM.hierId);
-				String objectType = (String) data.get(HrObjectRelEDM.objectType);
-				int relatType = (Integer) data.get(HrObjectRelEDM.relatType);
-
-				HrobjectrelPK  pk = (HrobjectrelPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HROBJECTSREL);
-				Hrobjectrel entity = (Hrobjectrel) blModel.convertEDMDataToModelEDM(data);
-
-				pk.setTenants_idTenants(tenantId);
-				
-				entity.setId(pk);
-				// entity.setHierdesc(hierDesc);
-				blModel.createData(entity);
+//				int tenantId = (Integer) data.get(HrObjectRelEDM.tenantId);
+//			//	int hierId = (Integer) data.get(HrObjectRelEDM.hierId);
+//				String objectType = (String) data.get(HrObjectRelEDM.objectType);
+//				int relatType = (Integer) data.get(HrObjectRelEDM.relatType);
+//
+//				HrobjectrelPK  pk = (HrobjectrelPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HROBJECTSREL);
+//				Hrobjectrel entity = (Hrobjectrel) blModel.convertEDMDataToModelEDM(data);
+//
+//				pk.setTenants_idTenants(tenantId);
+//				
+//				entity.setId(pk);
+//				// entity.setHierdesc(hierDesc);
+//				blModel.createData(entity);
 
 				// serialize the entry, Location header is set by OData Library
 				return EntityProvider.writeEntry(
 						contentType,
 						uriInfo.getStartEntitySet(),
-						entry.getProperties(),
+						result,
+						//entry.getProperties(),
 						EntityProviderWriteProperties.serviceRoot(
 								getContext().getPathInfo().getServiceRoot())
 								.build());
@@ -1042,25 +1051,27 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 				IBLModel blModel = BLModelFactory.getInstance().getInstance(
 						ENTITY_KEY_HROBJECTSCONSTRAINTS);
 
-				int tenantId = (Integer) data.get(HrObjectRelEDM.tenantId);
-			//	int hierId = (Integer) data.get(HrObjectsConstraintsEDM.hierId);
-				String objectType = (String) data.get(HrObjectsConstraintsEDM.objectType);
-			//	int relatType = (Integer) data.get(HrObjectsConstraintsEDM.relatType);
-
-				HrhierPK pk = new HrhierPK();
-				pk.setTenants_idTenants(tenantId);
-		//		pk.setIdHrHier(hierId);
-				Hrhier entity = new Hrhier();
-
-				entity.setId(pk);
-				// entity.setHierdesc(hierDesc);
-				blModel.createData(entity);
+				Map<String, Object> result =blModel.createNew(data);
+//				int tenantId = (Integer) data.get(HrObjectRelEDM.tenantId);
+//			//	int hierId = (Integer) data.get(HrObjectsConstraintsEDM.hierId);
+//				String objectType = (String) data.get(HrObjectsConstraintsEDM.objectType);
+//			//	int relatType = (Integer) data.get(HrObjectsConstraintsEDM.relatType);
+//
+//				HrhierPK pk = new HrhierPK();
+//				pk.setTenants_idTenants(tenantId);
+//		//		pk.setIdHrHier(hierId);
+//				Hrhier entity = new Hrhier();
+//
+//				entity.setId(pk);
+//				// entity.setHierdesc(hierDesc);
+//				blModel.createData(entity);
 
 				// serialize the entry, Location header is set by OData Library
 				return EntityProvider.writeEntry(
 						contentType,
 						uriInfo.getStartEntitySet(),
-						entry.getProperties(),
+						result,
+						//entry.getProperties(),
 						EntityProviderWriteProperties.serviceRoot(
 								getContext().getPathInfo().getServiceRoot())
 								.build());
@@ -1068,19 +1079,20 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 			 else if (ENTITY_SET_NAME_HROBJECTSSTATUS.equals(entitySet.getName())) {
 					IBLModel blModel = BLModelFactory.getInstance().getInstance(
 							ENTITY_KEY_HROBJECTSSTATUS);
+					Map<String , Object> result = blModel.createNew(data);
 
-					int tenantId = (Integer) data.get(HrObjectRelEDM.tenantId);
-				//	int hierId = (Integer) data.get(HrObjectsConstraintsEDM.hierId);
-					String objectType = (String) data.get(HrObjectsConstraintsEDM.objectType);
-			//		int relatType = (Integer) data.get(HrObjectsConstraintsEDM.relatType);
-
-					HrobjectsstatusPK  pk = (HrobjectsstatusPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HROBJECTSREL);
-					Hrobjectsstatus entity = (Hrobjectsstatus) blModel.convertEDMDataToModelEDM(data);
-
-				 
-					entity.setId(pk);
-					// entity.setHierdesc(hierDesc);
-					blModel.createData(entity);
+//					int tenantId = (Integer) data.get(HrObjectRelEDM.tenantId);
+//				//	int hierId = (Integer) data.get(HrObjectsConstraintsEDM.hierId);
+//					String objectType = (String) data.get(HrObjectsConstraintsEDM.objectType);
+//			//		int relatType = (Integer) data.get(HrObjectsConstraintsEDM.relatType);
+//
+//					HrobjectsstatusPK  pk = (HrobjectsstatusPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HROBJECTSREL);
+//					Hrobjectsstatus entity = (Hrobjectsstatus) blModel.convertEDMDataToModelEDM(data);
+//
+//				 
+//					entity.setId(pk);
+//					// entity.setHierdesc(hierDesc);
+//					blModel.createData(entity);
 
 					// serialize the entry, Location header is set by OData Library
 					return EntityProvider.writeEntry(
@@ -1146,25 +1158,28 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 			 else if (ENTITY_SET_NAME_HRRELATIONS.equals(entitySet.getName())) {
 					IBLModel blModel = BLModelFactory.getInstance().getInstance(
 							ENTITY_KEY_HRRELATIONS);
+					
+					Map<String, Object> result =blModel.createNew(data);
 
-					int tenantId = (Integer) data.get(HrObjectRelEDM.tenantId);
-//					int hierId = (Integer) data.get(HrObjectsConstraintsEDM.hierId);
-					String objectType = (String) data.get(HrObjectsConstraintsEDM.objectType);
-//					int relatType = (Integer) data.get(HrObjectsConstraintsEDM.relatType);
-
-					HrrelationPK  pk = (HrrelationPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRRELATIONS);
-					HrRelationsEDM  entity = (HrRelationsEDM) blModel.convertEDMDataToModelEDM(data);
-
-				 
-//					entity.setId(pk);
-//					// entity.setHierdesc(hierDesc);
-//					blModel.createData(entity);
+//					int tenantId = (Integer) data.get(HrObjectRelEDM.tenantId);
+////					int hierId = (Integer) data.get(HrObjectsConstraintsEDM.hierId);
+//					String objectType = (String) data.get(HrObjectsConstraintsEDM.objectType);
+////					int relatType = (Integer) data.get(HrObjectsConstraintsEDM.relatType);
+//
+//					HrrelationPK  pk = (HrrelationPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRRELATIONS);
+//					HrRelationsEDM  entity = (HrRelationsEDM) blModel.convertEDMDataToModelEDM(data);
+//
+//				 
+////					entity.setId(pk);
+////					// entity.setHierdesc(hierDesc);
+////					blModel.createData(entity);
 
 					// serialize the entry, Location header is set by OData Library
 					return EntityProvider.writeEntry(
 							contentType,
 							uriInfo.getStartEntitySet(),
-							entry.getProperties(),
+							result,
+						//	entry.getProperties(),
 							EntityProviderWriteProperties.serviceRoot(
 									getContext().getPathInfo().getServiceRoot())
 									.build());

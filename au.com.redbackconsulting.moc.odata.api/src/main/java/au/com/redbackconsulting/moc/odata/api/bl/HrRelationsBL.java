@@ -12,10 +12,21 @@ import org.apache.olingo.odata2.api.edm.EdmSimpleType;
 import org.apache.olingo.odata2.api.exception.ODataException;
 import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.UriInfo;
+import org.apache.olingo.odata2.api.uri.info.PutMergePatchUriInfo;
 
+import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectRelEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsConstraintsEDM;
+import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrRelationsEDM;
+import au.com.redbackconsulting.moc.persistence.CaSystemsDAO;
 import au.com.redbackconsulting.moc.persistence.HrRelationsDAO;
+import au.com.redbackconsulting.moc.persistence.TenantsDAO;
+import au.com.redbackconsulting.moc.persistence.factory.Constants;
+import au.com.redbackconsulting.moc.persistence.factory.PKFactory;
+import au.com.redbackconsulting.moc.persistence.model2.Casystem;
+import au.com.redbackconsulting.moc.persistence.model2.CasystemPK;
+import au.com.redbackconsulting.moc.persistence.model2.Hrobject;
+import au.com.redbackconsulting.moc.persistence.model2.HrobjectPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrobjectsconstraint;
 import au.com.redbackconsulting.moc.persistence.model2.Hrp1000;
 import au.com.redbackconsulting.moc.persistence.model2.Hrp1000PK; 
@@ -23,6 +34,7 @@ import au.com.redbackconsulting.moc.persistence.model2.Hrrelation;
 import au.com.redbackconsulting.moc.persistence.model2.HrrelationPK;
 import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
 import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
+import au.com.redbackconsulting.moc.persistence.model2.Tenant;
 import au.com.redbackconsulting.moc.persistence.model2.TenantPK;
 
 public class HrRelationsBL extends BaseBL {
@@ -73,8 +85,7 @@ public class HrRelationsBL extends BaseBL {
 		try {
 			HrRelationsDAO dao = new HrRelationsDAO();
 			Hrrelation entity = dao.getByPK(pk);
-			result = convertData(entity);
-			return (IDBEntity) result;
+		 	return (IDBEntity) entity ;
 		} catch (Exception e) {
 			int i = 0;
 			i = i + 1;
@@ -100,11 +111,8 @@ public class HrRelationsBL extends BaseBL {
 	public IDBEntity createData(IDBEntity data) {
 		try {
 			Hrrelation entity = (Hrrelation) data;
-			HrrelationPK pk = new HrrelationPK();
-			pk.setTenants_idTenants(entity.getId().getTenants_idTenants());
-			pk.setRelatType(entity.getRelatTypeT());
-
-			entity.setId(pk);
+			
+			
 			entity = dao.saveNew(entity);
 			return entity;
 		} catch (Exception e) {
@@ -119,7 +127,7 @@ public class HrRelationsBL extends BaseBL {
 			Hrrelation founddEntity = dao.getByPK((HrrelationPK) pk);
 			Hrrelation newEntity = (Hrrelation) entity;
 
-			founddEntity.setId(newEntity.getId());
+//			founddEntity.setId(newEntity.getId());
 			founddEntity.setRelatTypeT(newEntity.getRelatTypeT());
 
 			founddEntity = dao.save(founddEntity);
@@ -202,6 +210,67 @@ entity.setRelatTypeT(relatTypeT);
 	
 	
 	return null;
+}
+
+@Override
+public Map<String, Object> createNew(Map<String, Object> data) {
+	PKFactory pkFactory =PKFactory.getInstance();
+	int tenantId = (Integer) data.get(HrRelationsEDM.tenantId);
+	String relatType = (String) data.get(HrRelationsEDM.relatType);
+	String relatTypeT = (String) data.get(HrRelationsEDM.relatTypeT); 
+ 
+	TenantsDAO tenantDao = new TenantsDAO();
+	TenantPK tenantPK = (TenantPK) pkFactory.getPKModel(Constants.PERSISTENCE_TENANTS);
+	tenantPK.setId(tenantId);
+	Tenant tenantEntity = tenantDao.getByPK(tenantPK);	
+	
+	
+	HrrelationPK pk = (HrrelationPK) pkFactory.getPKModel(Constants.PERSISTENCE_HRRELATIONS);
+	pk.setTenants_idTenants(tenantId);
+	pk.setRelatType(relatType);
+	
+	Hrrelation entity = new Hrrelation();
+	entity.setId(pk);
+	entity.setRelatTypeT(relatTypeT);
+	
+	
+	 	Hrrelation resultEntity =dao.saveNew(entity);
+	return convertModelToEDM(resultEntity);
+	
+	
+	
+}
+
+@Override
+public Map<String, Object> update(PutMergePatchUriInfo uriInfo,
+		Map<String, Object> data) {
+	PKFactory pkFactory =PKFactory.getInstance();
+	
+	try {
+		String pkRelatType =getKeyValueString(uriInfo.getKeyPredicates().get(0));
+		int pkTenantId =getKeyValue(uriInfo.getKeyPredicates().get(1));
+		 
+		HrrelationPK pk =  (HrrelationPK) pkFactory.getPKModel(Constants.PERSISTENCE_HRRELATIONS);
+		pk.setRelatType(pkRelatType);
+		pk.setTenants_idTenants(pkTenantId);
+		
+		
+	//	String relatType = (String) data.get(HrRelationsEDM.relatType);
+		String relatTypeT = (String) data.get(HrRelationsEDM.relatTypeT);
+	 
+		 
+		Hrrelation  entity = dao.getByPK(pk);
+		entity.setRelatTypeT(relatTypeT);
+		 
+		entity =dao.save(entity);
+		dao.refresh(entity);
+		return convertModelToEDM(entity);
+			
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
+	return null;
+	
 }
 
 }
