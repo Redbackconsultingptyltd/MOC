@@ -318,7 +318,7 @@ public Map<String, Object> read(GetEntityUriInfo uriInfo) {
 		// Map<String, Object> data = blModel.getData(pk);
 		IDBEntity entity = getData(pk);
 		Map<String, Object> data =  convertModelToEDM(entity);
-
+return data;
 	} catch (Exception e) {
 		// TODO: handle exception
 	}

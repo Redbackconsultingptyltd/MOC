@@ -59,6 +59,7 @@ public class HrRelationsBL extends BaseBL {
 			map.put(HrRelationsEDM.relatType, dataModel.getId().getRelatType());
 			map.put(HrRelationsEDM.tenantId, dataModel.getId().getTenants_idTenants());
 			map.put(HrRelationsEDM.relatTypeT, dataModel.getRelatTypeT());
+			
 
 			return map;
 

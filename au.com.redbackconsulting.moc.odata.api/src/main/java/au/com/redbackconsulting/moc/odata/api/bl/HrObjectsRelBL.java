@@ -92,6 +92,8 @@ private Map<String, Object> convertData( Hrobjectrel dataModel){
 		
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
+			map.put(HrObjectRelEDM.hrobjectsId, dataModel.getHrObjectsId());
+			map.put(HrObjectRelEDM.tableId, dataModel.getTableId());
 			map.put(HrObjectRelEDM.objectType, dataModel.getId().getIdobjectype());
 			map.put(HrObjectRelEDM.relatType, dataModel.getId().getIdrelatType());
 			map.put(HrObjectRelEDM.sObjectType, dataModel.getId().getIdsobjectype());
