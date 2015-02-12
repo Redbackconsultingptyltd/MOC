@@ -12,6 +12,8 @@ import org.apache.olingo.odata2.api.edm.EdmSimpleType;
 import org.apache.olingo.odata2.api.exception.ODataException;
 import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.UriInfo;
+import org.apache.olingo.odata2.api.uri.info.DeleteUriInfo;
+import org.apache.olingo.odata2.api.uri.info.GetEntityUriInfo;
 import org.apache.olingo.odata2.api.uri.info.PutMergePatchUriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HRP1000EDM;
@@ -32,13 +34,13 @@ import au.com.redbackconsulting.moc.persistence.model2.TenantPK;
 public class HRP1000BL extends BaseBL {
 	private HRP1000DAO dao = new HRP1000DAO();
 
-	public HRP1000BL(IBLModelFactory bmf) {
+	public HRP1000BL(BLModelFactory bmf) {
 		super(bmf);
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public List<IDBEntity> getDataSet() {
+ 
+	private List<IDBEntity> getDataSet() {
 
 		List<IDBEntity> result = new ArrayList<IDBEntity>();
 		try {
@@ -54,8 +56,8 @@ public class HRP1000BL extends BaseBL {
 		return null;
 	}
 
-	@Override
-	public IDBEntity getData(IPkModel primaryKeyModel) {
+ 
+	private IDBEntity getData(IPkModel primaryKeyModel) {
 
 		Hrp1000PK pk = (Hrp1000PK) primaryKeyModel;
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -71,8 +73,8 @@ public class HRP1000BL extends BaseBL {
 		return null;
 	}
 
-	@Override
-	public List<Map<String, Object>> getRelatedData(IPkModel primaryKey) {
+ 
+	private List<Map<String, Object>> getRelatedData(IPkModel primaryKey) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -101,15 +103,15 @@ public class HRP1000BL extends BaseBL {
 		}
 	}
 
-	@Override
-	public boolean deleteData(IPkModel primaryKey) {
+ 
+	private boolean deleteData(IPkModel primaryKey) {
 		Hrp1000 entity = dao.getByPK((Hrp1000PK) primaryKey);
 		dao.delete(entity);
 		return true;
 	}
 
-	@Override
-	public IDBEntity createData(IDBEntity data) {
+	 
+	private IDBEntity createData(IDBEntity data) {
 		try {
 			Hrp1000 entity = (Hrp1000) data;
 			Hrp1000PK pk = new Hrp1000PK();
@@ -128,9 +130,8 @@ public class HRP1000BL extends BaseBL {
 			return null;
 		}
 	}
-
-	@Override
-	public IDBEntity updateData(IPkModel pk, IDBEntity entity) {
+ 
+	private IDBEntity updateData(IPkModel pk, IDBEntity entity) {
 		try {
 			Hrp1000 founddEntity = dao.getByPK((Hrp1000PK) pk);
 			Hrp1000 newEntity = (Hrp1000) entity;
@@ -167,7 +168,7 @@ public class HRP1000BL extends BaseBL {
 				property.getFacets(), String.class);
 	}
 
-	public IPkModel EdmToPK(UriInfo uri) {
+	private  IPkModel EdmToPK(UriInfo uri) {
 
 		try {
 			TenantPK tenantPk = new TenantPK();
@@ -185,8 +186,7 @@ public class HRP1000BL extends BaseBL {
 	
 
 
-@Override
-public List<Map<String, Object>> convertModelToEDMCollection(
+private List<Map<String, Object>> convertModelToEDMCollection(
 		List<IDBEntity> entities) {
 	 List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
 	try {
@@ -201,7 +201,7 @@ public List<Map<String, Object>> convertModelToEDMCollection(
 	
 }
 
-public Map<String, Object>  convertModelToEDM(IDBEntity entity){
+private Map<String, Object>  convertModelToEDM(IDBEntity entity){
 
 	return convertData((Hrp1000) entity);
 	
@@ -210,8 +210,8 @@ public Map<String, Object>  convertModelToEDM(IDBEntity entity){
 
 
 
-@Override
-public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
+ 
+private IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
 
 
 	int tenantId = (Integer) edm.get(HRP1000EDM.tenantId);
@@ -254,6 +254,32 @@ public Map<String, Object> update(PutMergePatchUriInfo uriinfo,
 		Map<String, Object> data) {
 	// TODO Auto-generated method stub
 	return null;
+}
+
+@Override
+public Map<String, Object> read(GetEntityUriInfo uriinfo) {
+	// TODO Auto-generated method stub
+	return null;
+}
+
+@Override
+public List<Map<String, Object>> readSet() {
+	try {
+		List<IDBEntity> entities = getDataSet();
+		List<Map<String, Object>> data = convertModelToEDMCollection(entities);
+		return data;
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
+	 return null;
+}
+
+ 
+
+@Override
+public boolean delete(DeleteUriInfo uriInfo) {
+	// TODO Auto-generated method stub
+	return false;
 }
  
 }

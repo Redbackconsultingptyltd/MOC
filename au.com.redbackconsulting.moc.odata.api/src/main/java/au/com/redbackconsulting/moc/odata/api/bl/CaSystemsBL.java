@@ -1,5 +1,8 @@
 package au.com.redbackconsulting.moc.odata.api.bl;
 
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_CASYSTEM;
+import static au.com.redbackconsulting.moc.persistence.factory.Constants.PERSISTENCE_CASYSTEMS;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -14,6 +17,8 @@ import org.apache.olingo.odata2.api.ep.entry.ODataEntry;
 import org.apache.olingo.odata2.api.exception.ODataException;
 import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.UriInfo;
+import org.apache.olingo.odata2.api.uri.info.DeleteUriInfo;
+import org.apache.olingo.odata2.api.uri.info.GetEntityUriInfo;
 import org.apache.olingo.odata2.api.uri.info.PutMergePatchUriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
@@ -35,13 +40,12 @@ public class CaSystemsBL extends BaseBL {
 
 	private CaSystemsDAO dao = new CaSystemsDAO();
 
-	public CaSystemsBL(IBLModelFactory bmf) {
+	public CaSystemsBL(BLModelFactory bmf) {
 		super(bmf);
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public List<IDBEntity> getDataSet() {
+	private  List<IDBEntity> getDataSet() {
 		// TODO Auto-generated method stub
 
 		List<IDBEntity> result = new ArrayList<IDBEntity>();
@@ -91,22 +95,19 @@ public class CaSystemsBL extends BaseBL {
 		}
 	}
 
-	@Override
-	public List<Map<String, Object>> getRelatedData(IPkModel primaryKey) {
+	private  List<Map<String, Object>> getRelatedData(IPkModel primaryKey) {
 
 		return null;
 	}
 
-	@Override
-	public boolean deleteData(IPkModel primaryKey) {
+	private  boolean deleteData(IPkModel primaryKey) {
 
 		Casystem entity = dao.getByPK((CasystemPK) primaryKey);
 		dao.delete(entity);
 		return true;
 	}
 
-	@Override
-	public IDBEntity createData(IDBEntity data) {
+	private  IDBEntity createData(IDBEntity data) {
 		try {
 			Casystem entity = (Casystem) data;
 
@@ -118,8 +119,7 @@ public class CaSystemsBL extends BaseBL {
 
 	}
 
-	@Override
-	public IDBEntity updateData(IPkModel pk, IDBEntity entity) {
+	private  IDBEntity updateData(IPkModel pk, IDBEntity entity) {
 		try {
 			Casystem founddEntity = dao.getByPK((CasystemPK) pk);
 			Casystem newEntity = (Casystem) entity;
@@ -146,7 +146,7 @@ public class CaSystemsBL extends BaseBL {
 				property.getFacets(), String.class);
 	}
 
-	public IPkModel EdmToPK(UriInfo uri) {
+	private  IPkModel EdmToPK(UriInfo uri) {
 
 		try {
 			TenantPK tenantPk = new TenantPK();
@@ -163,13 +163,13 @@ public class CaSystemsBL extends BaseBL {
 		return null;
 	}
 
-	public Map<String, Object> convertModelToEDM(IDBEntity entity) {
+	private  Map<String, Object> convertModelToEDM(IDBEntity entity) {
 
 		return convertData((Casystem) entity);
 
 	}
 
-	public List<Map<String, Object>> convertModelToEDMCollection(
+	private List<Map<String, Object>> convertModelToEDMCollection(
 			List<IDBEntity> entities) {
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
 		try {
@@ -184,8 +184,7 @@ public class CaSystemsBL extends BaseBL {
 
 	}
 
-	@Override
-	public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
+	private  IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
 		Casystem entity=new Casystem();
 		
 		String SYSDESC = (String) edm.get(CaSystemEDM.SYSDESC);
@@ -207,14 +206,87 @@ return entity;
 
 	@Override
 	public Map<String, Object> createNew(Map<String, Object> data) {
-		// TODO Auto-generated method stub
+		try {
+			int tenantId = (Integer) data.get(CaSystemEDM.TENANTID);
+			String sysDesc = (String) data.get(CaSystemEDM.SYSDESC);
+			CasystemPK pk = new CasystemPK();
+			pk.setTenants_idTenants(tenantId);
+			Casystem entity = new Casystem();
+			entity.setId(pk);
+			entity.setSysdesc(sysDesc);
+			 entity =(Casystem) createData(entity);
+			 return convertModelToEDM(entity);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return null;
 	}
 
 	@Override
-	public Map<String, Object> update(PutMergePatchUriInfo uriinfo,
+	public boolean delete(DeleteUriInfo uriInfo) {
+		try {
+			int sysId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+			int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
+
+			 
+			CasystemPK pk =  (CasystemPK) PKFactory.getInstance().getPKModel(PERSISTENCE_CASYSTEMS);
+			pk.setIdsys(sysId);
+			pk.setTenants_idTenants((tenantId));
+			boolean status =  deleteData(pk);
+			return status;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return false;
+	}
+
+	@Override
+	public Map<String, Object> update(PutMergePatchUriInfo uriInfo,
 			Map<String, Object> data) {
-		// TODO Auto-generated method stub
+		try {
+		 
+			CasystemPK pk = (CasystemPK) PKFactory.getInstance().getPKModel(PERSISTENCE_CASYSTEMS);
+			int pksysId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+			int pkTenantId =getKeyValue(uriInfo.getKeyPredicates().get(1));
+			
+			pk.setIdsys(pksysId);
+			pk.setTenants_idTenants(pkTenantId);
+
+			Casystem entity = (Casystem)  convertEDMDataToModelEDM(data);
+			
+			entity = (Casystem) updateData(pk, entity);
+			return convertModelToEDM(entity);
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return null;
+	}
+
+	@Override
+	public Map<String, Object> read(GetEntityUriInfo uriInfo) {
+		try {
+			int sysId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+			int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
+
+			 
+			CasystemPK pk = (CasystemPK) PKFactory.getInstance().getPKModel(PERSISTENCE_CASYSTEMS);
+			pk.setIdsys(sysId);
+			pk.setTenants_idTenants((tenantId));
+
+			IDBEntity entity =  getData(pk);
+			Map<String, Object> data =  convertModelToEDM(entity);
+			return data;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return null; 
+	}
+
+	@Override
+	public List<Map<String, Object>> readSet() {
+		List<IDBEntity> entities = getDataSet();
+		List<Map<String, Object>> data = convertModelToEDMCollection(entities);
+		return data;
 	}
 }

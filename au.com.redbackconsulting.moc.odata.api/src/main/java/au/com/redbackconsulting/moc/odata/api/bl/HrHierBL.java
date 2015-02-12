@@ -1,5 +1,8 @@
 package au.com.redbackconsulting.moc.odata.api.bl;
 
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRHIER;
+import static au.com.redbackconsulting.moc.persistence.factory.Constants.PERSISTENCE_HRHIER;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,6 +15,8 @@ import org.apache.olingo.odata2.api.edm.EdmSimpleType;
 import org.apache.olingo.odata2.api.exception.ODataException;
 import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.UriInfo;
+import org.apache.olingo.odata2.api.uri.info.DeleteUriInfo;
+import org.apache.olingo.odata2.api.uri.info.GetEntityUriInfo;
 import org.apache.olingo.odata2.api.uri.info.PutMergePatchUriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrHierEDM;
@@ -33,14 +38,66 @@ import au.com.redbackconsulting.moc.persistence.model2.TenantPK;
  
 
 public class HrHierBL extends BaseBL{
-	private HrHierDAO dao = new HrHierDAO();
-	public HrHierBL(IBLModelFactory bmf) {
+	
+	
+	
+ 
+	@Override
+	public boolean delete(DeleteUriInfo uriInfo) {
+		try {
+			int id = getKeyValue(uriInfo.getKeyPredicates().get(0));
+			int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
+			
+			HrhierPK pk =  (HrhierPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRHIER);
+			pk.setIdHrHier(id);
+			pk.setTenants_idTenants(tenantId);
+			boolean status = deleteData(pk);
+			return status;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return false;
+	}
+
+	public HrHierBL(BLModelFactory bmf) {
 		super(bmf);
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public List<IDBEntity> getDataSet() {
+	public Map<String, Object> read(GetEntityUriInfo uriInfo) {
+		try {
+			int hierId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+			int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
+		 	HrhierPK pk = (HrhierPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRHIER);
+			pk.setIdHrHier(hierId);
+			pk.setTenants_idTenants(tenantId);
+			// Map<String, Object> data = blModel.getData(pk);
+			IDBEntity entity = getData(pk);
+			Map<String, Object> data =  convertModelToEDM(entity);
+			return data;
+		} catch (Exception e) {
+			// TODO: handle exception
+			return null;
+		}
+	}
+
+	@Override
+	public List<Map<String, Object>> readSet() {
+		try {
+			List<IDBEntity> entities = getDataSet();
+			List<Map<String, Object>> data = convertModelToEDMCollection(entities);
+			return data;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		 return null;
+	}
+
+	private HrHierDAO dao = new HrHierDAO();
+	
+
+	private List<IDBEntity> getDataSet() {
 		// TODO Auto-generated method stub
 		
 		List<IDBEntity> result = new ArrayList<IDBEntity>();
@@ -54,8 +111,7 @@ public class HrHierBL extends BaseBL{
 	
 	}
 
-	@Override
-	public IDBEntity getData(IPkModel primaryKeyModel) {
+	private IDBEntity getData(IPkModel primaryKeyModel) {
 		// TODO Auto-generated method stub
 		HrhierPK pk = (HrhierPK) primaryKeyModel;
 		 Map<String, Object>  result = new HashMap<String, Object>();
@@ -76,8 +132,7 @@ public class HrHierBL extends BaseBL{
 	
  
 
-	@Override
-	public List<Map<String, Object>> getRelatedData(IPkModel primaryKey) {
+	private  List<Map<String, Object>> getRelatedData(IPkModel primaryKey) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -97,16 +152,14 @@ private Map<String, Object> convertData( Hrhier dataModel){
 		}
 	}
 
-@Override
-public boolean deleteData(IPkModel primaryKey) {
+private  boolean deleteData(IPkModel primaryKey) {
 
 	Hrhier entity = dao.getByPK((HrhierPK) primaryKey);
 	dao.delete(entity);
 	return true;
 }
 
-@Override
-public IDBEntity createData(IDBEntity data) {
+private  IDBEntity createData(IDBEntity data) {
 	try {
 		Hrhier entity = (Hrhier) data;
 	
@@ -119,8 +172,7 @@ public IDBEntity createData(IDBEntity data) {
 	}
 	
 }
-@Override
-public IDBEntity updateData(IPkModel pk, IDBEntity entity) {
+private  IDBEntity updateData(IPkModel pk, IDBEntity entity) {
 	// TODO Auto-generated method stub
 
 
@@ -152,7 +204,7 @@ private String getKeyValueString(KeyPredicate key) throws ODataException {
 			property.getFacets(), String.class);
 }
 
-public IPkModel EdmToPK(UriInfo uri) {
+private  IPkModel EdmToPK(UriInfo uri) {
 
 	try {
 		TenantPK tenantPk = new TenantPK();
@@ -168,14 +220,14 @@ public IPkModel EdmToPK(UriInfo uri) {
 	return null;
 }
 
-public Map<String, Object>  convertModelToEDM(IDBEntity entity){
+private Map<String, Object>  convertModelToEDM(IDBEntity entity){
 
 	return convertData((Hrhier) entity);
 	
 	 
 }
 
-public List<Map<String, Object>>  convertModelToEDMCollection(List<IDBEntity> entities){
+private  List<Map<String, Object>>  convertModelToEDMCollection(List<IDBEntity> entities){
 	 List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
 	try {
 		 for (Iterator iterator = entities.iterator(); iterator.hasNext();) {
@@ -191,8 +243,7 @@ public List<Map<String, Object>>  convertModelToEDMCollection(List<IDBEntity> en
 }
 
 
-@Override
-public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
+private  IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
 
 
 	int tenantId = (Integer) edm.get(HrHierEDM.tenantId);
@@ -221,14 +272,47 @@ HrhierPK pk = (HrhierPK) PKFactory.getInstance().getPKModel(Constants.PERSISTENC
 
 @Override
 public Map<String, Object> createNew(Map<String, Object> data) {
-	// TODO Auto-generated method stub
+	try {
+		int tenantId = (Integer) data.get(HrHierEDM.tenantId);
+//		int hierId = (Integer) data.get(HrHierEDM.hierId);
+		String hierDesc = (String) data.get(HrHierEDM.hierDesc);
+		HrhierPK pk = (HrhierPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRHIER);
+//		HrhierPK pk = new HrhierPK();
+		pk.setTenants_idTenants(tenantId);
+//		pk.setIdHrHier(hierId);
+		Hrhier entity = (Hrhier)  convertEDMDataToModelEDM(data);
+
+		
+		entity.setHierdesc(hierDesc);
+		entity.getId().setIdHrHier(0);
+		 entity =(Hrhier) createData(entity);
+		 return convertModelToEDM(entity);
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
 	return null;
 }
 
 @Override
-public Map<String, Object> update(PutMergePatchUriInfo uriinfo,
+public Map<String, Object> update(PutMergePatchUriInfo uriInfo,
 		Map<String, Object> data) {
-	// TODO Auto-generated method stub
+	try { 
+		
+		int hierId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
+		HrhierPK pk = (HrhierPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRHIER);
+		pk.setIdHrHier(hierId);
+		pk.setTenants_idTenants(tenantId);
+	
+		 
+						
+		//Read Form Data
+		Hrhier entity =   (Hrhier)  convertEDMDataToModelEDM(data);
+		entity =  (Hrhier)  updateData(pk, entity);
+		return convertModelToEDM(entity);
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
 	return null;
 }
 

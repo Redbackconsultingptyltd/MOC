@@ -1,5 +1,7 @@
 package au.com.redbackconsulting.moc.odata.api.bl;
 
+import static au.com.redbackconsulting.moc.persistence.factory.Constants.PERSISTENCE_TENANTS;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,17 +15,16 @@ import org.apache.olingo.odata2.api.edm.EdmSimpleType;
 import org.apache.olingo.odata2.api.exception.ODataException;
 import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.UriInfo;
+import org.apache.olingo.odata2.api.uri.info.DeleteUriInfo;
+import org.apache.olingo.odata2.api.uri.info.GetEntityUriInfo;
 import org.apache.olingo.odata2.api.uri.info.PutMergePatchUriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.CaSystemEDM;
-import au.com.redbackconsulting.moc.odata.api.edmconstants.HrRelationsEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.TenantsEDM;
 import au.com.redbackconsulting.moc.persistence.TenantsDAO;
 import au.com.redbackconsulting.moc.persistence.factory.Constants;
 import au.com.redbackconsulting.moc.persistence.factory.PKFactory;
 import au.com.redbackconsulting.moc.persistence.model2.Casystem;
-import au.com.redbackconsulting.moc.persistence.model2.Hrrelation;
-import au.com.redbackconsulting.moc.persistence.model2.HrrelationPK;
 import au.com.redbackconsulting.moc.persistence.model2.IDBEntity;
 import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
 import au.com.redbackconsulting.moc.persistence.model2.Tenant;
@@ -33,13 +34,13 @@ public class TenantsBL extends BaseBL {
 
 	private TenantsDAO dao = new TenantsDAO();
 
-	public TenantsBL(IBLModelFactory bmf) {
+	public TenantsBL(BLModelFactory bmf) {
 		super(bmf);
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public List<IDBEntity> getDataSet() {
+
+	private  List<IDBEntity> getDataSet() {
 		List<IDBEntity> result = new ArrayList<IDBEntity>();
 		try {
 			TenantsDAO dao = new TenantsDAO();
@@ -54,8 +55,8 @@ public class TenantsBL extends BaseBL {
 
 	}
 
-	@Override
-	public IDBEntity getData(IPkModel primaryKeyModel) {
+
+	private  IDBEntity getData(IPkModel primaryKeyModel) {
 
 		TenantPK pk = (TenantPK) primaryKeyModel;
 	 
@@ -86,8 +87,8 @@ public class TenantsBL extends BaseBL {
 		}
 	}
 
-	@Override
-	public List<Map<String, Object>> getRelatedData(IPkModel primaryKey) {
+
+	private   List<Map<String, Object>> getRelatedData(IPkModel primaryKey) {
 		TenantPK pk = (TenantPK) primaryKey;
 
 		List<Map<String, Object>> result = new ArrayList<Map<String, Object>>();
@@ -118,15 +119,14 @@ public class TenantsBL extends BaseBL {
 		return map;
 	}
 
-	@Override
-	public boolean deleteData(IPkModel primaryKey) {
+
+	private  boolean deleteData(IPkModel primaryKey) {
 		Tenant entity = dao.getByPK((TenantPK) primaryKey);
 		dao.delete(entity);
 		return true;
 	}
 
-	@Override
-	public IDBEntity createData(IDBEntity data) {
+	private  IDBEntity createData(IDBEntity data) {
 		try {
 			Tenant entity = (Tenant) data;
 		
@@ -138,8 +138,7 @@ public class TenantsBL extends BaseBL {
 		}
 	}
 
-	@Override
-	public IDBEntity updateData(IPkModel pk, IDBEntity entity) {
+	private  IDBEntity updateData(IPkModel pk, IDBEntity entity) {
 		try {
 			Tenant founddEntity = dao.getByPK((TenantPK) pk);
 			Tenant newEntity = (Tenant) entity;
@@ -173,27 +172,11 @@ public class TenantsBL extends BaseBL {
 				property.getFacets(), String.class);
 	}
 
-	public IPkModel EdmToPK(UriInfo uri) {
-
-		try {
-			TenantPK tenantPk = new TenantPK();
-			int id = getKeyValue(uri.getKeyPredicates().get(0));
-			String idstr = getKeyValueString(uri.getKeyPredicates().get(1));
-
-			tenantPk.setId(id);
-
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-
-		return null;
-	}
+	 
 
 
 
-
-@Override
-public List<Map<String, Object>> convertModelToEDMCollection(
+private  List<Map<String, Object>> convertModelToEDMCollection(
 		List<IDBEntity> entities) {
 	 List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
 	try {
@@ -208,7 +191,7 @@ public List<Map<String, Object>> convertModelToEDMCollection(
 	
 }
 
-public Map<String, Object>  convertModelToEDM(IDBEntity entity){
+private Map<String, Object>  convertModelToEDM(IDBEntity entity){
 
 	return convertData((Tenant) entity);
 	
@@ -216,8 +199,7 @@ public Map<String, Object>  convertModelToEDM(IDBEntity entity){
 }
 
 
-@Override
-public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
+private   IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
 
 	int tenantId = (Integer) edm.get(TenantsEDM.tenantId);
 	String name = (String) edm.get(TenantsEDM.name);
@@ -238,14 +220,83 @@ entity.setTenantPK(pk);
 
 @Override
 public Map<String, Object> createNew(Map<String, Object> data) {
-	// TODO Auto-generated method stub
+try {
+ 
+
+	TenantPK  pk = (TenantPK) PKFactory.getInstance().getPKModel(PERSISTENCE_TENANTS);
+	
+	Tenant entity = (Tenant)  convertEDMDataToModelEDM(data);
+	
+	entity = (Tenant) createData(entity);
+	return convertModelToEDM(entity);
+} catch (Exception e) {
+	// TODO: handle exception
+}
 	return null;
 }
 
 @Override
-public Map<String, Object> update(PutMergePatchUriInfo uriinfo,
+public Map<String, Object> update(PutMergePatchUriInfo uriInfo,
 		Map<String, Object> data) {
-	// TODO Auto-generated method stub
+	try { 
+		//Read PK from URL
+		int pkTenantId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+		TenantPK pk = new TenantPK();
+		pk.setId(pkTenantId);
+
+		
+		//Read Form Data
+		Tenant entity = (Tenant)  convertEDMDataToModelEDM(data);
+		
+ 		entity = (Tenant) updateData(pk, entity);
+ 		return convertModelToEDM(entity);
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
 	return null;
+}
+
+@Override
+public Map<String, Object> read(GetEntityUriInfo uriInfo) {
+	try {
+		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+	 	TenantPK pk =  (TenantPK) PKFactory.getInstance().getPKModel(PERSISTENCE_TENANTS);
+		pk.setId((tenantId));
+		IDBEntity entity =  getData(pk);
+		Map<String, Object> data = convertModelToEDM(entity);
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
+	return null;
+}
+
+@Override
+public List<Map<String, Object>> readSet() {
+	try {
+		List<IDBEntity> entities = getDataSet();
+		List<Map<String, Object>> data = convertModelToEDMCollection(entities);
+		return data;
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
+	 return null;
+}
+
+
+
+@Override
+public boolean delete(DeleteUriInfo uriInfo) {
+	try {
+		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+
+	 	TenantPK pk =  (TenantPK) PKFactory.getInstance().getPKModel(PERSISTENCE_TENANTS);
+		pk.setId((tenantId));
+		boolean status =  deleteData(pk);
+		return status;
+
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
+	return false;
 }
 }

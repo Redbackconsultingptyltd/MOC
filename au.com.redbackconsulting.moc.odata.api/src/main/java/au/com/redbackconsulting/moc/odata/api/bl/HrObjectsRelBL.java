@@ -1,5 +1,8 @@
 package au.com.redbackconsulting.moc.odata.api.bl;
 
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HROBJECTSREL;
+import static au.com.redbackconsulting.moc.persistence.factory.Constants.PERSISTENCE_HROBJECTSREL;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -12,6 +15,8 @@ import org.apache.olingo.odata2.api.edm.EdmSimpleType;
 import org.apache.olingo.odata2.api.exception.ODataException;
 import org.apache.olingo.odata2.api.uri.KeyPredicate;
 import org.apache.olingo.odata2.api.uri.UriInfo;
+import org.apache.olingo.odata2.api.uri.info.DeleteUriInfo;
+import org.apache.olingo.odata2.api.uri.info.GetEntityUriInfo;
 import org.apache.olingo.odata2.api.uri.info.PutMergePatchUriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectRelEDM;
@@ -38,14 +43,13 @@ import au.com.redbackconsulting.moc.persistence.model2.TenantPK;
 
 public class HrObjectsRelBL extends BaseBL{
 private HrObjectRelDAO dao=new HrObjectRelDAO();
-	public HrObjectsRelBL(IBLModelFactory bmf) {
+	public HrObjectsRelBL(BLModelFactory bmf) {
 		super(bmf);
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
- 
-	public List<IDBEntity> getDataSet() {
+
+	private  List<IDBEntity> getDataSet() {
 		List<IDBEntity> result = new ArrayList<IDBEntity>();
 		try {
 			HrObjectRelDAO dao = new HrObjectRelDAO();
@@ -59,8 +63,7 @@ private HrObjectRelDAO dao=new HrObjectRelDAO();
 		return result;
 	}
 
-	@Override
-	public IDBEntity getData(IPkModel primaryKeyModel) {
+	private  IDBEntity getData(IPkModel primaryKeyModel) {
 
 		HrobjectrelPK pk = (HrobjectrelPK) primaryKeyModel;
 		 Map<String, Object>  result = new HashMap<String, Object>();
@@ -79,8 +82,7 @@ private HrObjectRelDAO dao=new HrObjectRelDAO();
 	
  
 
-	@Override
-	public List<Map<String, Object>> getRelatedData(IPkModel primaryKey) {
+	private  List<Map<String, Object>> getRelatedData(IPkModel primaryKey) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -102,8 +104,7 @@ private Map<String, Object> convertData( Hrobjectrel dataModel){
 		}
 	}
 
-@Override
-public boolean deleteData(IPkModel primaryKey) {
+private  boolean deleteData(IPkModel primaryKey) {
 
 Hrobjectrel entity=dao.getByPK((HrobjectrelPK)primaryKey);
 dao.delete(entity);
@@ -111,8 +112,7 @@ return true;
 	
 }
 
-@Override
-public IDBEntity createData(IDBEntity data) {
+private  IDBEntity createData(IDBEntity data) {
 	try {
 		Hrobjectrel entity = (Hrobjectrel) data;
 //		HrobjectrelPK pk= new HrobjectrelPK();
@@ -132,8 +132,7 @@ public IDBEntity createData(IDBEntity data) {
 	
 }
 
-@Override
-public IDBEntity updateData(IPkModel pk, IDBEntity entity) {
+private   IDBEntity updateData(IPkModel pk, IDBEntity entity) {
 	try {
 		Hrobjectrel founddEntity =dao.getByPK((HrobjectrelPK) pk);
 		Hrobjectrel newEntity= (Hrobjectrel) entity;
@@ -168,7 +167,7 @@ private String getKeyValueString(KeyPredicate key) throws ODataException {
 			property.getFacets(), String.class);
 }
 
-public IPkModel EdmToPK(UriInfo uri) {
+private  IPkModel EdmToPK(UriInfo uri) {
 
 	try {
 		TenantPK tenantPk = new TenantPK();
@@ -185,9 +184,7 @@ public IPkModel EdmToPK(UriInfo uri) {
 }
 
 
-
-@Override
-public List<Map<String, Object>> convertModelToEDMCollection(
+private    List<Map<String, Object>> convertModelToEDMCollection(
 		List<IDBEntity> entities) {
 	 List<Map<String, Object>> result = new ArrayList<Map<String,Object>>();
 	try {
@@ -202,7 +199,7 @@ public List<Map<String, Object>> convertModelToEDMCollection(
 	
 }
 
-public Map<String, Object>  convertModelToEDM(IDBEntity entity){
+private Map<String, Object>  convertModelToEDM(IDBEntity entity){
 
 	return convertData((Hrobjectrel) entity);
 	
@@ -211,8 +208,7 @@ public Map<String, Object>  convertModelToEDM(IDBEntity entity){
 
 
 
-@Override
-public IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
+private  IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
 
 
 
@@ -301,6 +297,65 @@ public Map<String, Object> update(PutMergePatchUriInfo uriInfo,
 	}
 	return null;
 	
+}
+
+ 
+
+@Override
+public Map<String, Object> read(GetEntityUriInfo uriInfo) {
+	try { 
+		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+		int objectType = getKeyValue(uriInfo.getKeyPredicates().get(1));
+		int timeConstraints = getKeyValue(uriInfo.getKeyPredicates().get(2));
+		int sObjectType = getKeyValue(uriInfo.getKeyPredicates().get(3));
+		String relatType = getKeyValueString(uriInfo.getKeyPredicates().get(4));
+		
+		
+		
+		
+
+		HrobjectrelPK pk = (HrobjectrelPK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_HROBJECTSREL);
+		pk.setIdobjectype(objectType);
+		pk.setIdrelatType(relatType);
+		pk.setIdsobjectype(sObjectType);
+		pk.setTenants_idTenants(tenantId);
+		pk.setTimeConstraints(timeConstraints);
+		// Map<String, Object> data = blModel.getData(pk);
+		IDBEntity entity =  getData(pk);
+		Map<String, Object> data =  convertModelToEDM(entity);
+		return data;
+	} catch (Exception e) {
+		return null;
+	}
+}
+
+@Override
+public List<Map<String, Object>> readSet() {
+	try {
+		List<IDBEntity> entities = getDataSet();
+		List<Map<String, Object>> data = convertModelToEDMCollection(entities);
+		return data;
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
+	 return null;
+}
+
+ 
+
+@Override
+public boolean delete(DeleteUriInfo uriInfo) {
+	try {
+		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+
+		 
+		HrobjectrelPK pk =  (HrobjectrelPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HROBJECTSREL);
+//		pk.setId((tenantId));
+		boolean status =  deleteData(pk);
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
+	return false;
 }
 
 }

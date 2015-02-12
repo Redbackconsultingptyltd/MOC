@@ -12,6 +12,10 @@ import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRP100
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRRELATIONS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_TENANTS;
 
+import org.apache.olingo.odata2.api.edm.EdmEntitySet;
+
+import au.com.redbackconsulting.moc.odata.api.Constants;
+
 public class BLModelFactory implements IBLModelFactory {
 
 	public BLModelFactory() {
@@ -49,6 +53,52 @@ public class BLModelFactory implements IBLModelFactory {
 			return new TenantsBL(this);
 
 		}
+		return null;
+	}
+	
+	public IBLModel getInstance1(EdmEntitySet entitySet) {
+		try {
+			
+		
+		String name = entitySet.getName();
+		if (Constants.ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
+			
+			return getInstance(ENTITY_KEY_CASYSTEM);
+		}else if (Constants.ENTITY_SET_NAME_HRHIER.equals(entitySet.getName())) {
+			
+			return getInstance(ENTITY_KEY_HRHIER);
+		}else if (Constants.ENTITY_SET_NAME_HRHIERMAP.equals(entitySet.getName())) {
+			
+			return getInstance(ENTITY_KEY_HRHIERMAP);
+		}else if (Constants.ENTITY_SET_NAME_HROBJECTREL.equals(entitySet.getName())) {
+			
+			return getInstance(ENTITY_KEY_HROBJECTSREL);
+		}else if (Constants.ENTITY_SET_NAME_HROBJECTS.equals(entitySet.getName())) {
+			
+			return getInstance(ENTITY_KEY_HROBJECTS);
+		}else if (Constants.ENTITY_SET_NAME_HROBJECTSCONSTRAINTS.equals(entitySet.getName())) {
+			
+			return getInstance(ENTITY_KEY_HROBJECTSCONSTRAINTS);
+		}else if (Constants.ENTITY_SET_NAME_HROBJECTSSTATUS.equals(entitySet.getName())) {
+			
+			return getInstance(ENTITY_KEY_HROBJECTSSTATUS);
+		}else if (Constants.ENTITY_SET_NAME_HRP1000.equals(entitySet.getName())) {
+			
+			return getInstance(ENTITY_KEY_HRP1000);
+		}else if (Constants.ENTITY_SET_NAME_HRP1001.equals(entitySet.getName())) {
+			
+			return getInstance(ENTITY_KEY_HRP1001);
+		}else if (Constants.ENTITY_SET_NAME_HRRELATIONS.equals(entitySet.getName())) {
+			
+			return getInstance(ENTITY_KEY_TENANTS);
+		}else if (Constants.ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())) {
+			
+			return getInstance(ENTITY_KEY_TENANTS);
+		}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	
 		return null;
 	}
 }

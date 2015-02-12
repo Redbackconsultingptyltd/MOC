@@ -3,9 +3,9 @@ package au.com.redbackconsulting.moc.odata.api.bl;
 
 public abstract class BaseBL implements IBLModel {
 
-	private IBLModelFactory bmf=null;
+	protected BLModelFactory bmf=null;
 	
-	public BaseBL(IBLModelFactory bmf){
+	public BaseBL(BLModelFactory bmf){
 		this.bmf=bmf;
 	} 
 	
