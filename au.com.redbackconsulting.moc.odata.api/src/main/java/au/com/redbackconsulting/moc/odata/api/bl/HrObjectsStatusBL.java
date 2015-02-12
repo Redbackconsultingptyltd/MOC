@@ -230,12 +230,12 @@ public Map<String, Object> createNew(Map<String, Object> data) {
 	
 	
 	
-	HrobjectsstatusPK pk = (HrobjectsstatusPK) pkFactory.getPKModel(Constants.PERSISTENCE_HROBJECTS);
+	HrobjectsstatusPK pk = (HrobjectsstatusPK) pkFactory.getPKModel(Constants.PERSISTENCE_HROBJECTSTATUS);
 	pk.setTenants_idTenants(tenantId);
 	Hrobjectsstatus entity = new Hrobjectsstatus();
 	entity.setId(pk);
 	entity.setDescription(description);
-	entity.setTenant(tenantEntity);
+ 
 	Hrobjectsstatus resultEntity =dao.saveNew(entity);
 	return convertModelToEDM(resultEntity);
 	
@@ -251,7 +251,7 @@ public Map<String, Object> update(PutMergePatchUriInfo uriInfo,
 		int pkTenantId =getKeyValue(uriInfo.getKeyPredicates().get(1));
 		PKFactory pkFactory=   PKFactory.getInstance();
 		
-		HrobjectsstatusPK pk =(HrobjectsstatusPK) pkFactory.getPKModel(Constants.PERSISTENCE_HROBJECTS);
+		HrobjectsstatusPK pk =(HrobjectsstatusPK) pkFactory.getPKModel(Constants.PERSISTENCE_HROBJECTSTATUS);
 		pk.setIdHrObjectsStatus(pkhrObjectStatus);
 		pk.setTenants_idTenants(pkTenantId);		 
 		String description = (String) data.get(HrObjectsStatusEDM.description);
@@ -305,12 +305,14 @@ public List<Map<String, Object>> readSet() {
 @Override
 public boolean delete(DeleteUriInfo uriInfo) {
 	try {
-		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+		int hrobjectStatusId = getKeyValue(uriInfo.getKeyPredicates().get(0));
 
-		 
-		HrobjectsstatusPK pk =  (HrobjectsstatusPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HROBJECTSTATUS);
-//		pk.setId((tenantId));
-		boolean status =  deleteData(pk);
+		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
+ 
+		HrobjectsstatusPK pk =(HrobjectsstatusPK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_HROBJECTSTATUS);
+		pk.setIdHrObjectsStatus(hrobjectStatusId);
+		pk.setTenants_idTenants(tenantId);
+ 		boolean status =  deleteData(pk);
 		return status;
 
 	} catch (Exception e) {

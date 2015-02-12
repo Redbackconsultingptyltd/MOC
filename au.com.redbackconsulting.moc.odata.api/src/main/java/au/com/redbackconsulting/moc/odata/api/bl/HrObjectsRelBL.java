@@ -248,10 +248,16 @@ public Map<String, Object> createNew(Map<String, Object> data) {
 	HrobjectrelPK pk  = (HrobjectrelPK) pkFactory.getPKModel(Constants.PERSISTENCE_HROBJECTSREL);
 	pk.setTenants_idTenants(tenantId);
 	pk.setIdobjectype(objectType);
+	pk.setIdrelatType(relatType);
+ 
+	pk.setIdsobjectype(sobjecType);
+	pk.setTimeConstraints(timeConstraing);
 	
 	Hrobjectrel entity = new Hrobjectrel();
 	entity.setId(pk);
+
 	entity.setTableId(tableId);
+	entity.setHrObjectsId(hrobjectsId);
 	Hrobjectrel resultEntity =dao.saveNew(entity);
 	return convertModelToEDM(resultEntity);
 	
@@ -270,8 +276,7 @@ public Map<String, Object> update(PutMergePatchUriInfo uriInfo,
 		int pkTimeConstraints =getKeyValue(uriInfo.getKeyPredicates().get(2));
 		int pkSObjectType =getKeyValue(uriInfo.getKeyPredicates().get(3));
 		String pkRelatType =getKeyValueString(uriInfo.getKeyPredicates().get(4));
-		
-		
+			
 		HrobjectrelPK pk =  (HrobjectrelPK) pkFactory.getPKModel(Constants.PERSISTENCE_HROBJECTSREL);
 		pk.setIdobjectype(pkObjectType);
 		pk.setIdrelatType(pkRelatType);
@@ -346,11 +351,20 @@ public List<Map<String, Object>> readSet() {
 @Override
 public boolean delete(DeleteUriInfo uriInfo) {
 	try {
-		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
-
+		int pkTenantId =getKeyValue(uriInfo.getKeyPredicates().get(0));
+		int pkObjectType =getKeyValue(uriInfo.getKeyPredicates().get(1));
+		int pkTimeConstraints =getKeyValue(uriInfo.getKeyPredicates().get(2));
+		int pkSObjectType =getKeyValue(uriInfo.getKeyPredicates().get(3));
+		String pkRelatType =getKeyValueString(uriInfo.getKeyPredicates().get(4));
+	
 		 
-		HrobjectrelPK pk =  (HrobjectrelPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HROBJECTSREL);
-//		pk.setId((tenantId));
+		HrobjectrelPK pk = (HrobjectrelPK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_HROBJECTSREL);
+		pk.setIdobjectype(pkObjectType);
+		pk.setIdrelatType(pkRelatType);
+		pk.setIdsobjectype(pkSObjectType);
+		pk.setTenants_idTenants(pkTenantId);
+		pk.setTimeConstraints(pkTimeConstraints);
+		
 		boolean status =  deleteData(pk);
 	} catch (Exception e) {
 		// TODO: handle exception

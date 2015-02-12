@@ -51,6 +51,7 @@ import static au.com.redbackconsulting.moc.persistence.factory.Constants.PERSIST
 
 
 
+
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
@@ -78,6 +79,7 @@ import org.apache.olingo.odata2.api.uri.info.GetEntitySetUriInfo;
 import org.apache.olingo.odata2.api.uri.info.GetEntityUriInfo;
 import org.apache.olingo.odata2.api.uri.info.PostUriInfo;
 import org.apache.olingo.odata2.api.uri.info.PutMergePatchUriInfo;
+import org.apache.olingo.odata2.core.commons.ContentType;
 
 import au.com.redbackconsulting.moc.odata.api.bl.BLModelFactory;
 import au.com.redbackconsulting.moc.odata.api.bl.IBLModel;
@@ -460,8 +462,9 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 			IBLModel bModel = BLModelFactory.getInstance().getInstance1(entitySet);
 			if(bModel!=null){
 			List<Map<String, Object>>result =	bModel.readSet();
+			//String jsonContent = org.apache.olingo.odata2.api.commons.HttpContentType.APPLICATION_JSON;
 			return EntityProvider.writeFeed(
-					contentType,
+				contentType,
 					entitySet,
 					result,
 					EntityProviderWriteProperties.serviceRoot(
@@ -689,9 +692,7 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 			IBLModel bModel =BLModelFactory.getInstance().getInstance1(entitySet);
 			Map<String, Object>result = bModel.update(uriInfo, data);
 			
-			return super.updateEntity(uriInfo, content, requestContentType
-					,
-					merge, contentType);
+			return ODataResponse.status(HttpStatusCodes.OK).build();
 			
 //			if (ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())) {
 //				
@@ -1255,10 +1256,10 @@ public class MyODataSingleProcessor extends ODataSingleProcessor {
 			IBLModel bModel = bmf.getInstance1(entitySet);
 			boolean status =bModel.delete(uriInfo);
 			if(status)
-				ODataResponse.status(HttpStatusCodes.OK).build();
+				return ODataResponse.status(HttpStatusCodes.OK).build();
 			else
 
-				ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
+				return ODataResponse.status(HttpStatusCodes.NO_CONTENT).build();
 //			if (ENTITY_SET_NAME_CASYSTEM.equals(entitySet.getName())) {
 //				int sysId = getKeyValue(uriInfo.getKeyPredicates().get(0));
 //				int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));

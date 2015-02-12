@@ -309,9 +309,11 @@ public List<Map<String, Object>> readSet() {
 @Override
 public boolean delete(DeleteUriInfo uriInfo) {
 	try {
-		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+		String pkRelatType = getKeyValueString(uriInfo.getKeyPredicates().get(0));
+		int pktenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
 		HrrelationPK pk =  (HrrelationPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRRELATIONS);
-//		pk.setId((tenantId));
+ 		pk.setRelatType(pkRelatType);
+ 		pk.setTenants_idTenants(pktenantId);
 		boolean status =  deleteData(pk);
 		return status;
 	} catch (Exception e) {

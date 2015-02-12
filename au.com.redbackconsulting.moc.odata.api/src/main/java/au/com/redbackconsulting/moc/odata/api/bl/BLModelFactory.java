@@ -90,7 +90,7 @@ public class BLModelFactory implements IBLModelFactory {
 			return getInstance(ENTITY_KEY_HRP1001);
 		}else if (Constants.ENTITY_SET_NAME_HRRELATIONS.equals(entitySet.getName())) {
 			
-			return getInstance(ENTITY_KEY_TENANTS);
+			return getInstance(ENTITY_KEY_HRRELATIONS);
 		}else if (Constants.ENTITY_SET_NAME_TENANTS.equals(entitySet.getName())) {
 			
 			return getInstance(ENTITY_KEY_TENANTS);
