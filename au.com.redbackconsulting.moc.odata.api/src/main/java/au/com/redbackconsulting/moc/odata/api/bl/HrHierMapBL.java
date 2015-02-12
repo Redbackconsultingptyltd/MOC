@@ -121,18 +121,11 @@ private  IDBEntity createData(IDBEntity data) {
 	try {
 		
 		Hrhiermap entity=(Hrhiermap) data;	
-		int hrHIerId =entity.getId().getHrHierId();
-		int tenantId = entity.getId().getTenants_idTenants();
-		HrHierDAO hrHierDao = new HrHierDAO();
-		HrhierPK hrhierPk = (HrhierPK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_HRHIER);
-		hrhierPk.setIdHrHier(hrHIerId);
-		hrhierPk.setTenants_idTenants(tenantId);
-		Hrhier hrHierEntity = hrHierDao.getByPK(hrhierPk);
+		 	HrHierDAO hrHierDao = new HrHierDAO();
+	 	 
 		 
-		if (hrHierEntity!=null){
-		 entity.setHrhier(hrHierEntity);
 			entity =dao.saveNew(entity);
-		}	
+		 
 	return entity;
 	} catch (Exception e) {
 		return null;
@@ -242,6 +235,8 @@ private  IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
 	
 	entity.setId(pk);
 	entity.setSkip(skip);
+	entity.setRelatType(relatType);
+
 
 	
 	return entity;

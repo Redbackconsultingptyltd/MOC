@@ -14,12 +14,12 @@ public class HrhiermapPK implements IPkModel {
 	private static final long serialVersionUID = 1L;
 
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(insertable=false, updatable=false)
+	@Column 
 	private int hrHierId;
 
 	private int seqNo;
 
-	@Column(insertable=false, updatable=false)
+	@Column 
 	private int tenants_idTenants;
 
 	public HrhiermapPK() {
