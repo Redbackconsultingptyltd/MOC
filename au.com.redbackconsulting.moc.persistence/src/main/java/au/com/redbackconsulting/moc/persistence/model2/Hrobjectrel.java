@@ -23,15 +23,15 @@ public class Hrobjectrel implements IDBEntity {
 	//bi-directional many-to-one association to Hrobject
 	@ManyToOne
 	@JoinColumns({
-		@JoinColumn(name="idobjectype", referencedColumnName="idObjectType"),
-		@JoinColumn(name="Tenants_idTenants", referencedColumnName="Tenants_idTenants")
+		@JoinColumn(name="idobjectype", referencedColumnName="idObjectType", updatable=false, insertable=false),
+		@JoinColumn(name="Tenants_idTenants", referencedColumnName="Tenants_idTenants", updatable=false, insertable=false)
 		})
 	private Hrobject hrobject1;
 
 	//bi-directional many-to-one association to Hrobject
 	@ManyToOne
 	@JoinColumns({
-		@JoinColumn(name="idsobjectype", referencedColumnName="idObjectType"),
+		@JoinColumn(name="idsobjectype", referencedColumnName="idObjectType", updatable=false, insertable=false),
 		@JoinColumn(name="Tenants_idTenants", referencedColumnName="Tenants_idTenants", insertable=false, updatable=false)
 		})
 	private Hrobject hrobject2;

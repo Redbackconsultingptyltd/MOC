@@ -22,7 +22,7 @@ public class Hrobjectsstatus implements IDBEntity {
 	//bi-directional many-to-one association to Tenant
 	@ManyToOne
 	@JoinColumns({
-	@JoinColumn(name="Tenants_idTenants", referencedColumnName="id")
+	@JoinColumn(name="Tenants_idTenants", referencedColumnName="id", updatable=false, insertable=false)
 	})
 	private Tenant tenant;
 

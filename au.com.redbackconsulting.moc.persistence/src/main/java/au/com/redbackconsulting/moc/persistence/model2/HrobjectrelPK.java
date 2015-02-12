@@ -12,17 +12,17 @@ public class HrobjectrelPK implements IPkModel {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(insertable=false, updatable=false)
+	@Column 
 	private int idobjectype;
 
-	@Column(insertable=false, updatable=false)
+	@Column
 	private int idsobjectype;
 
 	private String idrelatType;
 
 	private int timeConstraints;
 
-	@Column(insertable=false, updatable=false)
+	
 	private int tenants_idTenants;
 
 	public HrobjectrelPK() {
