@@ -1,6 +1,10 @@
 package au.com.redbackconsulting.moc.odata.api.bl;
 
+import static au.com.redbackconsulting.moc.persistence.factory.Constants.PERSISTENCE_HRHIER;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -17,9 +21,15 @@ import org.apache.olingo.odata2.api.uri.info.GetEntityUriInfo;
 import org.apache.olingo.odata2.api.uri.info.PutMergePatchUriInfo;
 
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HRP1000EDM;
+import au.com.redbackconsulting.moc.odata.api.edmconstants.HrHierEDM;
 import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsConstraintsEDM;
 import au.com.redbackconsulting.moc.persistence.HRP1000DAO;
 import au.com.redbackconsulting.moc.persistence.HrObjectRelDAO;
+import au.com.redbackconsulting.moc.persistence.factory.Constants;
+import au.com.redbackconsulting.moc.persistence.factory.PKFactory;
+import au.com.redbackconsulting.moc.persistence.model2.Hrhier;
+import au.com.redbackconsulting.moc.persistence.model2.HrhierPK;
+import au.com.redbackconsulting.moc.persistence.model2.HrobjectPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrobjectrel;
 import au.com.redbackconsulting.moc.persistence.model2.HrobjectrelPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrobjectsconstraint;
@@ -33,6 +43,7 @@ import au.com.redbackconsulting.moc.persistence.model2.TenantPK;
 
 public class HRP1000BL extends BaseBL {
 	private HRP1000DAO dao = new HRP1000DAO();
+	private String dateformat = "dd-MM-yyyy";
 
 	public HRP1000BL(BLModelFactory bmf) {
 		super(bmf);
@@ -44,7 +55,7 @@ public class HRP1000BL extends BaseBL {
 
 		List<IDBEntity> result = new ArrayList<IDBEntity>();
 		try {
-			HRP1000DAO dao = new HRP1000DAO();
+			 
 
 			List<Hrp1000> entities = dao.getAll();
 			List<IDBEntity> idbEntities = new ArrayList<IDBEntity>();
@@ -60,7 +71,7 @@ public class HRP1000BL extends BaseBL {
 	private IDBEntity getData(IPkModel primaryKeyModel) {
 
 		Hrp1000PK pk = (Hrp1000PK) primaryKeyModel;
-		Map<String, Object> result = new HashMap<String, Object>();
+		 
 		try {
 	 
 			Hrp1000 entity = dao.getByPK(pk);
@@ -83,19 +94,28 @@ public class HRP1000BL extends BaseBL {
 
 		try {
 			Map<String, Object> map = new HashMap<String, Object>();
-			map.put(HRP1000EDM.changedBy, dataModel.getChangedBy());
-			map.put(HRP1000EDM.changedOn, dataModel.getChangedOn());
+ 			map.put(HRP1000EDM.changedBy, dataModel.getChangedBy());
+ 			Date changedOn =dataModel.getChangedOn();
+ 			SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateformat);
+ 			
+ 			String chagedOnString = simpleDateFormat.format(changedOn);
+ 			map.put(HRP1000EDM.changedOn, chagedOnString);
 			map.put(HRP1000EDM.guid, dataModel.getGuid());
-			 map.put(HRP1000EDM.tenantId, dataModel.getId().getTenants_idTenants());
-			map.put(HRP1000EDM.hrObjectsStatus, dataModel.getHrobjectsstatus());
-			map.put(HRP1000EDM.objectDesc, dataModel.getObjectDesc());
+			
+			String validfromString = simpleDateFormat.format(dataModel.getId().getValidFrom());
+			map.put(HRP1000EDM.validFrom, validfromString);
+			
+			String validToString =simpleDateFormat.format(dataModel.getId().getValidTo());
+			map.put(HRP1000EDM.validTo, validToString);
+			map.put(HRP1000EDM.tenantId, dataModel.getId().getTenants_idTenants());
 			map.put(HRP1000EDM.objectId, dataModel.getId().getIdobjectId());
 			map.put(HRP1000EDM.objectType, dataModel.getId().getIdobjectType());
+			
+			map.put(HRP1000EDM.status, dataModel.getHrobjectsstatus().getId().getIdHrObjectsStatus());
+					
+			map.put(HRP1000EDM.objectDesc, dataModel.getObjectDesc());
 			map.put(HRP1000EDM.seqNr, dataModel.getSeqNo());
-			map.put(HRP1000EDM.status, dataModel.getId().getStatus());
 			map.put(HRP1000EDM.stext, dataModel.getStext());
-			map.put(HRP1000EDM.validFrom, dataModel.getId().getValidFrom());
-			map.put(HRP1000EDM.validTo, dataModel.getId().getValidTo());
 			return map;
 
 		} catch (Exception e) {
@@ -114,15 +134,7 @@ public class HRP1000BL extends BaseBL {
 	private IDBEntity createData(IDBEntity data) {
 		try {
 			Hrp1000 entity = (Hrp1000) data;
-			Hrp1000PK pk = new Hrp1000PK();
-			pk.setTenants_idTenants(entity.getId().getTenants_idTenants());
-			pk.setValidFrom(entity.getId().getValidFrom());
-			pk.setValidTo(entity.getId().getValidTo());
-			pk.setStatus(entity.getId().getStatus());
-			pk.setIdobjectType(entity.getId().getIdobjectType());
-			pk.setIdobjectId(entity.getId().getIdobjectId());
-
-			entity.setId(pk);
+			 
 			entity = dao.saveNew(entity);
 			return entity;
 		} catch (Exception e) {
@@ -159,6 +171,14 @@ public class HRP1000BL extends BaseBL {
 		EdmSimpleType type = (EdmSimpleType) property.getType();
 		return type.valueOfString(key.getLiteral(), EdmLiteralKind.DEFAULT,
 				property.getFacets(), Integer.class);
+	}
+	
+	private Date getKeyValueDate(KeyPredicate key ) throws ODataException {
+		EdmProperty property = key.getProperty();
+		EdmSimpleType type = (EdmSimpleType) property.getType();
+		 
+		return type.valueOfString(key.getLiteral(), EdmLiteralKind.DEFAULT,
+				property.getFacets(), Date.class);
 	}
 
 	private String getKeyValueString(KeyPredicate key) throws ODataException {
@@ -212,55 +232,169 @@ private Map<String, Object>  convertModelToEDM(IDBEntity entity){
 
  
 private IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
-
+try {
+	
 
 	int tenantId = (Integer) edm.get(HRP1000EDM.tenantId);
-	String changedBy = (String) edm.get(HRP1000EDM.changedBy);
-	String changedOn = (String) edm.get(HRP1000EDM.changedOn);
+ 	String changedBy = (String) edm.get(HRP1000EDM.changedBy);
+ 	String changedOn = (String) edm.get(HRP1000EDM.changedOn);
 	String guid = (String) edm.get(HRP1000EDM.guid);
-	String hrObjectsStatus = (String) edm.get(HRP1000EDM.hrObjectsStatus);
-	String objectDesc = (String) edm.get(HRP1000EDM.objectDesc);
+ 	String objectDesc = (String) edm.get(HRP1000EDM.objectDesc);
 	int objectId = (Integer) edm.get(HRP1000EDM.objectId);
-	String objectType = (String) edm.get(HRP1000EDM.objectType);
-	String seqNr = (String) edm.get(HRP1000EDM.seqNr);
-	String status = (String) edm.get(HRP1000EDM.status);
+	int objectType = (Integer) edm.get(HRP1000EDM.objectType);
+	Integer seqNr = (Integer) edm.get(HRP1000EDM.seqNr);
+	int status = (Integer) edm.get(HRP1000EDM.status);
 	String stext = (String) edm.get(HRP1000EDM.stext);
-	String validFrom = (String) edm.get(HRP1000EDM.validFrom);
-	String validTo = (String) edm.get(HRP1000EDM.validTo);
+ 	String validFrom = (String) edm.get(HRP1000EDM.validFrom);
+ 	String validTo = (String) edm.get(HRP1000EDM.validTo);
+ 	
+	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateformat);
+		
+ 	Date validFromDate = simpleDateFormat.parse(validFrom);
+ 	Date validToDate = simpleDateFormat.parse(validTo);
+ 	Date changedOnDate = simpleDateFormat.parse(changedOn);
 	
-	
+ 	Hrp1000PK pk = (Hrp1000PK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_HRP1000);
+	pk.setIdobjectId(objectId);
+	pk.setIdobjectType(objectType);
+//	pk.setStatus(status);
+	pk.setTenants_idTenants(tenantId);
+	pk.setValidFrom(validFromDate);
+	pk.setValidTo(validToDate);
 	
 	Hrp1000 entity = new Hrp1000();
-//	entity.setTimeConstraint(timeConstraint);
+	entity.setId(pk);
 	entity.setChangedBy(changedBy);
+	entity.setChangedOn(changedOnDate);
 	entity.setGuid(guid);
 	entity.setObjectDesc(objectDesc);
-	//entity.setSeqNo(seqNo);
+	entity.setSeqNo(seqNr);
 	entity.setStext(stext);
-	//entity.setChangedOn(changedOn);
-	//entity.setHrobject(hrobject);
-	
+
+	return entity;
+
+} catch (Exception e) {
 	return null;
+}
+	 
+	
 }
 
 @Override
 public Map<String, Object> createNew(Map<String, Object> data) {
-	// TODO Auto-generated method stub
+	try {
+	 
+		Hrp1000 entity = (Hrp1000)  convertEDMDataToModelEDM(data);
+		entity =(Hrp1000) createData(entity);
+		return convertModelToEDM(entity);
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
 	return null;
 }
 
 @Override
-public Map<String, Object> update(PutMergePatchUriInfo uriinfo,
+public Map<String, Object> update(PutMergePatchUriInfo uriInfo,
 		Map<String, Object> data) {
-	// TODO Auto-generated method stub
+	try {
+		int pkObjectId  = getKeyValue(uriInfo.getKeyPredicates().get(0));
+		int pkObjectType  = getKeyValue(uriInfo.getKeyPredicates().get(1));
+		String pkValidToString = getKeyValueString(uriInfo.getKeyPredicates().get(2));
+		String pkValidFromString = getKeyValueString(uriInfo.getKeyPredicates().get(3));
+	//	int pkStatus = getKeyValue(uriInfo.getKeyPredicates().get(4));
+		int pkTenantId = getKeyValue(uriInfo.getKeyPredicates().get(4));
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat(dateformat);
+		Date pkValidFrom =dateFormat.parse(pkValidFromString);
+		Date pkValidTo = dateFormat.parse(pkValidToString);
+		
+		
+		Hrp1000PK pk = (Hrp1000PK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_HRP1000);
+		pk.setIdobjectId(pkObjectId); 
+		pk.setIdobjectType(pkObjectType);
+//		pk.setStatus(pkStatus);
+		pk.setValidFrom(pkValidFrom);
+		pk.setValidTo(pkValidTo);
+		pk.setTenants_idTenants(pkTenantId);
+		
+		
+//		int tenantId = (Integer) data.get(HRP1000EDM.tenantId);
+	 	String changedBy = (String) data.get(HRP1000EDM.changedBy);
+	 	String changedOn = (String) data.get(HRP1000EDM.changedOn);
+		String guid = (String) data.get(HRP1000EDM.guid);
+	 	String objectDesc = (String) data.get(HRP1000EDM.objectDesc);
+//		int objectId = (Integer) data.get(HRP1000EDM.objectId);
+//		int objectType = (Integer) data.get(HRP1000EDM.objectType);
+		Integer seqNr = (Integer) data.get(HRP1000EDM.seqNr);
+//		int status = (Integer) data.get(HRP1000EDM.status);
+		String stext = (String) data.get(HRP1000EDM.stext);
+//	 	String validFrom = (String) data.get(HRP1000EDM.validFrom);
+//	 	String validTo = (String) data.get(HRP1000EDM.validTo);
+	 	
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateformat);
+			
+//	 	Date validFromDate = simpleDateFormat.parse(validFrom);
+//	 	Date validToDate = simpleDateFormat.parse(validTo);
+	 	Date changedOnDate = simpleDateFormat.parse(changedOn);
+		
+	 	
+	 	
+	 	Hrp1000 entity = dao.getByPK(pk);
+//		entity.setId(pk);
+		entity.setChangedBy(changedBy);
+		entity.setChangedOn(changedOnDate);
+		entity.setGuid(guid);
+		entity.setObjectDesc(objectDesc);
+		entity.setSeqNo(seqNr);
+		entity.setStext(stext);
+		entity = dao.save(entity);
+		return convertData(entity);
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
 	return null;
 }
 
 @Override
-public Map<String, Object> read(GetEntityUriInfo uriinfo) {
-	// TODO Auto-generated method stub
+public Map<String, Object> read(GetEntityUriInfo uriInfo) {
+	try {
+		int objectId  = getKeyValue(uriInfo.getKeyPredicates().get(0));
+		int objectType  = getKeyValue(uriInfo.getKeyPredicates().get(1));
+		String validToString = getKeyValueString(uriInfo.getKeyPredicates().get(2));
+		String validFromString = getKeyValueString(uriInfo.getKeyPredicates().get(3));
+		//int status = getKeyValue(uriInfo.getKeyPredicates().get(4));
+		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(4));
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat(dateformat);
+		Date validFrom =dateFormat.parse(validFromString);
+		Date validTo = dateFormat.parse(validToString);
+		
+		
+		Hrp1000PK pk = (Hrp1000PK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_HRP1000);
+		pk.setIdobjectId(objectId); 
+		pk.setIdobjectType(objectType);
+//		pk.setStatus(status);
+		pk.setValidFrom(validFrom);
+		pk.setValidTo(validTo);
+		pk.setTenants_idTenants(tenantId);
+		IDBEntity entity =  getData(pk);
+		Map<String, Object> data =  convertModelToEDM(entity);
+		return data;
+		
+		
+		
+		
+		
+		
+		
+	} catch (Exception e) {
+		// TODO: handle exception
+	}
 	return null;
 }
+
+
+
 
 @Override
 public List<Map<String, Object>> readSet() {
@@ -278,8 +412,36 @@ public List<Map<String, Object>> readSet() {
 
 @Override
 public boolean delete(DeleteUriInfo uriInfo) {
-	// TODO Auto-generated method stub
-	return false;
+	try {
+		int pkObjectId  = getKeyValue(uriInfo.getKeyPredicates().get(0));
+		int pkObjectType  = getKeyValue(uriInfo.getKeyPredicates().get(1));
+		String pkValidToString = getKeyValueString(uriInfo.getKeyPredicates().get(2));
+		String pkValidFromString = getKeyValueString(uriInfo.getKeyPredicates().get(3));
+//		int pkStatus = getKeyValue(uriInfo.getKeyPredicates().get(4));
+		int pkTenantId = getKeyValue(uriInfo.getKeyPredicates().get(4));
+		
+		SimpleDateFormat dateFormat = new SimpleDateFormat(dateformat);
+		Date pkValidFrom =dateFormat.parse(pkValidFromString);
+		Date pkValidTo = dateFormat.parse(pkValidToString);
+		
+		
+		Hrp1000PK pk = (Hrp1000PK) PKFactory.getInstance().getPKModel(Constants.PERSISTENCE_HRP1000);
+		pk.setIdobjectId(pkObjectId); 
+		pk.setIdobjectType(pkObjectType);
+//		pk.setStatus(pkStatus);
+		pk.setValidFrom(pkValidFrom);
+		pk.setValidTo(pkValidTo);
+		pk.setTenants_idTenants(pkTenantId);
+	 
+	 	
+	 	Hrp1000 entity = dao.getByPK(pk);
+	 	dao.delete(entity);
+//		entity.setId(pk);
+		 
+		return true;
+	} catch (Exception e) {
+		return false;
+	}
 }
  
 }

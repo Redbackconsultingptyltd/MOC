@@ -236,14 +236,19 @@ public class MyEdmProvider extends EdmProvider implements IMyEdmProvider {
 		entityTypes.add(getEntityType(ENTITY_FQN_HRP1000));
 		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_HRP1000));
 		
-		associations.add(getAssociation(ASSOCIATION_FQN_HRP1000_TENANTS));
-		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HRP1000_TENANTS, null, null));
+//		HRP1001
+		entityTypes.add(getEntityType(ENTITY_FQN_HRP1001));
+		entitySets.add(getEntitySet(ENTITY_CONTAINER, ENTITY_SET_NAME_HRP1001));
 		
-		associations.add(getAssociation(ASSOCIATION_FQN_HRP1000_HROBJECTS));
-		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HRP1000_HROBJECTS, null, null));
 		
-		associations.add(getAssociation(ASSOCIATION_FQN_HRP1000_HROBJECTSSTATUS));
-		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HRP1000_HROBJECTSSTATUS, null, null));
+//		associations.add(getAssociation(ASSOCIATION_FQN_HRP1000_TENANTS));
+//		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HRP1000_TENANTS, null, null));
+//		
+//		associations.add(getAssociation(ASSOCIATION_FQN_HRP1000_HROBJECTS));
+//		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HRP1000_HROBJECTS, null, null));
+//		
+//		associations.add(getAssociation(ASSOCIATION_FQN_HRP1000_HROBJECTSSTATUS));
+//		associationSets.add(getAssociationSet(ENTITY_CONTAINER, ASSOCIATION_FQN_HRP1000_HROBJECTSSTATUS, null, null));
 		
 //		HRRELATION
 		entityTypes.add(getEntityType(ENTITY_FQN_HRRELATIONS));

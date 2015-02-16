@@ -45,8 +45,8 @@ public class BLModelFactory implements IBLModelFactory {
 			return new HrObjectsStatusBL(this);
 		case ENTITY_KEY_HRP1000:
 			return new HRP1000BL(this);
-//		case ENTITY_KEY_HRP1001:
-//			return new HRP1001BL(this);
+		case ENTITY_KEY_HRP1001:
+			return new HRP1001BL(this);
 		case ENTITY_KEY_HRRELATIONS:
 			return new HrRelationsBL(this);
 		case ENTITY_KEY_TENANTS:

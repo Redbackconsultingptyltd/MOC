@@ -133,43 +133,50 @@ public class HRP1000EDM extends BaseEDM {
 	public static String  tenantId="tenantId";
 	public static String objectType="objectType";
 	public static String objectId="objectId";
-	public static String validTo="validTo";
-	public static String validFrom="validFrom";
+ 	public static String validTo="validTo";
+ 	public static String validFrom="validFrom";
 	public static String seqNr="seqNr";
 	public static String objectDesc="objectDesc";
 	public static String status="status";
 	public static String stext="stext";
-	public static String changedOn="changedOn";
-	public static String changedBy="changedBy";
+ 	public static String changedOn="changedOn";
+ 	public static String changedBy="changedBy";
 	public static String guid="guid";
-	public static String hrObjectsStatus="hrObjectsStatus";
-	@Override
+ 	@Override
 	public List<Property> getProperties() {
 		List<Property> properties = new ArrayList<Property>();
+ 		 properties.add(new SimpleProperty().setName(HRP1000EDM.validFrom).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
+ 		  properties.add(new SimpleProperty().setName(HRP1000EDM.validTo).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HRP1000EDM.objectId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HRP1000EDM.objectType).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HRP1000EDM.status).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
 		  properties.add(new SimpleProperty().setName(HRP1000EDM.tenantId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(HRP1000EDM.objectType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(HRP1000EDM.objectId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(true)));
-		  properties.add(new SimpleProperty().setName(HRP1000EDM.validFrom).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
-		
-		  properties.add(new SimpleProperty().setName(HRP1000EDM.validTo).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(HRP1000EDM.hrObjectsStatus).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(HRP1000EDM.seqNr).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
-		  properties.add(new SimpleProperty().setName(HRP1000EDM.objectDesc).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
-			
-		  properties.add(new SimpleProperty().setName(HRP1000EDM.seqNr).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(HRP1000EDM.status).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(HRP1000EDM.stext).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
-		  properties.add(new SimpleProperty().setName(HRP1000EDM.changedBy).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+			 	 
+	     
+ 		  properties.add(new SimpleProperty().setName(HRP1000EDM.changedBy).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
 		  properties.add(new SimpleProperty().setName(HRP1000EDM.changedOn).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		  properties.add(new SimpleProperty().setName(HRP1000EDM.guid).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		  properties.add(new SimpleProperty().setName(HRP1000EDM.objectDesc).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		  properties.add(new SimpleProperty().setName(HRP1000EDM.seqNr).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(true)));
+		  properties.add(new SimpleProperty().setName(HRP1000EDM.stext).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		  	 
 		  
+		   
 		  
 		  return properties;
 	}
 	@Override
 	public List<PropertyRef> getKeys() {
 		List<PropertyRef> keyProperties = new ArrayList<PropertyRef>();
-		 keyProperties.add(new PropertyRef().setName(HRP1000EDM.tenantId));
+		
+ 	
 		  keyProperties.add(new PropertyRef().setName(HRP1000EDM.objectId));
+		  keyProperties.add(new PropertyRef().setName(HRP1000EDM.objectType));
+			 keyProperties.add(new PropertyRef().setName(HRP1000EDM.validTo));
+	 		 keyProperties.add(new PropertyRef().setName(HRP1000EDM.validFrom));
+		//  keyProperties.add(new PropertyRef().setName(HRP1000EDM.status));
+		 keyProperties.add(new PropertyRef().setName(HRP1000EDM.tenantId));
+
 		return keyProperties;
 	}
 	@Override
@@ -179,17 +186,17 @@ public class HRP1000EDM extends BaseEDM {
 		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HRP1000_TENANTS).setMultiplicity(EdmMultiplicity.MANY))
 		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_TENANTS_HRP1000).setMultiplicity(EdmMultiplicity.ONE));
 	}
-		else if(relatedEntity.getName().equals(ASSOCIATION_FQN_HRP1000_HROBJECTS.getName())){
-		    return new Association().setName( ASSOCIATION_FQN_HRP1000_HROBJECTS.getName())
-		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HRP1000_HROBJECTS).setMultiplicity(EdmMultiplicity.MANY))
-		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_HROBJECTS_HRP1000).setMultiplicity(EdmMultiplicity.ONE));
-	}
-
-		else if(relatedEntity.getName().equals(ASSOCIATION_FQN_HRP1000_HROBJECTSSTATUS.getName())){
-		    return new Association().setName( ASSOCIATION_FQN_HRP1000_HROBJECTSSTATUS.getName())
-		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HRP1000_HROBJECTSSTATUS).setMultiplicity(EdmMultiplicity.MANY))
-		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_HROBJECTSSTATUS_HRP1000).setMultiplicity(EdmMultiplicity.ONE));
-	}
+//		else if(relatedEntity.getName().equals(ASSOCIATION_FQN_HRP1000_HROBJECTS.getName())){
+//		    return new Association().setName( ASSOCIATION_FQN_HRP1000_HROBJECTS.getName())
+//		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HRP1000_HROBJECTS).setMultiplicity(EdmMultiplicity.MANY))
+//		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_HROBJECTS_HRP1000).setMultiplicity(EdmMultiplicity.ONE));
+//	}
+//
+//		else if(relatedEntity.getName().equals(ASSOCIATION_FQN_HRP1000_HROBJECTSSTATUS.getName())){
+//		    return new Association().setName( ASSOCIATION_FQN_HRP1000_HROBJECTSSTATUS.getName())
+//		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole( ROLE_HRP1000_HROBJECTSSTATUS).setMultiplicity(EdmMultiplicity.MANY))
+//		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole( ROLE_HROBJECTSSTATUS_HRP1000).setMultiplicity(EdmMultiplicity.ONE));
+//	}
 
 	return null;
  
@@ -204,19 +211,19 @@ public class HRP1000EDM extends BaseEDM {
 		          .setEnd1(new AssociationSetEnd().setRole(ROLE_HRP1000_TENANTS).setEntitySet(ENTITY_SET_NAME_HRP1000))
 		          .setEnd2(new AssociationSetEnd().setRole(ROLE_TENANTS_HRP1000).setEntitySet(ENTITY_SET_NAME_TENANTS));
 		    }
-		    else  if (ASSOCIATION_FQN_HRP1000_HROBJECTS.getName().equals(association.getName())) {
-			      return new AssociationSet().setName(ASSOCIATION_SET_HRP1000_HROBJECTS)
-				          .setAssociation(ASSOCIATION_FQN_HRP1000_HROBJECTS)
-				          .setEnd1(new AssociationSetEnd().setRole(ROLE_HRP1000_HROBJECTS).setEntitySet(ENTITY_SET_NAME_HRP1000))
-				          .setEnd2(new AssociationSetEnd().setRole(ROLE_HROBJECTS_HRP1000).setEntitySet(ENTITY_SET_NAME_HROBJECTS));
-				    }
-		    else  if (ASSOCIATION_FQN_HRP1000_HROBJECTSSTATUS.getName().equals(association.getName())) {
-			      return new AssociationSet().setName(ASSOCIATION_SET_HRP1000_HROBJECTSTATUS)
-				          .setAssociation(ASSOCIATION_FQN_HRP1000_HROBJECTS)
-				          .setEnd1(new AssociationSetEnd().setRole(ROLE_HRP1000_HROBJECTSSTATUS).setEntitySet(ENTITY_SET_NAME_HRP1000))
-				          .setEnd2(new AssociationSetEnd().setRole(ROLE_HROBJECTSSTATUS_HRP1000).setEntitySet(ENTITY_SET_NAME_HROBJECTSSTATUS));
-				    }
-		    
+//		    else  if (ASSOCIATION_FQN_HRP1000_HROBJECTS.getName().equals(association.getName())) {
+//			      return new AssociationSet().setName(ASSOCIATION_SET_HRP1000_HROBJECTS)
+//				          .setAssociation(ASSOCIATION_FQN_HRP1000_HROBJECTS)
+//				          .setEnd1(new AssociationSetEnd().setRole(ROLE_HRP1000_HROBJECTS).setEntitySet(ENTITY_SET_NAME_HRP1000))
+//				          .setEnd2(new AssociationSetEnd().setRole(ROLE_HROBJECTS_HRP1000).setEntitySet(ENTITY_SET_NAME_HROBJECTS));
+//				    }
+//		    else  if (ASSOCIATION_FQN_HRP1000_HROBJECTSSTATUS.getName().equals(association.getName())) {
+//			      return new AssociationSet().setName(ASSOCIATION_SET_HRP1000_HROBJECTSTATUS)
+//				          .setAssociation(ASSOCIATION_FQN_HRP1000_HROBJECTS)
+//				          .setEnd1(new AssociationSetEnd().setRole(ROLE_HRP1000_HROBJECTSSTATUS).setEntitySet(ENTITY_SET_NAME_HRP1000))
+//				          .setEnd2(new AssociationSetEnd().setRole(ROLE_HROBJECTSSTATUS_HRP1000).setEntitySet(ENTITY_SET_NAME_HROBJECTSSTATUS));
+//				    }
+//		    
 //		  
 		  }
 	return null;
@@ -225,9 +232,9 @@ public class HRP1000EDM extends BaseEDM {
 	public List<NavigationProperty> getNavigations() {
 		List<NavigationProperty> navigationProperties = new ArrayList<NavigationProperty>();
 		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_TENANTS).setRelationship(ASSOCIATION_FQN_HRP1000_TENANTS).setFromRole(ROLE_HRP1000_TENANTS).setToRole(ROLE_TENANTS_HRP1000));
-	  	navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_HRP1001).setRelationship(ASSOCIATION_FQN_HRP1001_HRP1000).setFromRole(ROLE_HRP1000_HRP1001).setToRole(ROLE_HRP1001_HRP1000));
-		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_HROBJECTSSTATUS).setRelationship(ASSOCIATION_FQN_HRP1000_HROBJECTSSTATUS).setFromRole(ROLE_HRP1000_HROBJECTSSTATUS).setToRole(ROLE_HROBJECTSSTATUS_HRP1000));
-		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_HROBJECTS ).setRelationship(ASSOCIATION_FQN_HRP1000_HROBJECTS ).setFromRole(ROLE_HRP1000_HROBJECTS ).setToRole(ROLE_HROBJECTS_HRP1000));
+//	  	navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_HRP1001).setRelationship(ASSOCIATION_FQN_HRP1001_HRP1000).setFromRole(ROLE_HRP1000_HRP1001).setToRole(ROLE_HRP1001_HRP1000));
+//		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_HROBJECTSSTATUS).setRelationship(ASSOCIATION_FQN_HRP1000_HROBJECTSSTATUS).setFromRole(ROLE_HRP1000_HROBJECTSSTATUS).setToRole(ROLE_HROBJECTSSTATUS_HRP1000));
+//		navigationProperties.add(new NavigationProperty().setName(ENTITY_TYPE_NAME_HROBJECTS ).setRelationship(ASSOCIATION_FQN_HRP1000_HROBJECTS ).setFromRole(ROLE_HRP1000_HROBJECTS ).setToRole(ROLE_HROBJECTS_HRP1000));
 
 		return navigationProperties;
 	}
