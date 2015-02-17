@@ -16,6 +16,7 @@ import org.apache.olingo.odata2.api.edm.provider.Property;
 import org.apache.olingo.odata2.api.edm.provider.PropertyRef;
 import org.apache.olingo.odata2.api.edm.provider.SimpleProperty;
 
+import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_CASYSTEM_TENANT;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_HROBJECTSCONSTRAINT_HROBJECTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_HROBJECTSCONSTRAINT_TENANT;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_FQN_HROBJECTSSTATUS_HROBJECTS;
@@ -50,20 +51,17 @@ import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_H
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_HROBJECTS_HROBJECTSTATUS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_HROBJECTS_HRP1001;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_HROBJECTS_HRP1000;
-
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_HRP1001_TENANTS;
-
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_HRP1001_HROBJECTS;
-
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_HRP1001_HROBJECTSTATUS;
-
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_HRP1001_HRP1000;
-
 import static au.com.redbackconsulting.moc.odata.api.Constants.ASSOCIATION_SET_HRP1001_HRRELATIONS;
 
 
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_CONTAINER;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HRP1001;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_HROBJECTS;
+import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_KEY_TENANTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HROBJECTS;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_CASYSTEM;
 import static au.com.redbackconsulting.moc.odata.api.Constants.ENTITY_TYPE_NAME_HRHIER;
@@ -118,7 +116,7 @@ import static au.com.redbackconsulting.moc.odata.api.Constants.ROLE_HROBJECTS_HR
 
 
 
-public class HRP1001EDM extends BaseEDM{
+public class HRP1001EDM extends BaseEDM  {
 
 	public HRP1001EDM(String namespace, String entityTypeName,
 			String entitySetName, EntityTypeFactory factory) {
@@ -127,9 +125,11 @@ public class HRP1001EDM extends BaseEDM{
 	}
 	 
 
+	 
+	
 	
 	public static String tenantId ="tenantId";
-	public static String  objectType=" objectType";
+	public static String  objectType="objectType";
 	public static String objectId ="objectId";
 	public static String rsobjectType ="rsobjectType";
 	public static String rsobjectId ="rsobjectId";
@@ -146,17 +146,17 @@ public class HRP1001EDM extends BaseEDM{
 		List<Property> properties = new ArrayList<Property>();
 		  properties.add(new SimpleProperty().setName(HRP1001EDM.tenantId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
 		  properties.add(new SimpleProperty().setName(HRP1001EDM.objectType).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
-		  properties.add(new SimpleProperty().setName(HRP1001EDM.objectId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(true)));
-		  properties.add(new SimpleProperty().setName(HRP1001EDM.relatType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
-		  properties.add(new SimpleProperty().setName(HRP1001EDM.validTo).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.objectId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.relatType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.validTo).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
 		  properties.add(new SimpleProperty().setName(HRP1001EDM.validFrom).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
 		
-		  properties.add(new SimpleProperty().setName(HRP1001EDM.subType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.subType).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
 		  properties.add(new SimpleProperty().setName(HRP1001EDM.rsobjectType).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(true)));
-		  properties.add(new SimpleProperty().setName(HRP1001EDM.rsobjectId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.rsobjectId).setType(EdmSimpleTypeKind.Int32).setFacets(new Facets().setNullable(true)));
 		  properties.add(new SimpleProperty().setName(HRP1001EDM.status).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
 		  properties.add(new SimpleProperty().setName(HRP1001EDM.changedBy).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
-		  properties.add(new SimpleProperty().setName(HRP1001EDM.changedOn).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(false)));
+		  properties.add(new SimpleProperty().setName(HRP1001EDM.changedOn).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
 		  properties.add(new SimpleProperty().setName(HRP1001EDM.guid).setType(EdmSimpleTypeKind.String).setFacets(new Facets().setNullable(true)));
 			
 		 
@@ -167,24 +167,22 @@ public class HRP1001EDM extends BaseEDM{
 	@Override
 	public List<PropertyRef> getKeys() {
 		List<PropertyRef> keyProperties = new ArrayList<PropertyRef>();
-		 keyProperties.add(new PropertyRef().setName(HRP1001EDM.tenantId));
+		
 		  keyProperties.add(new PropertyRef().setName(HRP1001EDM.objectType));
 		  keyProperties.add(new PropertyRef().setName(HRP1001EDM.objectId));
 		  keyProperties.add(new PropertyRef().setName(HRP1001EDM.relatType));
-		  keyProperties.add(new PropertyRef().setName(HRP1001EDM.validTo));
 		  keyProperties.add(new PropertyRef().setName(HRP1001EDM.validFrom));
+		  keyProperties.add(new PropertyRef().setName(HRP1001EDM.validTo));
+		  keyProperties.add(new PropertyRef().setName(HRP1001EDM.tenantId));  
 		  
-		  
-		  
-		  keyProperties.add(new PropertyRef().setName(HRP1001EDM.rsobjectId));
 		return keyProperties;
 	}
 	@Override
-	public Association getAssociation(FullQualifiedName relatedEntity) {
-		if(relatedEntity.getName().equals(ENTITY_TYPE_NAME_TENANTS)){
-		    return new Association().setName(ASSOCIATION_FQN_HRP1001_TENANTS.getName())
-		        .setEnd1(new AssociationEnd().setType(getFullQualifiedName()).setRole(ROLE_HRP1001_TENANTS).setMultiplicity(EdmMultiplicity.MANY))
-		        .setEnd2(new AssociationEnd().setType(relatedEntity).setRole(ROLE_TENANTS_HRP1001).setMultiplicity(EdmMultiplicity.ONE));
+	public Association getAssociation(FullQualifiedName edmFQName) {
+		if(edmFQName.getName().equals(ASSOCIATION_FQN_HRP1001_TENANTS.getName())){
+		    return new Association().setName(ASSOCIATION_NAME_HRP1001_TENANTS)
+		        .setEnd1(new AssociationEnd().setType(getFactory().getEDM(ENTITY_KEY_HRP1001).getFullQualifiedName()).setRole(ROLE_HRP1001_TENANTS).setMultiplicity(EdmMultiplicity.MANY))
+		        .setEnd2(new AssociationEnd().setType(getFactory().getEDM(ENTITY_KEY_TENANTS).getFullQualifiedName()).setRole(ROLE_TENANTS_HRP1001).setMultiplicity(EdmMultiplicity.ONE));
 	} 
 //		else if(relatedEntity.getName().equals(ENTITY_TYPE_NAME_HRRELATIONS)){
 //		    return new Association().setName(ASSOCIATION_FQN_HRRELATIONS_HRP1001.getName())
