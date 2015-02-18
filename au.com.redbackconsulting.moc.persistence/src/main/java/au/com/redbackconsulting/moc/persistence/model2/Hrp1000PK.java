@@ -12,9 +12,10 @@ public class Hrp1000PK implements IPkModel {
 	//default serial version id, required for serializable classes.
 	private static final long serialVersionUID = 1L;
 
-	@Column(insertable=false, updatable=false)
+	@Column
 	private int idobjectType;
 
+	@Column
 	private int idobjectId;
 
 	@Temporal(TemporalType.DATE)
@@ -23,11 +24,11 @@ public class Hrp1000PK implements IPkModel {
 	@Temporal(TemporalType.DATE)
 	private java.util.Date validFrom;
 
-	@Column(insertable=false, updatable=false)
+	@Column 
 	private int tenants_idTenants;
 
-	@Column(insertable=false, updatable=false)
-	private int status;
+//	@Column 
+//	private int status;
 
 	public Hrp1000PK() {
 	}
@@ -61,12 +62,12 @@ public class Hrp1000PK implements IPkModel {
 	public void setTenants_idTenants(int tenants_idTenants) {
 		this.tenants_idTenants = tenants_idTenants;
 	}
-	public int getStatus() {
-		return this.status;
-	}
-	public void setStatus(int status) {
-		this.status = status;
-	}
+//	public int getStatus() {
+//		return this.status;
+//	}
+//	public void setStatus(int status) {
+//		this.status = status;
+//	}
 
 	public boolean equals(Object other) {
 		if (this == other) {
@@ -82,7 +83,8 @@ public class Hrp1000PK implements IPkModel {
 			&& this.validTo.equals(castOther.validTo)
 			&& this.validFrom.equals(castOther.validFrom)
 			&& (this.tenants_idTenants == castOther.tenants_idTenants)
-			&& (this.status == castOther.status);
+//			&& (this.status == castOther.status)
+			;
 	}
 
 	public int hashCode() {
@@ -93,7 +95,7 @@ public class Hrp1000PK implements IPkModel {
 		hash = hash * prime + this.validTo.hashCode();
 		hash = hash * prime + this.validFrom.hashCode();
 		hash = hash * prime + this.tenants_idTenants;
-		hash = hash * prime + this.status;
+//		hash = hash * prime + this.status;
 		
 		return hash;
 	}

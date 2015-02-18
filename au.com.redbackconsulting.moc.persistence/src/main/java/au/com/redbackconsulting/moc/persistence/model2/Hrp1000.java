@@ -33,8 +33,8 @@ public class Hrp1000 implements IDBEntity {
 	//bi-directional many-to-one association to Hrobject
 	@ManyToOne
 	@JoinColumns({
-		@JoinColumn(name="idobjectType", referencedColumnName="idObjectType"),
-		@JoinColumn(name="Tenants_idTenants", referencedColumnName="Tenants_idTenants")
+		@JoinColumn(name="idobjectType", referencedColumnName="idObjectType", insertable=false, updatable= false),
+		@JoinColumn(name="Tenants_idTenants", referencedColumnName="Tenants_idTenants", insertable= false, updatable=false)
 		})
 	private Hrobject hrobject;
 

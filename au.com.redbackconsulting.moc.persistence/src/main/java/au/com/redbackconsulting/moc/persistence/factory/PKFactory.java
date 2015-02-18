@@ -8,6 +8,7 @@ import au.com.redbackconsulting.moc.persistence.model2.HrobjectrelPK;
 import au.com.redbackconsulting.moc.persistence.model2.HrobjectsconstraintPK;
 import au.com.redbackconsulting.moc.persistence.model2.HrobjectsstatusPK;
 import au.com.redbackconsulting.moc.persistence.model2.Hrp1000PK;
+import au.com.redbackconsulting.moc.persistence.model2.Hrp1001PK;
 import au.com.redbackconsulting.moc.persistence.model2.HrrelationPK;
 import au.com.redbackconsulting.moc.persistence.model2.IPkModel;
 import au.com.redbackconsulting.moc.persistence.model2.TenantPK;
@@ -55,8 +56,8 @@ public class PKFactory {
 			return new HrobjectsstatusPK();
 		case PERSISTENCE_HRP1000:
 			return new Hrp1000PK();
-//		case HRP1001:
-//			return new TenantPK();
+		case PERSISTENCE_HRP1001:
+			return new Hrp1001PK();
 		case PERSISTENCE_HRRELATIONS:
 			return new HrrelationPK();
 			
