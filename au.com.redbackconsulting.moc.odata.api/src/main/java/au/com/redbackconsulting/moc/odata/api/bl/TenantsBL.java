@@ -264,6 +264,7 @@ public Map<String, Object> read(GetEntityUriInfo uriInfo) {
 		pk.setId((tenantId));
 		IDBEntity entity =  getData(pk);
 		Map<String, Object> data = convertModelToEDM(entity);
+		return data;
 	} catch (Exception e) {
 		// TODO: handle exception
 	}

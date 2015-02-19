@@ -24,6 +24,7 @@ import au.com.redbackconsulting.moc.odata.api.edmconstants.HrObjectsEDM;
 import au.com.redbackconsulting.moc.persistence.CaSystemsDAO;
 import au.com.redbackconsulting.moc.persistence.HrHierMapDAO;
 import au.com.redbackconsulting.moc.persistence.HrObjectsConstraintsDAO;
+import au.com.redbackconsulting.moc.persistence.HrObjectsDAO;
 import au.com.redbackconsulting.moc.persistence.TenantsDAO;
 import au.com.redbackconsulting.moc.persistence.factory.Constants;
 import au.com.redbackconsulting.moc.persistence.factory.PKFactory;
@@ -234,26 +235,38 @@ private   IDBEntity convertEDMDataToModelEDM(Map<String, Object> edm) {
 
 @Override
 public Map<String, Object> createNew(Map<String, Object> data) {
-	PKFactory pkfactory =PKFactory.getInstance();
-	int tenantId = (Integer) data.get(HrObjectsConstraintsEDM.tenantId);
+	PKFactory pkFactory =PKFactory.getInstance();
+	int pkTenantId = (Integer) data.get(HrObjectsConstraintsEDM.tenantId);
 	String tableId = (String) data.get(HrObjectsConstraintsEDM.tableId);
 	int timeConstraints =(Integer) data.get(HrObjectsConstraintsEDM.timeConstraint);
+ 	 int pkobjectType =(Integer) data.get(HrObjectsConstraintsEDM.objectType);
+
+	
 
 	
 	
 	TenantsDAO tenantDao = new TenantsDAO();
-	TenantPK tenantPK = (TenantPK) pkfactory.getPKModel(Constants.PERSISTENCE_TENANTS);
-	tenantPK.setId(tenantId);
+	TenantPK tenantPK = (TenantPK) pkFactory.getPKModel(Constants.PERSISTENCE_TENANTS);
+	tenantPK.setId(pkTenantId);
 	Tenant tenantEntity = tenantDao.getByPK(tenantPK);	
 	
+	HrobjectPK hrobjectsPK =(HrobjectPK) pkFactory.getPKModel(Constants.PERSISTENCE_HROBJECTS);
+	hrobjectsPK.setIdObjectType(pkobjectType);
+	hrobjectsPK.setTenants_idTenants(pkTenantId);
+	HrObjectsDAO hrobjectDao = new HrObjectsDAO();
+	Hrobject hrObjectsEntity =hrobjectDao.getByPK(hrobjectsPK);
 	
-	HrobjectsconstraintPK pk = (HrobjectsconstraintPK) pkfactory.getPKModel(Constants.PERSISTENCE_HROBJECTCONSTRAINTS);
-	pk.setTenants_idTenants(tenantId);
+	
+	
+	HrobjectsconstraintPK pk = (HrobjectsconstraintPK) pkFactory.getPKModel(Constants.PERSISTENCE_HROBJECTCONSTRAINTS);
+	pk.setTenants_idTenants(pkTenantId);
+	pk.setHrObject(pkobjectType);
 	Hrobjectsconstraint entity = new Hrobjectsconstraint();
 	entity.setId(pk);
 	entity.setTableId(tableId);
 	entity.setTimeConstraint(timeConstraints);
 entity.setTenant(tenantEntity);	 
+entity.setHrobject(hrObjectsEntity);
 	Hrobjectsconstraint resultEntity =dao.saveNew(entity);
 	return convertModelToEDM(resultEntity);
 	
@@ -281,6 +294,9 @@ public Map<String, Object> update(PutMergePatchUriInfo uriInfo,
 		TenantPK tenantPK = (TenantPK) pkFactory.getPKModel(Constants.PERSISTENCE_TENANTS);
 		tenantPK.setId(tenantId);
 		Tenant tenantEntity = tenantDao.getByPK(tenantPK);	
+		
+		
+		
 		
 		
 		HrobjectsconstraintPK pk = (HrobjectsconstraintPK) pkFactory.getPKModel(Constants.PERSISTENCE_HROBJECTCONSTRAINTS);
@@ -343,11 +359,16 @@ public List<Map<String, Object>> readSet() {
 @Override
 public boolean delete(DeleteUriInfo uriInfo) {
 	try {
-		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+		int hrobjectId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+
+		 
+		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
 
 	 
 		HrobjectsconstraintPK pk =  (HrobjectsconstraintPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HROBJECTCONSTRAINTS);
-//		pk.setId((tenantId));
+		pk.setHrObject(hrobjectId);
+		pk.setTenants_idTenants(tenantId);
+		//		pk.setId((tenantId));
 		boolean status =  deleteData(pk);
 		return status;
 	} catch (Exception e) {

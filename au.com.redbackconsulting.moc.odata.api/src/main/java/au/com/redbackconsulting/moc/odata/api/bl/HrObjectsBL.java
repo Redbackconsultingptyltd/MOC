@@ -255,6 +255,7 @@ public Map<String, Object> createNew(Map<String, Object> data) {
 	entity.setCasystem(caSystemEntity);
 	entity.setSObjectType(sObjectType);
 	entity.setTenant(tenantEntity);
+	
 	Hrobject resultEntity =dao.saveNew(entity);
 	return convertModelToEDM(resultEntity);
 	
@@ -339,10 +340,14 @@ public List<Map<String, Object>> readSet() {
 @Override
 public boolean delete(DeleteUriInfo uriInfo) {
 	try {
-		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(0));
+		int objectType = getKeyValue(uriInfo.getKeyPredicates().get(0));
+		 
+		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
  
 		HrobjectPK pk =  (HrobjectPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HROBJECTS);
-//		pk.setId((tenantId));
+		
+		pk.setIdObjectType(objectType);
+		pk.setTenants_idTenants(tenantId);
 		boolean status =  deleteData(pk);
 		return status;
 	} catch (Exception e) {

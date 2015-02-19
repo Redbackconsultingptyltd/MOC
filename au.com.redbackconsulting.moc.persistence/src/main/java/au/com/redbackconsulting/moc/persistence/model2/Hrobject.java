@@ -31,8 +31,8 @@ public class Hrobject implements IDBEntity {
 	//bi-directional many-to-one association to Casystem
 	@ManyToOne
 	@JoinColumns({
-		@JoinColumn(name="sysId", referencedColumnName="idsys"),
-		@JoinColumn(name="Tenants_idTenants", referencedColumnName="Tenants_idTenants")
+		@JoinColumn(name="sysId", referencedColumnName="idsys",updatable=true, insertable=true),
+		@JoinColumn(name="Tenants_idTenants", referencedColumnName="Tenants_idTenants",updatable=false, insertable=false)
 		})
 	private Casystem casystem;
 

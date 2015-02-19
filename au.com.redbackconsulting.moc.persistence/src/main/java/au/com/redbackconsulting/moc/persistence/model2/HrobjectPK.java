@@ -17,7 +17,7 @@ public class HrobjectPK implements IPkModel {
 	@Column
 	private int idObjectType;
 
-	@Column(insertable=false, updatable=false)
+	@Column
 	private int tenants_idTenants;
 
 	public HrobjectPK() {
