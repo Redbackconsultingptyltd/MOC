@@ -336,10 +336,12 @@ public List<Map<String, Object>> readSet() {
 @Override
 public boolean delete(DeleteUriInfo uriInfo) {
 	try {
+	//	hierId=901,seqno=1,tenantId=1
 		int id = getKeyValue(uriInfo.getKeyPredicates().get(0));
-		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(1));
-		int seqNo = getKeyValue(uriInfo.getKeyPredicates().get(2));
+		int seqNo = getKeyValue(uriInfo.getKeyPredicates().get(1));
 
+		int tenantId = getKeyValue(uriInfo.getKeyPredicates().get(2));
+	
 	 
 		HrhiermapPK pk =  (HrhiermapPK) PKFactory.getInstance().getPKModel(PERSISTENCE_HRHIERMAP);
 
